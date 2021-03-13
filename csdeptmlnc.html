@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<title>CS Department MLNC</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://www.jquery-az.com/javascript/alert/dist/sweetalert-dev.js"></script>
+<link rel="stylesheet" href="https://www.jquery-az.com/javascript/alert/dist/sweetalert.css">
+<script src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/long-press-event.js?alt=media&token=60957ea6-5683-44c7-8820-52618b515a4d"></script>
+<script>
+    window.onload = function() {
+
+                document.addEventListener('long-press', function(e) {
+                   swal({   title: "Alert",   
+    text: "You are not allowed to download this pic!!",   
+    type: "warning" }, 
+    function(isConfirm){   
+        if (isConfirm) 
+    {   
+         
+        } 
+        });
+                });
+            }
+        </script>
+<style>
+    @media print {
+    html, body {
+       display: none;  /* hide whole page */
+    }
+}
+
+
+/* Create a Parallax Effect */
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Second image (Portfolio) */
+.bgimg-2 {
+  background-image: url("http://1.bp.blogspot.com/-wS5fiI9XKmg/XtUDcuvf1pI/AAAAAAAAHj8/kSV14zwJvhwrkelD0CZeUHcQ4rVAbr4JgCK4BGAYYCw/s1600/bestdresseddesk-20200322-0003.jpg");
+  min-height: 400px;
+}
+
+/* Third image (Contact) */
+.bgimg-3 {
+  background-image: url("http://3.bp.blogspot.com/-oFXn-rmBuEs/XtUGadkWesI/AAAAAAAAHkU/JRtVz14N5cwU_MIKXGoqyB7V3QnRcxFyACK4BGAYYCw/s1600/joeel56-20200322-0001.jpg");
+  min-height: 400px;
+}
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 1px;
+}
+
+.w3-bar-block .w3-bar-item {padding:20px}
+</style>
+<style>
+    .s-dropdown-list {
+        background: #A81F4A;
+        box-shadow: 0px 4px 12px rgba(238, 69, 64, 0.15); 
+        border-radius: 9px;
+        width: 250px;
+        height: 630px;
+        position: absolute;
+        left: 0;
+        top: calc(100% + 4px);
+        z-index: 1;
+       /* overflow: scroll;*/
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-24px); 
+        transition: 270ms ease;
+        }
+
+       .s-dropdown-opened {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateY(0px);
+        }
+
+        .s-dropdown-list a{
+         text-deciration: none;
+         }
+
+       .s-dropdown-list p{
+        padding: 4px 8px;
+        margin: 10px;
+        color: #ffffff;
+        border-radius: 4px; 
+        font-size: 20px;
+        transition: 170ms ease;
+        }
+
+       .s-dropdown-list p:hover {
+        background: #881238; 
+        cursor: pointer;
+        }
+
+       .s-arr-opened {
+        transform: translateY(-50%) rotate(-180deg) !important;
+        }
+
+.s-dropdown-wrapper {
+      position: relative;
+      background: #ffffff;
+      border-radius: 5.47619px;
+      width: 250px; 
+      height: 50px; 
+      transition: 250ms ease;
+      z-index: 5;
+      }
+
+     .s-dropdown-wrapper:hover {
+      background-color: #ffffff;
+      }
+
+     .s-dropdown-wrapper input{ 
+      background: transparent;
+      border: none;
+      font-size: 10px; 
+      line-height: 14px; 
+      color: #000000; 
+      cursor: pointer; 
+      font-family: Sanchez, sans-serif;
+     }
+
+     .s-dropdown-wrapper img{
+      position: absolute;
+      right: 8px;
+      cursor: pointer;
+      transition: 180ms ease;
+      top: 50%;
+      width: 12px;
+      transform: translateY(-50%);
+}
+
+</style>
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+<body>
+    <!-- Sidebar (hidden by default) -->
+    <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+        <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">Close Menu</a>
+        <div class="w3-container">
+            <!--<img src="https://www.w3schools.com/w3images/avatar_g2.jpg" style="width:45%;" class="w3-round"><br><br>-->
+            <h4><b>CS dept MLNC</b></h4>
+        </div>
+        <div class="w3-bar-block">
+            <a href="#home" onclick="w3_close()" class="w3-bar-item w3-button w3-padding " style="color: #A81F4A ;"><i class="fa fa-th-large fa-fw w3-margin-right"></i>HOME</a>
+            <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a>
+            <a href="#gallery" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-image fa-fw w3-margin-right"></i>GALLERY</a>
+            <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
+            <a href="/CSdeptMLNC/comingsoon.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-edit fa-fw w3-margin-right"></i>EVENTS</a>
+            <div class="s-dropdown-wrapper">
+                <a onclick="toggleDropdown('s-dp-1','s-arr-1')" class="w3-bar-item w3-button w3-padding" id="s-dp-input-01">
+                    <i class="fa fa-link fa-fw w3-margin-right"></i>Quick Links</a>
+                <!--<input placeholder="Choose Item" onclick="toggleDropdown('s-dp-1','s-arr-1')" type="text" name="" id="s-dp-input-01" readonly>-->
+                <img id="s-arr-1" onclick="toggleDropdown('s-dp-1','s-arr-1')" src=https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/img_168535.png?alt=media&token=fbf9c0ae-93ba-4691-a0c2-5559dda94d02" alt="">
+                <div id="s-dp-1" class="s-dropdown-list">
+                    <a href="http://mlncdu.ac.in/Time_Table/Class_TT_July_2019/master_time_table_2019.pdf">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> Master TimeTable</p>
+                    </a>
+                    <a href="http://mlncdu.ac.in/IAA/IAA_NOV_2019/PHYSICAL%20SCIENCE%20I%20SEM.pdf">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> 1st year internals</p>
+                    </a>
+                    <a href="http://mlncdu.ac.in/IAA/IAA_NOV_2019/PHYSICAL%20SCIENCE%20III%20SEM.pdf">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> 2nd year internals</p>
+                    </a>
+                    <a href="http://mlncdu.ac.in/IAA/IAA_NOV_2019/PHYSICAL%20SCIENCE%20V%20SEM.pdf">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)">3rd year internals</p>
+                    </a>
+                    <a href="http://mlncdu.ac.in/#">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> College website </p>
+                    </a>
+                    <a href="http://www.du.ac.in/du/">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> DU website </p>
+                    </a>
+                    <a href="http://exam.du.ac.in">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> Exam website </p>
+                    </a>
+                    <a href="http://mlncdu.ac.in/pdf/Fee_Structure_2019.pdf">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> Fee structure </p>
+                    </a>
+                    <a href="http://www.du.ac.in/du/index.php?page=cbcs-syllabus">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)">Old Syllabus </p>
+                    </a>
+                    <a href="http://www.du.ac.in/du/index.php?page=revised-cbcs-syllabi">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)">New Syllabus </p>
+                    </a>
+                    <a href="http://mlncdu.ac.in/pdf/DU_Prospectus_2019.pdf">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> DU Prospectus </p>
+                    </a>
+                    <a href="http://mlncdu.ac.in/Admissions/June%202019/Prospectus%202019_New.pdf">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> College Prospectus </p>
+                    </a>
+                    <a href="http://www.du.ac.in/du/uploads/images/29032019_Academic_Calendar.jpeg">
+                        <p onclick="setValue('s-dp-input-01', this.innerHTML)"> Academic Calendar </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--<div class="w3-panel w3-large">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i> 
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </div>-->
+    </nav>
+    <!-- Top menu -->
+    <div class="w3-top">
+        <div class="w3-black w3-xlarge" style="max-width:1200px;margin:auto">
+            <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+            <!--<div class="w3-right w3-padding-16">Mail</div>-->
+            <div class="w3-center w3-padding-16">CS dept MLNC</div>
+        </div>
+    </div>
+    <div onclick="w3_close()">
+        <!-- !PAGE CONTENT! -->
+        <hr id="home">
+        <!-- Automatic Slideshow Images -->
+        <div class="w3-content" style="max-width:2000px;margin-top:46px">
+            <div class="mySlides w3-display-container w3-center">
+                <img data-long-press-delay="200" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2Fissaro_in_graphic-20200607-0002.png?alt=media&token=6b583d36-21c9-4eea-8220-4f3750b411e1" style="width:100%">
+                <div class="w3-display-middle" style="white-space:nowrap;">
+                    <span class="w3-center w3-padding-large w3-white w3-xlarge w3-wide w3-animate-opacity"> <span class="w3-hide-small"></span> CS dept MLNC</span>
+                </div>
+                <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+                    <h3>Dan Hurvitz</h3>
+                    <p><b>“Looking at code you wrote more than two weeks ago is like looking at code you are seeing for the first time.”</b></p>
+                </div>
+            </div>
+            <div class="mySlides w3-display-container w3-center">
+                <img data-long-press-delay="200" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2Fissaro_in_graphic-20200607-0001.png?alt=media&token=c51119a8-94f6-490b-b9b6-9c274f4ad0ca" style="width:100%">
+                <div class="w3-display-middle" style="white-space:nowrap;">
+                    <span class="w3-center w3-padding-large w3-white w3-xlarge w3-wide w3-animate-opacity"> <span class="w3-hide-small"></span> CS dept MLNC</span>
+                </div>
+                <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+                    <h3>Bill Curtis</h3>
+                    <p><b>“In a room full of top software designers, if two agree on the same thing, that’s a majority.”</b></p>
+                </div>
+            </div>
+            <div class="mySlides w3-display-container w3-center">
+                <img data-long-press-delay="200" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2Fit_problemleri_-20200607-0001.jpg?alt=media&token=13e7209c-9ff9-476f-9aad-0c77bc8eec4e" style="width:100%">
+                <div class="w3-display-middle" style="white-space:nowrap;">
+                    <span class="w3-center w3-padding-large w3-white w3-xlarge w3-wide w3-animate-opacity"> <span class="w3-hide-small"></span> CS dept MLNC</span>
+                </div>
+                <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+                    <h3>Bill Gates</h3>
+                    <p><b>“The computer was born to solve problems that did not exist before.”</b></p>
+                </div>
+            </div>
+            <hr>
+            <hr id="about">
+            <!-- About Section -->
+            <div class="w3-container w3-padding-32 w3-center">
+                <div class="w3-display-top">
+                    <span class="w3-xxlarge w3-bar-item w3-wide">ABOUT DEPARTMENT</span>
+                </div>
+                <!--<img data-long-press-delay="100" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2Fissaro_in_graphic-20200607-0009.png?alt=media&token=3a880bf5-1571-4650-aeeb-1c7ab3e574bb" alt="Me" class="w3-image" style="display:block;margin:auto" width="800" height="533">-->
+                <!--<img src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FPSX_20200205_162801_1591594466414.jpg?alt=media&token=b5e02e1d-944a-4234-af87-9ad577b55534" alt="Me" class="w3-image" style="display:block;margin:auto" width="800" height="533">-->
+                <img data-long-press-delay="200" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FPSX_20200131_193517_1591594551099.jpg?alt=media&token=f61a52eb-ba9d-416f-930e-3370a8bff1b6" alt="Department" class="w3-image" style="display:block;margin:auto" width="800" height="533">
+                <div class="w3-padding-32">
+                    <h4 style="font-size: 20px;"><b>Computer Science Department MLNC</b></h4>
+                    <h6><i style="font-size: 20px;">“Computer Science is no more about computers than astronomy is about telescopes.”</i></h6><br>
+                    <p style="font-size: 17px;">The Department aims at imparting quality education and strives to quench the thirst for knowledge. The Department offers B. Sc. Applied Physical Science bachelor course. The Department lays emphasis on theoretical and practical aspects of subjects taught viz. Computer Technologies, Distributed Computing, Information Security, Programming Languages, networking and database management, Software engineering, Operating System and several other domains of computer science. Moreover updating of syllabus is carried out at regular span of time to keep in pace with the recent technologies i.e. incorporation of Android, Python, Soft-Computing.
+                        <!--The curriculum inculcates industrial summer training which enable students to get acquainted with work culture and in turn help them groom themselves.--> Symposiums, workshops, conferences and seminars of national and international levels are organized by department in close liaison with renowned professional lecturer's from different fields of computer science etc. <br><br>Moreover experts with hands on experience regularly share their domain knowledge with the department.
+                        <br>
+                        The Department has state of the art infrastructure and computing equipments supported by high speed Ethernet and Wi-Fi networks.
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <hr id="gallery">
+            <!-- Gallery Section -->
+            <!-- Second Parallax Image with Gallery Text -->
+            <div class="bgimg-2 w3-display-container w3-opacity-min">
+                <div class="w3-display-middle">
+                    <span class="w3-xxlarge w3-text-white w3-wide">GALLERY</span>
+                </div>
+            </div>
+            <!-- Container (Gallery Section) -->
+            <div class="w3-content w3-container w3-padding-64" id="portfolio">
+                <h3 class="w3-center" style="font-size: 20px;">Image Gallery</h3>
+                <p class="w3-center" style="font-size: 18px;"><em>Here are some memorable moments of department.<br> Click on the images to make them bigger</em></p><br>
+                <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
+                <div class="w3-row-padding w3-center">
+                    <!-- <div class="w3-col m3">
+      <img data-long-press-delay="100" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2Felemntor-20200331-0004.jpg?alt=media&token=c9846dec-b703-4eab-bc0d-fed516f65810" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Computational skills" data-long-press-delay="100">
+
+    </div>
+
+    <div class="w3-col m3">
+      <img data-long-press-delay="100" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2Felemntor-20200331-0006.jpg?alt=media&token=5f2cf618-0e9c-4b25-847f-3f5a39fb88fa" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Analysis">
+    </div>
+
+    <div class="w3-col m3">
+      <img data-long-press-delay="100" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2Felemntor-20200331-0007.jpg?alt=media&token=80c01572-e203-47b0-af00-2ac1dbea78b1" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Bug fixing">
+    </div>
+
+    <div class="w3-col m3">
+          <img data-long-press-delay="100" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2Felemntor-20200331-0003.jpg?alt=media&token=29cda6bb-b45c-496e-9682-0ee261b7b979" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Monitoring ">
+    </div>-->
+                </div>
+            </div>
+            <div class="w3-row-padding w3-center w3-section">
+                <!-- <div class="w3-col m3">
+      <img data-long-press-delay="100" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2Felemntor-20200331-0003.jpg?alt=media&token=29cda6bb-b45c-496e-9682-0ee261b7b979" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Monitoring ">
+    </div>
+
+    <div class="w3-col m3">
+      <img data-long-press-delay="100" src="https://www.w3schools.com/w3images/p6.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="My beloved typewriter">
+    </div>
+
+    <div class="w3-col m3">
+      <img data-long-press-delay="100" src="https://www.w3schools.com/w3images/p7.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Empty ghost train">
+    </div>
+
+    <div class="w3-col m3">
+      <img  src="https://www.w3schools.com/w3images/p8.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Sailing">
+    </div>-->
+                <!-- grid division-->
+                <div class="flex flex-wrap md:-m-2 -m-1">
+                    <div class="flex flex-wrap w-1/2">
+                        <div class="md:p-2 p-1 w-1/2">
+                            <img data-long-press-delay="100" onclick="onClick(this)" alt="farewell" class="w-full object-cover h-full object-center block" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2FPSX_20200608_143518.jpg?alt=media&token=1d42b7aa-52b9-4594-8668-16870a5ab8ad">
+                        </div>
+                        <div class="md:p-2 p-1 w-1/2">
+                            <img data-long-press-delay="100" onclick="onClick(this)" alt="farewell" class="w-full object-cover h-full object-center block" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2FIMG_20190504_170736_1591606549406.jpg?alt=media&token=892be36c-82a2-48d9-843a-9101634bba8d">
+                        </div>
+                        <div class="md:p-2 p-1 w-full">
+                            <img data-long-press-delay="100" onclick="onClick(this)" alt="farewell" class="w-full h-full object-cover object-center block" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2FIMG_20190504_164613_1591606567137.jpg?alt=media&token=f16fa9cd-f5ec-4efc-8fb8-3132839e7e8b">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap w-1/2">
+                        <div class="md:p-2 p-1 w-full">
+                            <img data-long-press-delay="100" onclick="onClick(this)" alt="fresher's" class="w-full h-full object-cover object-center block" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2FIMG-20190925-WA0028_1591613510092.jpg?alt=media&token=77f30c1a-b6bf-46da-97ce-aec360b09e31">
+                        </div>
+                        <div class="md:p-2 p-1 w-1/2">
+                            <img data-long-press-delay="100" onclick="onClick(this)" alt="fresher's" class="w-full object-cover h-full object-center block" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2FIMG-20190925-WA0029_1591613566315.jpg?alt=media&token=66289fd3-bc42-4e7e-a206-a8cb57fddaf6">
+                        </div>
+                        <div class="md:p-2 p-1 w-1/2">
+                            <img data-long-press-delay="100" onclick="onClick(this)" alt="fresher's" class="w-full object-cover h-full object-center block" src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2FFarewell%2FPSX_20200608_164554.jpg?alt=media&token=8b9dccb5-0a3c-4b1b-aed4-5139514adb42">
+                        </div>
+                    </div>
+                </div>
+                <!--grid division end-->
+                <a href="/commingsoon.html"><button class="w3-button w3-padding-large w3-light-gray" style="margin-top:64px">LOAD MORE</button></a>
+            </div>
+        </div>
+        <!-- Modal for full size images on click-->
+        <div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+            <span class="w3-button w3-large w3-black w3-display-topright" title="Close Modal Image"><i class="fa fa-remove"></i></span>
+            <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+                <img id="img01" data-long-press-delay="100" class="w3-image">
+                <p id="caption" class="w3-opacity w3-large"></p>
+            </div>
+        </div>
+        <hr>
+        <hr id="contact">
+        <!-- Contact Section -->
+        <!-- Third Parallax Image with Portfolio Text -->
+        <div class="bgimg-3 w3-display-container w3-opacity-min">
+            <div class="w3-display-middle">
+                <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
+            </div>
+        </div>
+        <!-- Container (Contact Section) -->
+        <div class="w3-content w3-container w3-padding-64" id="contact">
+            <h3 class="w3-center">CONTACT US</h3>
+            <p class="w3-center"><em>We'd love your feedback!</em></p>
+            <div class="w3-row w3-padding-32 w3-section">
+                <div class="w3-col m4 w3-container">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/Gallery%2Fimages%20(13).jpeg?alt=media&token=25db89c6-c2f4-44bd-9543-e0ced59e8f6e" class="w3-image w3-round" style="width:100%;margin-top:30px;">
+                </div>
+                <div class="w3-col m8 w3-panel">
+                    <div class="w3-large w3-margin-bottom">
+                        <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Motilal Nehru College, <br>Benito Juarez Marg, West End Colony, South Campus, South Moti Bagh, New Delhi, Delhi 110021<br>
+                        <!--<i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Phone: +00 151515<br>-->
+                        <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Email: csdeptmlnc@gmail.com<br>
+                    </div>
+                    <!--<p>Swing by for a cup of <i class="fa fa-coffee"></i>, or leave me a note:</p>-->
+                    <form action="/testingdatabase.php" method="post" name="StaticPassword">
+                        <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                            <div class="w3-half">
+                                <input class="w3-input w3-border" type="text" placeholder="Name" required name="name">
+                            </div>
+                            <div class="w3-half">
+                                <input class="w3-input w3-border" type="text" placeholder="Email" required name="email">
+                            </div>
+                        </div>
+                        <input class="w3-input w3-border" type="text" placeholder="Message" required name="message">
+                        <button class="w3-button w3-black w3-right w3-section" type="submit" onclick="sendEmail()">
+                            <i class="fa fa-paper-plane"></i> SEND MESSAGE
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- Footer -->
+        <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
+            <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+            <div class="w3-xlarge w3-section">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                <i class="fa fa-instagram w3-hover-opacity"></i>
+                <i class="fa fa-whatsapp w3-hover-opacity"></i>
+                <i class="fa fa-linkedin w3-hover-opacity"></i>
+            </div>
+            <p>Copyright © 2020 - All right reserved - <a href="#">CS dept MLNC</a></p>
+        </footer>
+        <!-- End page content -->
+        <script>
+        // Modal Image Gallery
+        function onClick(element) {
+            document.getElementById("img01").src = element.src;
+            document.getElementById("modal01").style.display = "block";
+            var captionText = document.getElementById("caption");
+            captionText.innerHTML = element.alt;
+        }
+
+
+        // Automatic Slideshow - change image every 4 seconds
+        var myIndex = 0;
+        carousel();
+
+        function carousel() {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            myIndex++;
+            if (myIndex > x.length) { myIndex = 1 }
+            x[myIndex - 1].style.display = "block";
+            setTimeout(carousel, 4000);
+        }
+
+
+        // Script to open and close sidebar
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+        }
+
+        function toggleDropdown(dp_id, arr_id) {
+            document.getElementById("s-dp-input-01").blur();
+            document.getElementById(dp_id).classList.toggle('s-dropdown-opened');
+            document.getElementById(arr_id).classList.toggle('s-arr-opened');
+        }
+
+        function setValue(input_id, value) {
+            input = document.getElementById(input_id);
+            input.value = value;
+            input.click();
+        }
+        </script>
+</body>
+
+</html>
