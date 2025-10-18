@@ -123,12 +123,14 @@ hints.forEach(hint => randomPosition(hint));
 // Move secret code every 2 seconds randomly
 setInterval(() => {
   randomPosition(secretCode);
-}, 1100);
+}, 1500);
 
 secretCode.addEventListener('click', () => {
   message.style.display = 'block';
   message.textContent = "I will be big tomorrow! 😉🎆";
   secretCode.style.display = 'none';
+  // Hide other elements
+  document.querySelectorAll('h1, .hint').forEach(el => el.style.display = 'none');
 
   // After 2 seconds, change to Happy Choti Diwali
   setTimeout(() => {
