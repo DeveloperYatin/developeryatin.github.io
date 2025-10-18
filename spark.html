@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diwali Treasure Hunt</title>
+<style>
+  body {
+    font-family: 'Comic Sans MS', sans-serif;
+    background: linear-gradient(to bottom, #fff7e6, #ffe6f0);
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  h1 {
+    text-align: center;
+    color: #ff6f61;
+    margin: 20px 0;
+    font-size: 2rem;
+    text-shadow: 0 0 5px #ffda79, 0 0 10px #ffda79, 0 0 20px #ffda79;
+    animation: glow 2s infinite alternate;
+  }
+
+  @keyframes glow {
+    0% { text-shadow: 0 0 5px #ffda79, 0 0 10px #ffda79, 0 0 20px #ffda79; }
+    50% { text-shadow: 0 0 10px #ffda79, 0 0 20px #ffda79, 0 0 30px #ffda79; }
+    100% { text-shadow: 0 0 15px #ffda79, 0 0 30px #ffda79, 0 0 40px #ffda79; }
+  }
+
+  .hint {
+    position: absolute;
+    font-size: 1rem;
+    color: #ff3d00;
+    opacity: 0.7;
+    pointer-events: none;
+    transition: all 0.5s ease;
+  }
+
+  #secretCode {
+    position: absolute;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: rgba(255, 240, 179, 0.8);
+    padding: 3px 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s, background-color 0.3s;
+  }
+
+  #secretCode:hover {
+    transform: scale(1.5) rotate(-5deg);
+    background-color: #ffd633;
+  }
+
+  #message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: #ff3d00;
+    display: none;
+    text-align: center;
+    animation: pop 0.5s ease forwards;
+  }
+
+  @keyframes pop {
+    0% { transform: translate(-50%, -50%) scale(0); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+  }
+
+  /* Adaptive text sizes */
+  @media (max-width: 768px) {
+    #secretCode { font-size: 10px; padding: 2px 5px; }
+    .hint { font-size: 0.9rem; }
+    #message { font-size: 1.5rem; }
+    h1 { font-size: 1.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    #secretCode { font-size: 8px; padding: 1px 4px; }
+    .hint { font-size: 0.8rem; }
+    #message { font-size: 1.2rem; }
+    h1 { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+<h1>🪔 Discover the Hidden Lamp 🪔</h1>
+
+<div id="secretCode">✨ Spark 2025 ✨</div>
+
+<div class="hint" style="top: 15%; left: 10%;">👀 Look closely!</div>
+<div class="hint" style="top: 40%; left: 70%;">🎆 Almost there!</div>
+<div class="hint" style="top: 60%; left: 20%;">🔍 Hidden somewhere...</div>
+<div class="hint" style="top: 80%; left: 50%;">✨ Can you find it?</div>
+
+<div id="message"></div>
+
+<script>
+const secretCode = document.getElementById('secretCode');
+const message = document.getElementById('message');
+const hints = document.querySelectorAll('.hint');
+
+// Random position function keeping elements fully visible
+function randomPosition(el) {
+  const padding = 10;
+  const maxX = window.innerWidth - el.offsetWidth - padding;
+  const maxY = window.innerHeight - el.offsetHeight - padding - 60; // leave space for heading
+  const x = Math.random() * maxX + padding;
+  const y = Math.random() * maxY + 60; 
+  el.style.left = x + 'px';
+  el.style.top = y + 'px';
+}
+
+// Initial random positions
+randomPosition(secretCode);
+hints.forEach(hint => randomPosition(hint));
+
+// Move secret code every 2 seconds randomly
+setInterval(() => {
+  randomPosition(secretCode);
+}, 1100);
+
+secretCode.addEventListener('click', () => {
+  message.style.display = 'block';
+  message.textContent = "I will be big tomorrow! 😉🎆";
+  secretCode.style.display = 'none';
+
+  // After 2 seconds, change to Happy Choti Diwali
+  setTimeout(() => {
+    message.textContent = "Happy Choti Diwali! 🎇";
+    message.style.fontSize = "10px"; // small size
+  }, 2000);
+});
+
+// Fun hover movement
+secretCode.addEventListener('mouseenter', () => {
+  const moveX = (Math.random() - 0.5) * 30;
+  const moveY = (Math.random() - 0.5) * 30;
+  secretCode.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.5) rotate(-5deg)`;
+});
+
+secretCode.addEventListener('mouseleave', () => {
+  secretCode.style.transform = 'scale(1) rotate(0deg)';
+});
+
+// Responsive reposition on resize
+window.addEventListener('resize', () => {
+  randomPosition(secretCode);
+  hints.forEach(hint => randomPosition(hint));
+});
+</script>
+</body>
+</html>
