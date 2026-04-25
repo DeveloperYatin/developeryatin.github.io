@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mastering Gemini CLI | Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .presentation-wrapper {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: #f8fafc;
+        }
+
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tech-grid {
+            background-image:
+                linear-gradient(rgba(66, 133, 244, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(66, 133, 244, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            padding: 16px;
+            color: #22c55e;
+            border: 1px solid #334155;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1e293b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .nav-btn:hover {
+            background: #4285f4;
+            transform: scale(1.1);
+        }
+
+        .slide-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 100;
+            transition: color 0.3s ease;
+        }
+
+        /* Dark Mode Transitions */
+        .presentation-wrapper,
+        .slide,
+        .card,
+        .bg-white,
+        h1,
+        h2,
+        h3,
+        p,
+        span,
+        i,
+        div {
+            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-theme {
+            background: #020617;
+        }
+
+        .dark-theme .presentation-wrapper {
+            background: #0f172a;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        .dark-theme .slide {
+            background: #0f172a;
+        }
+
+        .dark-theme .card,
+        .dark-theme .bg-white {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+
+        .dark-theme h1,
+        .dark-theme h2,
+        .dark-theme h3,
+        .dark-theme h4,
+        .dark-theme .text-slate-800,
+        .dark-theme .text-slate-700,
+        .dark-theme .text-slate-900,
+        .dark-theme .font-bold,
+        .dark-theme .font-semibold {
+            color: #f1f5f9 !important;
+        }
+
+        .dark-theme p,
+        .dark-theme .text-slate-600,
+        .dark-theme .text-slate-500 {
+            color: #94a3b8 !important;
+        }
+
+        .dark-theme .text-slate-400 {
+            color: #94a3b8 !important;
+        }
+
+        .dark-theme .text-blue-600,
+        .dark-theme .text-blue-700,
+        .dark-theme .text-blue-800 {
+            color: #60a5fa !important;
+        }
+
+        .dark-theme .text-green-600,
+        .dark-theme .text-green-700 {
+            color: #4ade80 !important;
+        }
+
+        .dark-theme .text-amber-600,
+        .dark-theme .text-amber-700,
+        .dark-theme .text-amber-800 {
+            color: #fbbf24 !important;
+        }
+
+        .dark-theme .text-red-600 {
+            color: #f87171 !important;
+        }
+
+        .dark-theme .bg-slate-50,
+        .dark-theme .bg-slate-100 {
+            background: #0f172a !important;
+        }
+
+        .dark-theme .bg-slate-900 {
+            background: #1e293b !important;
+            border: 1px solid #334155;
+        }
+
+        .dark-theme .fa-github {
+            color: #f1f5f9;
+        }
+
+        .dark-theme .bg-blue-50 {
+            background: rgba(30, 58, 138, 0.3) !important;
+        }
+
+        .dark-theme .bg-green-50 {
+            background: rgba(20, 83, 45, 0.3) !important;
+        }
+
+        .dark-theme .bg-amber-100,
+        .dark-theme .bg-amber-50 {
+            background: rgba(120, 53, 15, 0.3) !important;
+        }
+
+        .dark-theme .bg-emerald-50 {
+            background: rgba(6, 78, 59, 0.3) !important;
+        }
+
+        .dark-theme .text-indigo-700 {
+            color: #818cf8 !important;
+        }
+
+        /* Slide 1 Header Tags */
+        .dark-theme .bg-\[\#fef3c7\],
+        .dark-theme .bg-amber-100 {
+            background: rgba(120, 53, 15, 0.4) !important;
+            color: #fbbf24 !important;
+        }
+
+        .dark-theme .text-\[\#92400e\] {
+            color: #fbbf24 !important;
+        }
+
+        .dark-theme .bg-\[\#dbeafe\],
+        .dark-theme .bg-blue-100 {
+            background: rgba(30, 58, 138, 0.4) !important;
+            color: #60a5fa !important;
+        }
+
+        .dark-theme .bg-green-100 {
+            background: rgba(20, 83, 45, 0.4) !important;
+            color: #4ade80 !important;
+        }
+
+        .dark-theme .text-\[\#1e40af\] {
+            color: #60a5fa !important;
+        }
+
+        .dark-theme .from-blue-50 {
+            --tw-gradient-from: rgba(30, 58, 138, 0.2) !important;
+        }
+
+        .dark-theme .to-green-50 {
+            --tw-gradient-to: rgba(20, 83, 45, 0.2) !important;
+        }
+
+        .dark-theme .border-slate-100,
+        .dark-theme .border-slate-200 {
+            border-color: #334155 !important;
+        }
+
+        .dark-theme .slide-indicator {
+            color: #f1f5f9;
+        }
+
+        .dark-theme .nav-btn {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #1e293b;
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #334155;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            background: #334155;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Pipeline Animation */
+        .pipeline-line {
+            height: 4px;
+            background: #e2e8f0;
+            position: relative;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .dark-theme .pipeline-line {
+            background: #1e293b;
+        }
+
+        .pipeline-flow-dot {
+            position: absolute;
+            top: 0;
+            width: 60px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #4285f4, transparent);
+            animation: pipeline-flow 3s linear infinite;
+        }
+
+        @keyframes pipeline-flow {
+            0% {
+                left: -10%;
+            }
+
+            100% {
+                left: 110%;
+            }
+        }
+
+        .animate-spin-slow {
+            animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .fade-pulse {
+            animation: pulse-op 2s infinite;
+        }
+
+        @keyframes pulse-op {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+        .dark-theme #qr-image {
+            filter: invert(1) brightness(1.2);
+            mix-blend-mode: screen !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="presentation-wrapper">
+
+        <!-- Slide 1: Welcome -->
+        <section class="slide active overflow-hidden" id="slide-1">
+            <div class="tech-grid absolute inset-0 opacity-50"></div>
+            <div class="absolute right-0 top-0 w-[600px] h-[400px]"
+                style="background: radial-gradient(circle at 100% 0%, rgba(66, 133, 244, 0.15) 0%, transparent 70%);">
+            </div>
+            <div class="absolute left-0 bottom-0 w-[400px] h-[300px]"
+                style="background: radial-gradient(circle at 0% 100%, rgba(52, 168, 83, 0.1) 0%, transparent 70%);">
+            </div>
+
+            <!-- Header -->
+            <div class="absolute left-20 top-14 w-[1120px] z-10">
+                <div class="flex items-center gap-4">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-[#4285f4] to-[#34a853] rounded-xl flex items-center justify-center text-white text-2xl">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm text-slate-500 font-semibold tracking-wide">Build with AI Delhi</div>
+                        <div class="text-base text-slate-800 font-bold">AI Community Delhi</div>
+                    </div>
+                    <div class="ml-auto flex items-center gap-2">
+                        <span
+                            class="bg-[#fef3c7] text-[#92400e] px-3 py-1 rounded-full text-xs font-bold shadow-sm">Security</span>
+                        <span
+                            class="bg-[#dbeafe] text-[#1e40af] px-3 py-1 rounded-full text-xs font-bold shadow-sm">Code
+                            Review</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="absolute left-20 top-40 w-[800px] z-10">
+                <h1 class="text-[48px] font-bold text-slate-800 leading-tight mb-4">
+                    <span class="gradient-text">Code Review & Security Analysis</span>
+                </h1>
+                <p class="text-2xl text-slate-500 font-normal mb-8">
+                    with <span class="text-[#4285f4] font-semibold">Gemini CLI</span> and Extensions
+                </p>
+
+                <p class="text-base text-slate-600 max-w-[600px] leading-relaxed mb-10">
+                    Use the Gemini CLI and its extensions to review code and analyze security in your development
+                    workflow. Configure the environment, install extensions, and explore how they work.
+                </p>
+
+                <!-- Feature Grid -->
+                <div class="grid grid-cols-3 gap-6 w-[800px]">
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div
+                                class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="text-sm font-bold text-slate-800">Security Analysis</div>
+                        </div>
+                        <div class="text-[12px] text-slate-500 leading-relaxed">Identify vulnerabilities, SQL injection,
+                            SSRF, and info leaks.</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div
+                                class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="text-sm font-bold text-slate-800">Code Review</div>
+                        </div>
+                        <div class="text-[12px] text-slate-500 leading-relaxed">Analyze code quality, naming, and
+                            architectural patterns.</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div
+                                class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="text-sm font-bold text-slate-800">AI-Powered</div>
+                        </div>
+                        <div class="text-[12px] text-slate-500 leading-relaxed">Leverage Gemini AI for truly intelligent
+                            code analysis.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Visuals -->
+            <div class="absolute right-20 top-44 w-[280px] z-10">
+                <div class="space-y-6">
+                    <!-- Security Card -->
+                    <div
+                        class="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-5 border border-blue-100 shadow-md">
+                        <div class="text-[12px] text-slate-500 font-bold mb-3 uppercase tracking-wider">Security Scan
+                        </div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
+                                <div class="w-[85%] h-full bg-green-500"></div>
+                            </div>
+                            <span class="text-xs font-bold text-green-600">85%</span>
+                        </div>
+                        <div class="text-[11px] text-slate-500">
+                            <i class="fas fa-check text-green-500 mr-1"></i> 12 issues resolved
+                        </div>
+                    </div>
+                    <!-- Quality Card -->
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xl">
+                        <div class="text-[12px] text-slate-500 font-bold mb-3 uppercase tracking-wider">Code Quality
+                        </div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="w-[92%] h-full bg-blue-500"></div>
+                            </div>
+                            <span class="text-xs font-bold text-blue-600">92%</span>
+                        </div>
+                        <div class="text-[11px] text-slate-500 font-medium">
+                            <span class="text-blue-600 font-black">92%</span> code coverage
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prerequisites -->
+            <div
+                class="absolute bottom-10 left-20 right-20 bg-white rounded-xl p-5 border border-slate-200 shadow-sm z-10">
+                <div class="flex items-center gap-8">
+                    <div class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-check-circle text-green-500"></i> Prerequisites:
+                    </div>
+                    <div class="flex gap-8 text-[13px] text-slate-500">
+                        <span><i class="fas fa-desktop mr-1.5 text-slate-600"></i> Windows / macOS / Linux</span>
+                        <span><i class="fas fa-key mr-1.5 text-amber-500"></i> Gemini API Key</span>
+                        <span><i class="fas fa-terminal mr-1.5 text-blue-500"></i> Node.js 20+</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Speaker Intro -->
+        <section class="slide" id="slide-2">
+            <div class="tech-grid absolute inset-0 opacity-10"></div>
+            <div class="pt-8 pb-4 px-12 relative z-10">
+                <div class="mb-4 text-center">
+                    <h2 class="text-4xl font-black text-slate-800 tracking-tight">Speaker <span
+                            class="gradient-text">Introduction</span></h2>
+                    <div class="w-12 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto mt-3 rounded-full"></div>
+                </div>
+
+                <div class="max-w-5xl mx-auto grid grid-cols-12 gap-12 items-center">
+                    <!-- Left: Profile Hero -->
+                    <div class="col-span-12 lg:col-span-5">
+                        <div class="relative">
+                            <!-- Decorative Glow -->
+                            <div
+                                class="absolute -inset-4 bg-gradient-to-tr from-blue-400 to-green-400 opacity-20 blur-2xl rounded-full">
+                            </div>
+
+                            <div class="card relative overflow-hidden p-0 border-0 shadow-2xl bg-white rounded-3xl">
+                                <div class="h-72 overflow-hidden transition-all duration-700">
+                                    <img src="https://media.licdn.com/dms/image/v2/D5603AQFOFC9PeqaQpA/profile-displayphoto-crop_800_800/B56Z2WuQJ3HAAI-/0/1776350205316?e=1778716800&v=beta&t=IX6x3aDcGi686_oITzfrLioGz0ytq82g6uasPqukdgE"
+                                        alt="Speaker Yatin"
+                                        class="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                                        loading="lazy" decoding="async">
+                                </div>
+                                <div class="p-8 text-center">
+                                    <h3 class="text-3xl font-black text-slate-800 mb-1">Yatin</h3>
+                                    <div class="inline-flex items-center gap-2 mb-4">
+                                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                        <p class="text-xs text-blue-600 font-bold uppercase tracking-widest">SDE 2 @
+                                            Adda247</p>
+                                    </div>
+                                    <p class="text-sm text-slate-600 leading-relaxed max-w-[280px] mx-auto">
+                                        Building scalable <span class="text-blue-600 font-bold">Android</span> & <span
+                                            class="text-green-600 font-bold">Cross-Platform</span> solutions for
+                                        millions of users.
+                                    </p>
+                                </div>
+                                <div class="bg-slate-50 p-4 border-t border-slate-100 flex justify-center gap-6">
+                                    <div class="text-center">
+                                        <div class="text-lg font-black text-slate-800">5+</div>
+                                        <div class="text-[9px] text-slate-400 font-bold uppercase">Years exp.</div>
+                                    </div>
+                                    <div class="w-px h-8 bg-slate-200"></div>
+                                    <div class="text-center">
+                                        <div class="text-lg font-black text-slate-800">10+</div>
+                                        <div class="text-[9px] text-slate-400 font-bold uppercase">Projects</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Links & Highlights -->
+                    <div class="col-span-12 lg:col-span-7 space-y-6">
+                        <div class="grid grid-cols-1 gap-4">
+                            <!-- LinkedIn Card -->
+                            <a href="https://www.linkedin.com/in/yatin-batraa/" target="_blank"
+                                class="group block p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-blue-200 transition-all duration-300">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-5">
+                                        <div
+                                            class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 text-3xl group-hover:scale-110 transition-transform">
+                                            <i class="fab fa-linkedin"></i>
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">
+                                                Professional Network</div>
+                                            <div
+                                                class="text-lg font-black text-slate-700 group-hover:text-blue-600 transition-colors">
+                                                yatin-batraa</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-slate-300 group-hover:text-blue-400 transition-colors">
+                                        <i class="fas fa-external-link-alt text-lg"></i>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- GitHub Card -->
+                            <a href="https://github.com/DeveloperYatin" target="_blank"
+                                class="group block p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-slate-800 transition-all duration-300">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-5">
+                                        <div
+                                            class="w-14 h-14 rounded-xl bg-slate-900 flex items-center justify-center text-white text-3xl group-hover:scale-110 transition-transform">
+                                            <i class="fab fa-github"></i>
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">
+                                                Open Source</div>
+                                            <div
+                                                class="text-lg font-black text-slate-700 group-hover:text-slate-900 transition-colors">
+                                                DeveloperYatin</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-slate-300 group-hover:text-slate-600 transition-colors">
+                                        <i class="fas fa-external-link-alt text-lg"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Specialization Tag Cloud -->
+                        <div class="pt-6">
+                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Core
+                                Specializations</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="px-4 py-2 bg-blue-50 text-blue-700 text-xs font-bold rounded-lg border border-blue-100">Android
+                                    SDK</span>
+                                <span
+                                    class="px-4 py-2 bg-green-50 text-green-700 text-xs font-bold rounded-lg border border-green-100">Flutter
+                                    / Dart</span>
+                                <span
+                                    class="px-4 py-2 bg-amber-50 text-amber-700 text-xs font-bold rounded-lg border border-amber-100">Kotlin</span>
+                                <span
+                                    class="px-4 py-2 bg-slate-50 text-slate-700 text-xs font-bold rounded-lg border border-slate-200">System
+                                    Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Humorous Intermission -->
+        <section class="slide" id="slide-3">
+            <div class="p-10 flex flex-col items-center justify-center text-center h-full">
+                <div class="text-xs font-black text-blue-500 uppercase tracking-[0.3em] mb-4">The Human Interface</div>
+                <h2 class="text-[32px] font-black text-slate-800 leading-tight mb-8">
+                    Waiting for your <span class="gradient-text">Senior Dev</span> to <br>start the "manual" code
+                    review...
+                </h2>
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-2 bg-gradient-to-r from-blue-500 to-green-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white max-w-sm">
+                        <img src="https://media.tenor.com/LMz_TrIOxV8AAAAM/mr-bean-mrbean.gif" alt="Waiting Meme"
+                            class="w-full">
+                    </div>
+                </div>
+                <p class="text-slate-400 mt-8 italic text-lg font-medium">"I pushed this PR 3 days ago, Yatin..."</p>
+                <div class="mt-6 flex gap-2">
+                    <span class="w-2 h-2 rounded-full bg-slate-200"></span>
+                    <span class="w-2 h-2 rounded-full bg-slate-200"></span>
+                    <span class="w-8 h-2 rounded-full bg-blue-500"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Introduction -->
+        <section class="slide" id="slide-4">
+            <div class="p-10">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-[28px] font-bold text-slate-800">Introduction & <span
+                                class="gradient-text">Goals</span></h2>
+                        <p class="text-sm text-slate-500 mt-1">Fundamental concepts of using Gemini CLI in development.
+                        </p>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-bold">Node 20+</span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold">NPM
+                            10+</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="feature-icon bg-blue-100 mb-0"><i
+                                        class="fas fa-graduation-cap text-blue-600"></i></div>
+                                <div class="text-lg font-bold text-slate-800">What You'll Learn</div>
+                            </div>
+                            <ul class="space-y-3 text-sm text-slate-600">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Setup &
+                                    Configure Gemini CLI</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Install
+                                    AI-powered Extensions</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Run
+                                    Automated Code Reviews</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Leverage
+                                    MCP for External Tools</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> CI/CD
+                                    Pipeline Integration</li>
+                            </ul>
+                        </div>
+                        <div class="mt-6 bg-slate-50 p-4 rounded-lg">
+                            <div class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">Quick Install
+                            </div>
+                            <div class="code-block py-2 text-xs">npm install -g @google/gemini-cli</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="feature-icon bg-green-100 mb-0"><i class="fas fa-terminal text-green-600"></i>
+                            </div>
+                            <div class="text-lg font-bold text-slate-800">What is Gemini CLI?</div>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                            Gemini CLI is an AI-native agent that operates directly from your terminal. It's not just a
+                            chat interface; it's equipped with functional tools that can read your codebase, edit files,
+                            and search the documentation in real-time.
+                        </p>
+                        <div class="space-y-4">
+                            <div
+                                class="flex items-center justify-between p-3 border border-slate-100 rounded-lg bg-white">
+                                <span class="text-xs font-semibold text-slate-800">Interactive Mode</span>
+                                <span
+                                    class="text-[10px] text-blue-600 font-mono bg-blue-50 px-2 py-0.5 rounded">gemini</span>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-3 border border-slate-100 rounded-lg bg-white">
+                                <span class="text-xs font-semibold text-slate-800">Non-Interactive</span>
+                                <span class="text-[10px] text-blue-600 font-mono bg-blue-50 px-2 py-0.5 rounded">gemini
+                                    -p "..."</span>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-3 border border-slate-100 rounded-lg bg-white">
+                                <span class="text-xs font-semibold text-slate-800">Tool Access</span>
+                                <span
+                                    class="text-[10px] text-blue-600 font-mono bg-blue-50 px-2 py-0.5 rounded">/tools</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Preparing Setup -->
+        <section class="slide" id="slide-5">
+            <div class="p-10">
+                <div class="mb-8">
+                    <h2 class="text-[28px] font-bold text-slate-800">Local Environment <span
+                            class="gradient-text">Setup</span></h2>
+                    <p class="text-sm text-slate-500 mt-1">Get your machine ready for the workshop.</p>
+                </div>
+
+                <div class="grid grid-cols-12 gap-8">
+                    <div class="col-span-4 space-y-6">
+                        <div class="card bg-gradient-to-br from-white to-slate-50">
+                            <div class="text-xl font-bold text-slate-800 mb-2">Step 1</div>
+                            <div class="text-sm text-slate-600">Open Terminal/PowerShell and ensure Node.js is
+                                installed.</div>
+                        </div>
+                        <div class="card bg-gradient-to-br from-white to-slate-50">
+                            <div class="text-xl font-bold text-slate-800 mb-2">Step 2</div>
+                            <div class="text-sm text-slate-600">Generate a Gemini API Key from Google AI Studio.
+                            </div>
+                        </div>
+                        <div class="card bg-gradient-to-br from-white to-slate-50 border-blue-200">
+                            <div class="text-xl font-bold text-slate-800 mb-2">Step 3</div>
+                            <div class="text-sm text-slate-600">Clone the repository and install dependencies locally.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-8">
+                        <div class="bg-slate-900 rounded-xl overflow-hidden shadow-2xl">
+                            <div class="bg-slate-800 px-4 py-2 flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                                <span
+                                    class="ml-4 text-[10px] text-slate-400 font-mono tracking-widest uppercase">cloud-shell-terminal</span>
+                            </div>
+                            <div class="p-8 space-y-6 font-mono">
+                                <div>
+                                    <div class="text-slate-500 text-sm mb-2"># Check Node version</div>
+                                    <div class="text-green-400 text-sm">node --version</div>
+                                </div>
+                                <div>
+                                    <div class="text-slate-500 text-sm mb-2"># Clone the workshop repository</div>
+                                    <div class="text-green-400 text-sm">git clone
+                                        https://github.com/alphinside/gemini-cli-code-analysis-demo.git</div>
+                                </div>
+                                <div>
+                                    <div class="text-slate-500 text-sm mb-2"># Install global CLI</div>
+                                    <div class="text-green-400 text-sm">npm install -g @google/gemini-cli</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Setup & Configurations -->
+        <section class="slide" id="slide-6">
+            <div class="p-10">
+                <div class="mb-8">
+                    <h2 class="text-[28px] font-bold text-slate-800">Setup & <span
+                            class="gradient-text">Configurations</span></h2>
+                    <p class="text-sm text-slate-500 mt-1">Initializing the Gemini CLI framework.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="card p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">
+                                    1</div>
+                                <div class="font-bold">Initialize CLI</div>
+                            </div>
+                            <div class="code-block mb-4">gemini login</div>
+                            <ul class="text-xs text-slate-500 space-y-2">
+                                <li>• Select <strong class="text-slate-800">Gemini API</strong> (for Personal/Local)
+                                </li>
+                                <li>• Paste your <strong class="text-slate-800">API Key</strong></li>
+                                <li>• Setup complete!</li>
+                            </ul>
+                        </div>
+                        <div class="card p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">
+                                    2</div>
+                                <div class="font-bold">Verify Configuration</div>
+                            </div>
+                            <div class="code-block">gemini config</div>
+                            <div class="mt-4 text-xs text-slate-500">
+                                This will display your active project, location, and authentication method.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card h-full bg-slate-50">
+                        <div class="text-sm font-bold text-slate-800 mb-4 border-b pb-4">Configuration Structure (.json)
+                        </div>
+                        <pre class="text-[11px] text-slate-600 font-mono bg-white p-6 rounded-lg border leading-loose">
+{
+  "security": {
+    "auth": {
+      "selectedType": "gemini-api"
+    }
+  },
+  "gemini_api": {
+    "key": "your-gemini-api-key"
+  }
+}
+                        </pre>
+                        <div class="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                            <div class="text-[10px] text-blue-800 font-bold uppercase mb-1">PRO TIP</div>
+                            <p class="text-[11px] text-blue-600">The config is stored in
+                                <code>~/.gemini/config.json</code> but can be overriden using local
+                                <code>.gemini/settings.json</code> files inside projects.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Basic Commands & Tools -->
+        <section class="slide" id="slide-7">
+            <div class="p-10">
+                <div class="mb-10">
+                    <h2 class="text-[28px] font-bold text-slate-800">Basic Commands & <span
+                            class="gradient-text">Tools</span></h2>
+                    <p class="text-sm text-slate-500 mt-1">Navigate the AI agent environment like a pro.</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="card col-span-1">
+                        <div class="text-blue-600 text-lg font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-terminal"></i> Slash Commands
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex flex-col p-3 bg-slate-50 rounded-lg">
+                                <span class="text-xs font-mono font-bold text-slate-800">/help</span>
+                                <span class="text-[10px] text-slate-500 mt-1">Get help on commands</span>
+                            </div>
+                            <div class="flex flex-col p-3 bg-slate-50 rounded-lg">
+                                <span class="text-xs font-mono font-bold text-slate-800">/chat</span>
+                                <span class="text-[10px] text-slate-500 mt-1">Manage conversation history</span>
+                            </div>
+                            <div class="flex flex-col p-3 bg-slate-50 rounded-lg">
+                                <span class="text-xs font-mono font-bold text-slate-800">/extensions</span>
+                                <span class="text-[10px] text-slate-500 mt-1">Manage installed skills</span>
+                            </div>
+                            <div class="flex flex-col p-3 bg-slate-50 rounded-lg">
+                                <span class="text-xs font-mono font-bold text-slate-800">/mcp</span>
+                                <span class="text-[10px] text-slate-500 mt-1">List MCP servers</span>
+                            </div>
+                            <div class="flex flex-col p-3 bg-slate-50 rounded-lg">
+                                <span class="text-xs font-mono font-bold text-slate-800">/tools</span>
+                                <span class="text-[10px] text-slate-500 mt-1">Show available tools</span>
+                            </div>
+                            <div class="flex flex-col p-3 bg-slate-50 rounded-lg">
+                                <span class="text-xs font-mono font-bold text-slate-800">/config</span>
+                                <span class="text-[10px] text-slate-500 mt-1">Manage configurations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card col-span-1 bg-blue-50 border-blue-100">
+                        <div class="text-blue-700 text-lg font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-tools"></i> Built-in Tools
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex flex-col p-3 bg-white rounded-lg border border-blue-100">
+                                <span class="text-xs font-mono font-bold text-blue-700">file_read / file_edit</span>
+                                <span class="text-[10px] text-blue-500 mt-1">Directly analyze or fix files</span>
+                            </div>
+                            <div class="flex flex-col p-3 bg-white rounded-lg border border-blue-100">
+                                <span class="text-xs font-mono font-bold text-blue-700">google_search</span>
+                                <span class="text-[10px] text-blue-500 mt-1">Research latest libraries/fixes</span>
+                            </div>
+                            <div class="flex flex-col p-3 bg-white rounded-lg border border-blue-100">
+                                <span class="text-xs font-mono font-bold text-blue-700">shell</span>
+                                <span class="text-[10px] text-blue-500 mt-1">Run local shell commands</span>
+                            </div>
+                            <div class="flex flex-col p-3 bg-white rounded-lg border border-blue-100">
+                                <span class="text-xs font-mono font-bold text-blue-700">file_search</span>
+                                <span class="text-[10px] text-blue-500 mt-1">Find files across directories</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card col-span-1 border-emerald-100">
+                        <div class="text-emerald-700 text-lg font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-comment-dots"></i> Example Prompts
+                        </div>
+                        <div class="space-y-4">
+                            <p class="text-[11px] text-slate-600 bg-emerald-50 p-3 rounded italic">"What does this
+                                project do?"</p>
+                            <p class="text-[11px] text-slate-600 bg-emerald-50 p-3 rounded italic">"Find the most
+                                complex function and refactor it for readability."</p>
+                            <p class="text-[11px] text-slate-600 bg-emerald-50 p-3 rounded italic">"Create a unit test
+                                for main.py using pytest."</p>
+                            <p class="text-[11px] text-slate-600 bg-emerald-50 p-3 rounded italic">"Check if my database
+                                connection is secure."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Extensions Installation -->
+        <section class="slide" id="slide-8">
+            <div class="p-10">
+                <div class="flex justify-between items-center mb-10">
+                    <div>
+                        <h2 class="text-[28px] font-bold text-slate-800">Extensions <span
+                                class="gradient-text">Registry</span></h2>
+                        <p class="text-sm text-slate-500 mt-1">Enabling high-order skills for your agent.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-10">
+                    <div class="space-y-6">
+                        <div class="card border-blue-200">
+                            <div class="flex items-center gap-3 mb-4">
+                                <i class="fas fa-user-shield text-blue-600 text-2xl"></i>
+                                <div class="font-bold text-slate-800">Security Extension</div>
+                            </div>
+                            <div class="code-block text-[11px]">gemini extensions install
+                                https://github.com/gemini-cli-extensions/security</div>
+                        </div>
+                        <div class="card border-green-200">
+                            <div class="flex items-center gap-3 mb-4">
+                                <i class="fas fa-search-dollar text-green-600 text-2xl"></i>
+                                <div class="font-bold text-slate-800">Code Review Extension</div>
+                            </div>
+                            <div class="code-block text-[11px]">gemini extensions install
+                                https://github.com/gemini-cli-extensions/code-review</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-6">
+                        <div class="card h-full">
+                            <div class="text-sm font-bold text-slate-800 mb-4 uppercase">Verifying Success</div>
+                            <p class="text-xs text-slate-600 mb-4">Inside the <code>gemini</code> shell, run:</p>
+                            <div class="p-4 bg-slate-50 rounded-lg font-mono text-xs text-slate-800 border">/extensions
+                                list</div>
+                            <div class="mt-6 flex flex-wrap gap-2">
+                                <span
+                                    class="px-2 py-1 bg-green-50 text-green-700 rounded text-[10px] font-bold border border-green-100">security
+                                    ✓</span>
+                                <span
+                                    class="px-2 py-1 bg-green-50 text-green-700 rounded text-[10px] font-bold border border-green-100">code-review
+                                    ✓</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Interactive Security -->
+        <section class="slide" id="slide-9">
+            <div class="p-10">
+                <div class="mb-8">
+                    <h2 class="text-[28px] font-bold text-slate-800">Interactive Security <span
+                            class="gradient-text">Analysis</span></h2>
+                    <p class="text-sm text-slate-500 mt-1">Manual scanning with AI-guided remediation.</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="col-span-2">
+                        <div class="bg-indigo-950 rounded-xl overflow-hidden shadow-xl border border-indigo-800">
+                            <div
+                                class="bg-indigo-900/50 p-3 px-6 text-[10px] text-indigo-300 font-mono tracking-widest flex items-center justify-between">
+                                <span>GEMINI REPL</span>
+                                <span class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                    AI ACTIVE
+                                </span>
+                            </div>
+                            <div class="p-8 font-mono text-sm space-y-4">
+                                <div class="flex gap-3">
+                                    <span class="text-slate-500">>>></span>
+                                    <span class="text-indigo-200">/security:analyze</span>
+                                </div>
+                                <div class="text-slate-400 opacity-80 text-xs">Analysis in progress... checking 12
+                                    files.</div>
+                                <div class="bg-indigo-900/40 p-4 border-l-2 border-amber-400 rounded-r">
+                                    <div class="text-amber-300 font-bold mb-1">[CRITICAL] Vulnerability Found</div>
+                                    <div class="text-indigo-100 text-xs leading-relaxed">
+                                        Potential SQL Injection at <code>main.py:146</code>.
+                                        Input is directly concatenated into query string.
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 mt-4">
+                                    <span class="text-slate-500">>>></span>
+                                    <span class="text-indigo-200">How to fix this?</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-1 space-y-6">
+                        <div class="card bg-amber-50 border-amber-200">
+                            <div class="flex items-center gap-3 mb-3">
+                                <i class="fas fa-bolt text-amber-500 text-xl"></i>
+                                <div class="font-bold text-slate-800">YOLO Mode</div>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed italic">
+                                "Press <strong>CTRL + Y</strong> to trigger YOLO mode. This allows the AI to perform
+                                destructive operations like <code>mkdir</code> or <code>file_edit</code> WITHOUT asking
+                                for permission."
+                            </p>
+                        </div>
+                        <div class="card">
+                            <div class="font-bold text-slate-800 mb-2">Discovery Tools</div>
+                            <ul class="text-[10px] space-y-2 text-slate-500 font-semibold">
+                                <li class="flex items-center gap-2"><i class="fas fa-search-location"></i> Path
+                                    Traversal Checks</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-fingerprint"></i> Credential Leak
+                                    Scans</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-lock-open"></i> Insecure Defaults
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REMOVED Slide 9 from here -->
+
+        <!-- Slide 10: Automated Code Review -->
+        <section class="slide" id="slide-10">
+            <div class="p-10">
+                <div class="mb-8">
+                    <h2 class="text-[28px] font-bold text-slate-800">Non-Interactive Code <span
+                            class="gradient-text">Review</span></h2>
+                    <p class="text-sm text-slate-500 mt-1">Integrating AI insights without manual steps.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="card p-6">
+                            <div class="text-sm font-bold text-slate-800 mb-3 border-b pb-3 uppercase tracking-tighter">
+                                Step 1: Configuration</div>
+                            <p class="text-[11px] text-slate-500 mb-4">Create <code>.gemini/settings.json</code> to
+                                allow auto-approval.</p>
+                            <pre class="bg-slate-50 p-4 border rounded font-mono text-[10px] text-slate-600">
+{
+  "security": {
+    "disableYoloMode": false
+  }
+}
+                            </pre>
+                        </div>
+                        <div class="card p-6 border-blue-100 bg-blue-50/30">
+                            <div class="text-sm font-bold text-slate-800 mb-3 border-b pb-3 uppercase tracking-tighter">
+                                Step 2: Headless Command</div>
+                            <div class="code-block text-[10px] leading-relaxed">
+                                gemini -p "activate the code review skill and review changes in current branch, then
+                                write result to report.md"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-slate-200 flex flex-col">
+                        <div class="flex items-center gap-2 mb-4">
+                            <i class="fas fa-file-invoice text-blue-600"></i>
+                            <div class="text-sm font-bold text-slate-800 uppercase">report.md Preview</div>
+                        </div>
+                        <div
+                            class="bg-slate-50 flex-1 rounded-lg p-6 font-mono text-[11px] text-slate-600 border border-slate-100 overflow-hidden">
+                            <div class="mb-4"># Code Review Findings</div>
+                            <div class="flex items-start gap-2 mb-3">
+                                <span class="bg-red-500 w-1.5 h-1.5 rounded-full mt-1 shrink-0"></span>
+                                <div><strong>Security:</strong> SQL Injection at <code>main.py:146</code>. Critical
+                                    risk.</div>
+                            </div>
+                            <div class="flex items-start gap-2 mb-3 text-red-500/80">
+                                <span class="bg-red-500/80 w-1.5 h-1.5 rounded-full mt-1 shrink-0"></span>
+                                <div><strong>Security:</strong> SSRF vulnerability in <code>fetch_url</code> endpoint.
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-2 mb-3">
+                                <span class="bg-amber-500 w-1.5 h-1.5 rounded-full mt-1 shrink-0"></span>
+                                <div><strong>Style:</strong> Mix of camelCase and snake_case detected. Suggest
+                                    standardization.</div>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="bg-amber-500 w-1.5 h-1.5 rounded-full mt-1 shrink-0"></span>
+                                <div><strong>Exposure:</strong> Env variables endpoint exposes sensitive info at
+                                    <code>main.py:423</code>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Humorous Intermission -->
+        <section class="slide" id="slide-11">
+            <div class="p-10 flex flex-col items-center justify-center text-center h-full">
+                <div class="text-xs font-black text-green-500 uppercase tracking-[0.3em] mb-4">The Speed Factor</div>
+                <h2 class="text-[32px] font-black text-slate-800 leading-tight mb-8">
+                    Scanning 1,000 files for <span class="gradient-text">Vulnerabilities</span> <br>in roughly 5.2
+                    seconds...
+                </h2>
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white max-w-sm">
+                        <img src="https://media1.tenor.com/m/PqJ7yMX9GFoAAAAC/bruce-almighty-comedy.gif"
+                            alt="Speed Meme" class="w-full">
+                    </div>
+                </div>
+                <p class="text-slate-500 mt-8 font-mono text-sm">"I am speed. I am Gemini."</p>
+            </div>
+        </section>
+
+        <!-- Slide 12: MCP Support -->
+        <section class="slide" id="slide-12">
+            <div class="p-10">
+                <div class="mb-10 text-center">
+                    <h2 class="text-[28px] font-bold text-slate-800">Model Context <span
+                            class="gradient-text">Protocol</span></h2>
+                    <p class="text-sm text-slate-500 mt-1">Connecting Gemini to your entire ecosystem.</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="grid grid-cols-2 gap-8 items-center">
+                        <div class="card p-8 bg-gradient-to-br from-indigo-50 to-white border-indigo-100">
+                            <div class="flex justify-center mb-6 gap-6 items-center">
+                                <div
+                                    class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center text-3xl">
+                                    <i class="fab fa-github"></i>
+                                </div>
+                                <div class="text-2xl text-slate-300"><i class="fas fa-link"></i></div>
+                                <div
+                                    class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center text-3xl">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg"
+                                        width="35" height="35" alt="Gemini AI Icon" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                            <p class="text-center text-sm text-slate-600 leading-relaxed">
+                                MCP allows Gemini CLI to interact with GitHub APIs, managing issues, pull requests, and
+                                multi-file analysis directly.
+                            </p>
+                        </div>
+
+                        <div class="card p-0 overflow-hidden border-indigo-200">
+                            <div class="bg-indigo-900 p-3 px-6 text-[10px] text-white font-mono uppercase font-bold">MCP
+                                Configuration</div>
+                            <pre class="p-6 text-[10px] font-mono text-indigo-700 bg-white leading-loose">
+{
+  "mcpServers": {
+    "github": {
+      "httpUrl": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "your-github-token"
+      }
+    }
+  }
+}
+                            </pre>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-center gap-10">
+                        <div class="flex items-center gap-3"><i class="fas fa-layer-group text-blue-600"></i> <span
+                                class="text-xs font-bold text-slate-700">Unified Context</span></div>
+                        <div class="flex items-center gap-3"><i class="fas fa-plug text-green-600"></i> <span
+                                class="text-xs font-bold text-slate-700">Extensible Architecture</span></div>
+                        <div class="flex items-center gap-3"><i class="fas fa-expand-alt text-amber-600"></i> <span
+                                class="text-xs font-bold text-slate-700">Cross-Tool Collaboration</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 13: Humorous Transition -->
+        <section class="slide" id="slide-13">
+            <div class="p-10 flex flex-col items-center justify-center text-center h-full">
+                <div class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4">Success Unlocked</div>
+                <h2 class="text-[32px] font-black text-slate-800 mb-8">
+                    When Gemini CLI <span class="gradient-text">Refactors</span> your <br>whole project correctly on the
+                    first try
+                </h2>
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white max-w-sm">
+                        <img src="https://i.pinimg.com/originals/c9/3e/ee/c93eeeede1748006da857e20ad1b9896.gif"
+                            alt="Success Meme" class="w-full">
+                    </div>
+                </div>
+                <p class="text-slate-500 mt-8 font-medium">"Cheers to productivity!"</p>
+            </div>
+        </section>
+
+        <!-- Slide 14: Humorous Transition -->
+        <section class="slide" id="slide-14">
+            <div class="p-10 flex flex-col items-center justify-center text-center h-full">
+                <div class="text-xs font-black text-amber-500 uppercase tracking-[0.3em] mb-4">The AI Shift</div>
+                <h2 class="text-[32px] font-black text-slate-800 mb-8">
+                    When you realize Gemini can <br><span class="gradient-text">Fix & Deploy</span> in 2 seconds
+                </h2>
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-2 bg-gradient-to-r from-amber-500 to-red-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white max-w-md">
+                        <img src="https://media.tenor.com/I4ZqWN4OcBwAAAAM/modern-problems-require-modern-solutions-modern-problems.gif"
+                            alt="Modern Solutions Meme" class="w-full">
+                    </div>
+                </div>
+                <p class="text-slate-500 mt-8 font-mono text-sm underline decoration-amber-300 underline-offset-4">
+                    #ModernProblemsRequireModernSolutions</p>
+            </div>
+        </section>
+
+        <!-- Slide 15: CI/CD Workflow -->
+        <section class="slide" id="slide-15">
+            <div class="p-10">
+                <div class="mb-12 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-[28px] font-bold text-slate-800">CI/CD Pipeline <span
+                                class="gradient-text">Guardrails</span></h2>
+                        <p class="text-sm text-slate-500 mt-1">Automated AI intelligence for every commit.</p>
+                    </div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Pipeline</span>
+                    </div>
+                </div>
+
+                <!-- Animated Pipeline Visual -->
+                <div class="relative py-20 mb-12">
+                    <div class="pipeline-line absolute top-1/2 left-0 right-0 -translate-y-1/2 mx-10">
+                        <div class="pipeline-flow-dot"></div>
+                    </div>
+
+                    <div class="relative flex justify-between items-center px-4">
+                        <!-- Step 1 -->
+                        <div class="flex flex-col items-center group">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl shadow-xl flex items-center justify-center text-2xl border-2 border-slate-100 group-hover:scale-110 group-hover:border-blue-400 transition-all duration-300 z-10">
+                                <i class="fas fa-code-branch text-slate-600"></i>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <span
+                                    class="bg-blue-100 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded tracking-tighter uppercase">Source</span>
+                                <div class="text-xs font-bold text-slate-800 mt-2">Git Push / PR</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex flex-col items-center group">
+                            <div
+                                class="w-20 h-20 bg-blue-600 rounded-2xl shadow-blue-200 shadow-2xl flex items-center justify-center text-3xl text-white group-hover:scale-110 transition-all duration-300 z-10 border-4 border-white">
+                                <i class="fas fa-microchip animate-spin-slow"></i>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <span
+                                    class="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded tracking-tighter uppercase">Gemini
+                                    Engine</span>
+                                <div class="text-xs font-bold text-slate-800 mt-2">Security & Review</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex flex-col items-center group">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl shadow-xl flex items-center justify-center text-2xl border-2 border-slate-100 group-hover:scale-110 group-hover:border-green-400 transition-all duration-300 z-10">
+                                <i class="fas fa-comment-dots text-slate-600"></i>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <span
+                                    class="bg-green-100 text-green-700 text-[10px] font-black px-2 py-0.5 rounded tracking-tighter uppercase">Feedback</span>
+                                <div class="text-xs font-bold text-slate-800 mt-2">AI Suggestions</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="flex flex-col items-center group">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl shadow-xl flex items-center justify-center text-2xl border-2 border-slate-100 group-hover:scale-110 group-hover:border-amber-400 transition-all duration-300 z-10">
+                                <i class="fas fa-check-double text-green-500"></i>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <span
+                                    class="bg-amber-100 text-amber-700 text-[10px] font-black px-2 py-0.5 rounded tracking-tighter uppercase">Merge</span>
+                                <div class="text-xs font-bold text-slate-800 mt-2">Verified Code</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="card border-green-100 flex items-center gap-4 py-4 hover:shadow-lg transition-all">
+                        <div
+                            class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 flex-shrink-0">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-700">Block Insecure Code Automatically</span>
+                    </div>
+                    <div class="card border-blue-100 flex items-center gap-4 py-4 hover:shadow-lg transition-all">
+                        <div
+                            class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-700">Instant AI Peer Review Context</span>
+                    </div>
+                    <div class="card border-amber-100 flex items-center gap-4 py-4 hover:shadow-lg transition-all">
+                        <div
+                            class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 flex-shrink-0">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-700">Zero-day Vulnerability Patching</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: Final / Event Closing -->
+        <section class="slide" id="slide-16">
+            <div class="tech-grid absolute inset-0 opacity-20"></div>
+            <div class="p-20 relative z-10 flex flex-col items-center text-center">
+                <div
+                    class="w-20 h-20 bg-gradient-to-br from-[#4285f4] to-[#34a853] rounded-full flex items-center justify-center text-4xl text-white mb-8 shadow-lg">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h2 class="text-5xl font-black text-slate-800 mb-4">Build the Future with <span
+                        class="gradient-text">Gemini AI</span></h2>
+                <p class="text-xl text-slate-500 mb-12 max-w-xl">Deep gratitude to the AI Community Delhi
+                    for hosting this session.</p>
+
+                <div class="grid grid-cols-2 gap-8 w-full max-w-3xl mb-16">
+                    <div class="card p-8 bg-white/80 backdrop-blur">
+                        <div class="text-blue-600 font-bold mb-4">Questions?</div>
+                        <p class="text-xs text-slate-500">I'm happy to discuss code reviews, security, or anything
+                            AI-related!</p>
+                    </div>
+                    <div class="card p-8 bg-slate-900 text-white">
+                        <div class="text-blue-400 font-bold mb-4">Connect & Build</div>
+                        <p class="text-xs text-slate-300">Let's collaborate on the next big AI innovation together.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <button onclick="goToSlide(1)"
+                        class="px-8 py-4 bg-white border border-slate-300 text-slate-700 rounded-xl font-bold flex items-center gap-3 hover:bg-slate-50 transition-all shadow-sm">
+                        <i class="fas fa-redo"></i> Recap Session
+                    </button>
+                    <a href="https://geminicli.com/extensions" target="_blank"
+                        class="px-8 py-4 bg-slate-900 text-white rounded-xl font-bold flex items-center gap-3 hover:bg-slate-800 transition-all shadow-md">
+                        <i class="fas fa-rocket"></i> Extension Registry
+                    </a>
+                    <a href="https://geminicli.com" target="_blank"
+                        class="px-8 py-4 bg-[#4285f4] text-white rounded-xl font-bold flex items-center gap-3 hover:bg-blue-600 transition-all shadow-lg">
+                        <i class="fas fa-external-link-alt"></i> Official Docs
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 17: QR Code Access -->
+        <section class="slide" id="slide-17">
+            <div class="tech-grid absolute inset-0 opacity-10"></div>
+            <div class="absolute right-0 top-0 w-[500px] h-[500px]"
+                style="background: radial-gradient(circle at 100% 0%, rgba(66, 133, 244, 0.1) 0%, transparent 70%);">
+            </div>
+            <div class="absolute left-0 bottom-0 w-[500px] h-[500px]"
+                style="background: radial-gradient(circle at 0% 100%, rgba(52, 168, 83, 0.05) 0%, transparent 70%);">
+            </div>
+
+            <div class="p-10 flex flex-col items-center justify-center text-center h-full relative z-10">
+
+                <h2 class="text-5xl font-black text-slate-800 mb-4 tracking-tight">Access the <span
+                        class="gradient-text">Presentation</span></h2>
+                <p class="text-slate-500 text-lg mb-10 max-w-lg mx-auto font-medium">Scan the QR code below to download
+                    the slides or view them online.</p>
+
+                <div class="relative group">
+                    <!-- Animated border glow -->
+                    <div
+                        class="absolute -inset-1 bg-gradient-to-r from-[#4285f4] via-[#34a853] to-[#4285f4] rounded-[2rem] blur opacity-20 group-hover:opacity-40 transition duration-1000 animate-pulse">
+                    </div>
+
+                    <div
+                        class="relative bg-white p-6 rounded-[2rem] shadow-2xl border border-slate-100 transition-transform duration-500 group-hover:scale-[1.02]">
+                        <div class="bg-slate-50 p-4 rounded-2xl">
+                            <img id="qr-image"
+                                src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://developeryatin.github.io/gemini-cli"
+                                alt="QR Code" class="w-64 h-64 mix-blend-multiply">
+                        </div>
+                    </div>
+
+                    <!-- Decorative icons around QR -->
+                    <div
+                        class="absolute -top-6 -right-6 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-[#4285f4] animate-bounce">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <div
+                        class="inline-flex items-center gap-3 px-6 py-3 bg-slate-900 rounded-2xl shadow-xl transition-all hover:bg-slate-800">
+                        <i class="fab fa-github text-white text-xl"></i>
+                        <span class="text-slate-300 font-mono text-sm">developeryatin.github.io/gemini-cli</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Theme Toggle Button Inside Frame -->
+        <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Dark Mode">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </button>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="slide-indicator text-slate-800">
+        SLIDE <span id="current">1</span> / 17
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+        <button class="nav-btn" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 17;
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            // Since slide-intro doesn't follow the slide-N pattern, we need a slight adjustment
+            const allSlides = document.querySelectorAll('.slide');
+            allSlides[currentSlide - 1].classList.add('active');
+            document.getElementById('current').innerText = currentSlide;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            updateSlide();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-theme');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            const isDark = body.classList.contains('dark-theme');
+
+            if (isDark) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+</body>
+
+</html>
