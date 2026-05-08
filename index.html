@@ -1,310 +1,455 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Developer Yatin</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="Description" CONTENT="Android & web developer ">
-    <meta name="google-site-verification" content="qlfvH3_aKrHMEQlTKRYx4njxvP6b1gIBvHDehcq1QCQ" />
-    <meta name="robots" content="developer yatin,yatinbatra,yatin batra,yatin,Yatin,Yatin Batra">
-    <meta name="googlebot" content="developer yatin,yatinbatra,yatin batra,yatin,Yatin,Yatin Batra" />
-    <script src="https://www.jquery-az.com/javascript/alert/dist/sweetalert-dev.js"></script>
-    <link rel="stylesheet" href="https://www.jquery-az.com/javascript/alert/dist/sweetalert.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
-    <script src="https://firebasestorage.googleapis.com/v0/b/cyber-endeavour.appspot.com/o/JavaScript.js?alt=media&token=696418d0-31d6-483c-ac91-0b14ab1dd52e"></script>
-    <style>
-        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
-body, html {
-  height: 100%;
-  color: #777;
-  line-height: 1.8;
-}
-
-/* Create a Parallax Effect */
-.bgimg-1, .bgimg-2, .bgimg-3 {
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-/* First image (Logo. Full height) */
-.bgimg-1 {
-  background-image: url('http://4.bp.blogspot.com/-Auo36KNzIaQ/XtTv9NWZABI/AAAAAAAAHjY/u_WHETLrGSsJ0eKMusnuQU9GWLj8mg7uQCK4BGAYYCw/s1600/PSX_20200305_185615.jpg');
-  min-height: 100%;
-}
-
-/* Second image (Portfolio) */
-.bgimg-2 {
-  background-image: url("http://1.bp.blogspot.com/-wS5fiI9XKmg/XtUDcuvf1pI/AAAAAAAAHj8/kSV14zwJvhwrkelD0CZeUHcQ4rVAbr4JgCK4BGAYYCw/s1600/bestdresseddesk-20200322-0003.jpg");
-  min-height: 400px;
-}
-
-/* Third image (Contact) */
-.bgimg-3 {
-  background-image: url("http://3.bp.blogspot.com/-oFXn-rmBuEs/XtUGadkWesI/AAAAAAAAHkU/JRtVz14N5cwU_MIKXGoqyB7V3QnRcxFyACK4BGAYYCw/s1600/joeel56-20200322-0001.jpg");
-  min-height: 400px;
-}
-
-.w3-wide {letter-spacing: 10px;}
-.w3-hover-opacity {cursor: pointer;}
-
-/* Turn off parallax scrolling for tablets and phones */
-@media only screen and (max-device-width: 1600px) {
-  .bgimg-1, .bgimg-2, .bgimg-3 {
-    background-attachment: scroll;
-    min-height: 400px;
-  }
-}
-</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatin Batra | Senior Android Engineer</title>
+    <meta name="description" content="Portfolio of Yatin Batra, a Senior Android Engineer (SDE-2) specializing in Kotlin, Jetpack Compose, KMM, and Cross-Platform development with 4+ years of experience.">
+    <meta name="keywords" content="Android Developer, Kotlin, Jetpack Compose, KMM, Kotlin Multiplatform, Flutter, Senior Engineer, SDE-2">
+    <meta name="author" content="Yatin Batra">
+    
+    <!-- Canonical & Crawling -->
+    <link rel="canonical" href="https://developeryatin.github.io/">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Yatin Batra | Senior Android Engineer">
+    <meta property="og:description" content="Senior Android Engineer crafting high-performance, cross-platform applications used by millions.">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <!-- Navbar (sit on top) -->
-    <div class="w3-top">
-        <div class="w3-bar" id="myNavbar">
-            <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                <i class="fa fa-bars"></i>
+    
+    <!-- Ambient Background Effects -->
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-dot"></div>
+                yatin.dev
             </a>
-            <a href="#home" class="w3-bar-item w3-button">HOME</a>
-            <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
-            <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> PORTFOLIO</a>
-            <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> CONTACT</a>
-            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red">
-                <i class="fa fa-search"></i>
-            </a>
-        </div>
-        <!-- Navbar on small screens -->
-        <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
-            <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
-            <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">PORTFOLIO</a>
-            <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
-            <a href="#" class="w3-bar-item w3-button">SEARCH</a>
-        </div>
-    </div>
-    <!-- First Parallax Image with Logo Text -->
-    <div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
-        <div class="w3-display-middle" style="white-space:nowrap;">
-            <span class="w3-center w3-padding-large w3-white w3-xlarge w3-wide w3-animate-opacity"> <span class="w3-hide-small">ANDROID</span> DEVELOPER</span>
-        </div>
-    </div>
-    <!-- Container (About Section) -->
-    <div class="w3-content w3-container w3-padding-64" id="about">
-        <h3 class="w3-center">ABOUT ME</h3>
-        <p class="w3-center"><em>Likes to Plan, design & deploy android apps for new generation. </em></p>
-        <!--<p>Android Developer <br>
-</p>-->
-        <div class="w3-row">
-            <div class="w3-col m6 w3-center w3-padding-large">
-                <p><b><i class="fa fa-user w3-margin-right"></i>Yatin</b></p><br>
-                <img src="http://3.bp.blogspot.com/-c2c29hVXfuo/XtUHY50w4nI/AAAAAAAAHkg/VLx8qanH2KApCzEE9DCUWPUKyjJPvdgigCK4BGAYYCw/s1600/inCollage_20200330_210804326.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
-            </div>
-            <!-- Hide this text on small devices -->
-            <div class="w3-col m6 w3-hide-small w3-padding-large">
-                <br><br>
-                <p>Design and build advanced applications for the Android platform.
-                    Collaborate with cross-functional teams to define, design, and ship new features.
-                    Work with outside data sources and APIs.
-                    Unit-test code for robustness, including edge cases, usability, and general reliability.
-                    Work on bug fixing and improving application performance.
-                    Continuously discover, evaluate, and implement new technologies to maximize development efficiency.
-                    Insured all applications were developed with the SDLC Software Development lifecycle.
-                    Responsible for designing distinctive screens for android devices with optimized and a cleaner layout.
-                    Tested applications on multiple devices to insure compatibility standards.
-                    Programmed with clean, modular, robust code using Kotlin, Java and XML with Android SDK platform.
-                    Fixed bugs with code, design patterns and miscellaneous occurrences during projects.
-                    Worked with audio file programs to enhance, splice, and edit the sound library for applications.
-                    Integrated Facebook, Twitter, Maps V2, and other open source APIs within applications.
-                    Responsible for designing the user interface and all designs pertaining to sight words apps.</p>
+            <div class="nav-links">
+                <a href="#work">Work</a>
+                <a href="#skills">Skills</a>
+                <a href="#talks">Talks</a>
+                <a href="#experience">Experience</a>
+                <a href="#education">Education</a>
+                <a href="mailto:yatinbatra870@gmail.com">Contact</a>
             </div>
         </div>
-        <p class="w3-large w3-center w3-padding-16">Im really good at:</p>
-        <p class="w3-wide"><i class="fa fa-laptop"></i>Android Development</p>
-        <div class="w3-light-grey">
-            <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:90%">90%</div>
-        </div>
-        <p class="w3-wide"><i class="fa fa-laptop"></i>Web Designing</p>
-        <div class="w3-light-grey">
-            <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:70%">70%</div>
-        </div>
-        <p class="w3-wide"><i class="fa fa-edit"></i>Programming/Data Structures</p>
-        <div class="w3-light-grey">
-            <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:40%">40%</div>
-        </div>
-        <p class="w3-wide"><i class="fa fa-edit"></i>Planning/Data Analysis</p>
-        <div class="w3-light-grey">
-            <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:60%">60%</div>
-        </div>
-    </div>
-    <div class="w3-row w3-center w3-dark-grey w3-padding-16">
-        <div class="w3-quarter w3-section">
-            <span class="w3-xlarge">14+</span><br>
-            Partners
-        </div>
-        <div class="w3-quarter w3-section">
-            <span class="w3-xlarge">10+</span><br>
-            Projects Done
-        </div>
-        <div class="w3-quarter w3-section">
-            <span class="w3-xlarge">89+</span><br>
-            Happy Clients
-        </div>
-        <div class="w3-quarter w3-section">
-            <span class="w3-xlarge">150+</span><br>
-            Meetings
-        </div>
-    </div>
-    <!-- Second Parallax Image with Portfolio Text -->
-    <div class="bgimg-2 w3-display-container w3-opacity-min">
-        <div class="w3-display-middle">
-            <span class="w3-xxlarge w3-text-white w3-wide">PORTFOLIO</span>
-        </div>
-    </div>
-    <!-- Container (Portfolio Section) -->
-    <div class="w3-content w3-container w3-padding-64" id="portfolio">
-        <h3 class="w3-center">MY WORK</h3>
-        <p class="w3-center"><em>Here are some of my latest android & web development works.<br> Click on the images to make them bigger</em></p><br>
-        <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
-        <div class="w3-row-padding w3-center">
-            <div class="w3-col m3">
-                <img src="http://2.bp.blogspot.com/-L2uL1VhJWEw/XtUTXfMhmzI/AAAAAAAAHks/E-BA9HoXC8ATac2vSO40DSLsnmwxfxNuQCK4BGAYYCw/s1600/Collage%2B2020-04-01%2B12_27_52_1591022354317.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="CyberEndeavor app">
-                <br>
-                <h6 class="w3-text-teal"><i class="fa fa-laptop fa-fw w3-margin-right"></i>Try CyberEndeavor app - <a href="https://drive.google.com/file/d/11RxzVpQH0p6eWByTG30yM808_rOeQ6NO/view?usp=drivesdk"><span class="w3-tag w3-teal w3-round">Download App</span></a></h6>
-            </div>
-            <div class="w3-col m3">
-                <img src="https://firebasestorage.googleapis.com/v0/b/webapp-c06f8.appspot.com/o/inCollage_20200831_154646491.jpg?alt=media&token=781dd73b-71b9-4ef7-97a5-ea77c33114c0" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Messenger App">
-                <br>
-                <h6 class="w3-text-teal"><i class="fa fa-laptop fa-fw w3-margin-right"></i>Try Messenger App - <a href="https://developeryatin.github.io/comingsoon"><span class="w3-tag w3-teal w3-round">Download App</span></a></h6>
-            </div>
-            <div class="w3-col m3" id="NewsApp">
-                <img src="https://firebasestorage.googleapis.com/v0/b/webapp-c06f8.appspot.com/o/inCollage_20200913_223908124.jpg?alt=media&token=55c15f63-c80d-43a7-bd7e-6ec019eb9d62" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="News App">
-                <br>
-                <h6 class="w3-text-teal"><i class="fa fa-laptop fa-fw w3-margin-right"></i>Try News App - <a href="https://drive.google.com/file/d/1D3EL5GV3IFok7DHCiQQXt04q-Gu5CcCo/view?usp=drivesdk"><span class="w3-tag w3-teal w3-round">Download App</span></a></h6>
-            </div>
-            <!--<div class="w3-col m3">
-      <img src="https://www.w3schools.com/w3images/p2.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Coffee beans">
-    </div>
+    </nav>
 
-    <div class="w3-col m3">
-      <img src="https://www.w3schools.com/w3images/p3.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Bear closeup">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="https://www.w3schools.com/w3images/p4.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Quiet ocean">
-    </div>-->
-        </div>
-        <div class="w3-row-padding w3-center w3-section">
-            <!-- <div class="w3-col m3">
-      <img src="https://www.w3schools.com/w3images/p5.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="The mist">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="https://www.w3schools.com/w3images/p6.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="My beloved typewriter">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="https://www.w3schools.com/w3images/p7.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Empty ghost train">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="https://www.w3schools.com/w3images/p8.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Sailing">
-    </div>-->
-            <a href="https://developeryatin.github.io/comingsoon"><button class="w3-button w3-padding-large w3-light-grey" style="margin-top:64px">LOAD MORE</button></a>
-        </div>
-    </div>
-    <!-- Modal for full size images on click-->
-    <div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
-        <span class="w3-button w3-large w3-black w3-display-topright" title="Close Modal Image"><i class="fa fa-remove"></i></span>
-        <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
-            <img id="img01" class="w3-image">
-            <p id="caption" class="w3-opacity w3-large"></p>
-        </div>
-    </div>
-    <!-- Third Parallax Image with Portfolio Text -->
-    <div class="bgimg-3 w3-display-container w3-opacity-min">
-        <div class="w3-display-middle">
-            <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
-        </div>
-    </div>
-    <!-- Container (Contact Section) -->
-    <div class="w3-content w3-container w3-padding-64" id="contact">
-        <h3 class="w3-center">WHERE I WORK</h3>
-        <p class="w3-center"><em>I'd love your feedback!</em></p>
-        <div class="w3-row w3-padding-32 w3-section">
-            <div class="w3-col m4 w3-container">
-                <img src="https://www.w3schools.com/w3images/map.jpg" class="w3-image w3-round" style="width:100%">
-            </div>
-            <div class="w3-col m8 w3-panel">
-                <div class="w3-large w3-margin-bottom">
-                    <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Haryana, IN<br>
-                    <!--<i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Phone: +00 151515<br>-->
-                    <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Email: yatinbatra31@gmail.com<br>
+    <header class="hero">
+        <div class="container">
+            <div class="hero-layout">
+                <div class="hero-content">
+                    <div class="status-badge">
+                        <div class="status-indicator"></div>
+                        Available for new opportunities
+                    </div>
+                    <h1 class="hero-title">Engineering elegant mobile experiences at scale.</h1>
+                    <p class="hero-subtitle">
+                        I'm Yatin Batra, a Senior Android Engineer (SDE-2) with 5+ years of experience crafting high-performance, cross-platform applications used by millions. Focused on Kotlin Multiplatform, Jetpack Compose & Clean Architecture.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#work" class="btn btn-primary">View Projects</a>
+                        <a href="https://github.com/DeveloperYatin" target="_blank" class="btn btn-secondary">
+                            <i class="fa-brands fa-github" style="margin-right: 8px;"></i> GitHub
+                        </a>
+                        <a href="https://www.linkedin.com/in/yatin-batra-6571131a3" target="_blank" class="btn btn-secondary">
+                            <i class="fa-brands fa-linkedin" style="margin-right: 8px;"></i> LinkedIn
+                        </a>
+                    </div>
                 </div>
-                <p>Swing by for a cup of <i class="fa fa-coffee"></i>, or leave me a note:</p>
-                <form action="#" method="post" name="StaticPassword">
-                    <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
-                        <div class="w3-half">
-                            <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+                <div class="hero-photo">
+                    <div class="photo-glow"></div>
+                    <div class="profile-card">
+                        <div class="profile-card-img">
+                            <img src="https://media.licdn.com/dms/image/v2/D5603AQFOFC9PeqaQpA/profile-displayphoto-crop_800_800/B56Z2WuQJ3HAAI-/0/1776350205316?e=1778716800&v=beta&t=IX6x3aDcGi686_oITzfrLioGz0ytq82g6uasPqukdgE" alt="Yatin Batra" loading="lazy" decoding="async">
                         </div>
-                        <div class="w3-half">
-                            <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+                        <div class="profile-card-info">
+                            <h3 class="profile-card-name">Yatin Batra</h3>
+                            <div class="profile-card-role">
+                                <span class="role-dot"></span>
+                                SDE-2 @ Adda247
+                            </div>
+                            <p class="profile-card-desc">Building scalable Android & Cross-Platform solutions for millions.</p>
                         </div>
                     </div>
-                    <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
-                    <button class="w3-button w3-black w3-right w3-section" type="button" onclick="sendEmail()">
-                        <i class="fa fa-paper-plane"></i> SEND MESSAGE
-                    </button>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Footer -->
-    <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
-        <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
-        <div class="w3-xlarge w3-section">
-            <a href="https://www.facebook.com/yatinbatra.yogeshbatra.5" target="_blank"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
-            <a href="https://www.instagram.com/yatin0_0/" target="_blank"><i class="fa fa-instagram w3-hover-opacity"></i></a>
-            <a href="https://www.linkedin.com/in/yatin-batra-6571131a3" target="_blank"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
-            <a href="https://github.com/DeveloperYatin/" target="_blank"> <i class="fa fa-github w3-hover-opacity"></i></a>
-            <a href="https://api.whatsapp.com/send?phone=918708155763&text=Hey%20Yatin&source=&data=&app_absent=" target="_blank"> <i class="fa fa-whatsapp w3-hover-opacity"></i></a>
+    </header>
+
+    <section id="work" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Selected Work</h2>
+                <p class="section-subtitle">Flagship projects engineered for stability and scale.</p>
+            </div>
+            
+            <div class="bento-grid">
+                
+                <!-- Project 1: Adda247 -->
+                <div class="bento-card col-span-2">
+                    <div>
+                        <div class="card-icon" style="color: #4285f4;"><i class="fas fa-graduation-cap"></i></div>
+                        <h3 class="card-title">Adda247 Platform</h3>
+                        <p class="card-desc">
+                            Core Android features for India's largest EdTech platform. Re-architected modular applications aligned with SOLID principles, ensuring 98% unit test coverage. Built cross-platform Smart Board applications using KMM.
+                        </p>
+                        <div class="skills-wrapper">
+                            <span class="skill-tag">Kotlin</span>
+                            <span class="skill-tag">KMM</span>
+                            <span class="skill-tag">Clean Architecture</span>
+                            <span class="skill-tag">Jetpack Compose</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="https://play.google.com/store/apps/details?id=com.adda247.app" target="_blank" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem;"><i class="fab fa-google-play" style="margin-right: 8px;"></i> Play Store</a>
+                    </div>
+                </div>
+
+                <!-- Metrics Card -->
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #34a853;"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="card-title" style="font-size: 2.5rem; background: linear-gradient(135deg, #34a853, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">99.9%</h3>
+                    <p class="card-desc">Crash-free users rate achieved across flagship educational applications.</p>
+                </div>
+
+                <!-- Project 2: StudyIQ -->
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #fbbc04;"><i class="fas fa-video"></i></div>
+                    <h3 class="card-title">StudyIQ</h3>
+                    <p class="card-desc">Advanced video streaming and assessment features for UPSC aspirants. Optimized Flutter apps to maintain stable 60 FPS.</p>
+                    <div style="margin-top: 1rem;">
+                        <a href="https://play.google.com/store/apps/details?id=com.studyiq.android" target="_blank" style="color: #fbbc04; text-decoration: none; font-size: 0.85rem; font-weight: 600;"><i class="fab fa-google-play" style="margin-right: 6px;"></i> Play Store &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Project 3: PrepInsta -->
+                <div class="bento-card">
+                    <div class="card-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3 class="card-title">PrepInsta Prime</h3>
+                    <p class="card-desc">The "Netflix for learning". Highly modular subscription-based engine with offline-first architecture.</p>
+                    <div style="margin-top: 1rem;">
+                        <a href="https://play.google.com/store/apps/details?id=com.prepinstaprime" target="_blank" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600;"><i class="fab fa-google-play" style="margin-right: 6px;"></i> Play Store &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Project 5: Careers Adda -->
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #ea4335;"><i class="fas fa-school"></i></div>
+                    <h3 class="card-title">Careers Adda</h3>
+                    <p class="card-desc">Specialized preparation platform for K-12 and CUET boards with adaptive learning paths.</p>
+                    <div style="margin-top: 1rem;">
+                        <a href="https://play.google.com/store/apps/details?id=com.cuetadda.app" target="_blank" style="color: #ea4335; text-decoration: none; font-size: 0.85rem; font-weight: 600;"><i class="fab fa-google-play" style="margin-right: 6px;"></i> Play Store &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Code Card (Wide) -->
+                <div class="bento-card col-span-2">
+                    <h3 class="card-title">Clean Code Architecture</h3>
+                    <p class="card-desc">Expertise in decoupled, highly testable structures following MVVM + Clean Architecture patterns.</p>
+                    <div class="code-card">
+<pre><code><span class="code-keyword">@Singleton</span>
+<span class="code-keyword">class</span> <span class="code-function">GetCoursesUseCase</span> <span class="code-keyword">@Inject constructor</span>(
+    <span class="code-keyword">private val</span> repository: CourseRepository
+) {
+    <span class="code-keyword">suspend operator fun</span> <span class="code-function">invoke</span>(): Flow&lt;Result&lt;List&lt;Course&gt;&gt;&gt; {
+        <span class="code-keyword">return</span> repository.<span class="code-function">fetchCourses</span>()
+            .<span class="code-function">catch</span> { e -> <span class="code-function">emit</span>(Result.<span class="code-function">failure</span>(e)) }
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Project 4: Reevo -->
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #a154f2;"><i class="fas fa-robot"></i></div>
+                    <h3 class="card-title">Reevo App</h3>
+                    <p class="card-desc">AI-powered English conversation practice app with speech-to-text and real-time feedback.</p>
+                    <div style="margin-top: 1rem;">
+                        <a href="https://play.google.com/store/apps/details?id=com.addaeducation.reevo" target="_blank" style="color: #a154f2; text-decoration: none; font-size: 0.85rem; font-weight: 600;"><i class="fab fa-google-play" style="margin-right: 6px;"></i> Play Store &rarr;</a>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <p>Copyright © 2020 - All right reserved - <a href="#">Yatin</a></p>
+    </section>
+
+    <section id="skills" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Technical Arsenal</h2>
+                <p class="section-subtitle">Technologies and tools I work with daily.</p>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Languages & Frameworks -->
+                <div class="bento-card col-span-2">
+                    <div class="card-icon" style="color: #4285f4;"><i class="fas fa-code"></i></div>
+                    <h3 class="card-title">Languages & Frameworks</h3>
+                    <div class="skills-wrapper">
+                        <span class="skill-tag">Kotlin</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Dart</span>
+                        <span class="skill-tag">Jetpack Compose</span>
+                        <span class="skill-tag">Flutter</span>
+                        <span class="skill-tag">KMM</span>
+                        <span class="skill-tag">XML</span>
+                        <span class="skill-tag">Coroutines</span>
+                        <span class="skill-tag">RxJava</span>
+                        <span class="skill-tag">Flow</span>
+                    </div>
+                </div>
+
+                <!-- Architecture -->
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #a154f2;"><i class="fas fa-layer-group"></i></div>
+                    <h3 class="card-title">Architecture</h3>
+                    <div class="skills-wrapper">
+                        <span class="skill-tag">MVVM</span>
+                        <span class="skill-tag">MVI</span>
+                        <span class="skill-tag">Clean Architecture</span>
+                        <span class="skill-tag">SOLID</span>
+                        <span class="skill-tag">Modularization</span>
+                    </div>
+                </div>
+
+                <!-- Tools & DI -->
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #34a853;"><i class="fas fa-tools"></i></div>
+                    <h3 class="card-title">DI & Build Tools</h3>
+                    <div class="skills-wrapper">
+                        <span class="skill-tag">Dagger/Hilt</span>
+                        <span class="skill-tag">Koin</span>
+                        <span class="skill-tag">Gradle</span>
+                        <span class="skill-tag">CocoaPods</span>
+                        <span class="skill-tag">Xcode Interop</span>
+                    </div>
+                </div>
+
+                <!-- Database & Networking -->
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #fbbc04;"><i class="fas fa-database"></i></div>
+                    <h3 class="card-title">Data & Networking</h3>
+                    <div class="skills-wrapper">
+                        <span class="skill-tag">Room</span>
+                        <span class="skill-tag">SQLDelight</span>
+                        <span class="skill-tag">Retrofit</span>
+                        <span class="skill-tag">Ktor</span>
+                        <span class="skill-tag">OkHttp</span>
+                        <span class="skill-tag">Firebase</span>
+                    </div>
+                </div>
+
+                <!-- Testing & CI/CD -->
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #ea4335;"><i class="fas fa-vial"></i></div>
+                    <h3 class="card-title">Testing & DevOps</h3>
+                    <div class="skills-wrapper">
+                        <span class="skill-tag">JUnit</span>
+                        <span class="skill-tag">Mockito</span>
+                        <span class="skill-tag">Espresso</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Crashlytics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="talks" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Talks & Sessions</h2>
+                <p class="section-subtitle">Sharing knowledge with the developer community.</p>
+            </div>
+
+            <div class="bento-grid">
+                <div class="bento-card col-span-2">
+                    <div>
+                        <div class="card-icon" style="color: #4285f4;"><i class="fas fa-microphone-alt"></i></div>
+                        <h3 class="card-title">Code Review & Security Analysis with Gemini CLI</h3>
+                        <p class="card-desc">Speaker session at <strong style="color: var(--text-main);">Build with AI — AI Community Delhi</strong>. Covered using Gemini CLI and its extensions for automated code reviews, security vulnerability scanning, MCP integration, and CI/CD pipeline guardrails.</p>
+                        <div class="skills-wrapper">
+                            <span class="skill-tag">Gemini CLI</span>
+                            <span class="skill-tag">Security</span>
+                            <span class="skill-tag">Code Review</span>
+                            <span class="skill-tag">MCP</span>
+                            <span class="skill-tag">CI/CD</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                        <a href="gemini-cli.html" target="_blank" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem;"><i class="fas fa-desktop" style="margin-right: 8px;"></i> View Slides</a>
+                        <a href="https://www.linkedin.com/posts/yatin-batraa_buildwithai-googlegemini-agenticai-ugcPost-7458001854048935936-pi-E" target="_blank" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem;"><i class="fab fa-linkedin" style="margin-right: 8px;"></i> Featured Post</a>
+                    </div>
+                </div>
+
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #34a853;"><i class="fas fa-calendar-check"></i></div>
+                    <h3 class="card-title">More Coming Soon</h3>
+                    <p class="card-desc">Upcoming talks on Kotlin Multiplatform, Jetpack Compose performance, and AI-assisted development workflows.</p>
+                    <div style="margin-top: 1rem;">
+                        <span style="color: var(--text-muted); font-size: 0.8rem; font-family: var(--font-mono);">Stay tuned ✦</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Experience</h2>
+                <p class="section-subtitle">A track record of building and scaling products.</p>
+            </div>
+            
+            <div class="bento-card" style="padding: 3rem;">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-date">04/2023 - Present</span>
+                        <h3 class="timeline-role">SDE-2 (Senior Android Engineer)</h3>
+                        <p class="timeline-company">Adda247 / StudyIQ / PrepInsta</p>
+                        <p class="card-desc">Built and executed Android sprint cycles of cross-platform Smart Board applications for Windows-based studio setups using Kotlin Multiplatform (KMM). Configured KMM build systems with Gradle, CocoaPods, and Xcode interoperability. Led modular architecture initiatives and mentored junior developers.</p>
+                        <div class="skills-wrapper">
+                            <span class="skill-tag">KMM</span>
+                            <span class="skill-tag">SQLDelight</span>
+                            <span class="skill-tag">Koin</span>
+                            <span class="skill-tag">Jetpack Compose</span>
+                            <span class="skill-tag">Ktor</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-date">04/2021 - 04/2023</span>
+                        <h3 class="timeline-role">SDE-1 (Android Engineer)</h3>
+                        <p class="timeline-company">Adda247 / StudyIQ</p>
+                        <p class="card-desc">Optimized Flutter apps to maintain a stable 60 FPS by mastering frame analysis. Achieved 99.90% crash-free users rate. Ensured 98% unit test coverage on modular applications. Implemented advanced video streaming and assessment features.</p>
+                        <div class="skills-wrapper">
+                            <span class="skill-tag">Flutter</span>
+                            <span class="skill-tag">Kotlin</span>
+                            <span class="skill-tag">MVVM</span>
+                            <span class="skill-tag">Dagger/Hilt</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-date">08/2020 - 04/2021</span>
+                        <h3 class="timeline-role">SDE (Android Developer)</h3>
+                        <p class="timeline-company">Cyndi Tech</p>
+                        <p class="card-desc">Developed end-to-end Android applications using RxJava, OkHttp, Dagger, Firebase, and WebRTC for advanced features like real-time chat and Zoom integration. Built robust networking layers and implemented push notification systems.</p>
+                        <div class="skills-wrapper">
+                            <span class="skill-tag">RxJava</span>
+                            <span class="skill-tag">WebRTC</span>
+                            <span class="skill-tag">Firebase</span>
+                            <span class="skill-tag">Dagger</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Education</h2>
+                <p class="section-subtitle">Academic foundation in Computer Science.</p>
+            </div>
+
+            <div class="bento-grid">
+                <div class="bento-card col-span-2">
+                    <div class="card-icon" style="color: #4285f4;"><i class="fas fa-university"></i></div>
+                    <h3 class="card-title">B.Sc. Applied Computer Science</h3>
+                    <p class="card-desc">University of Delhi</p>
+                    <div class="skills-wrapper" style="margin-top: 1rem;">
+                        <span class="skill-tag">Data Structures</span>
+                        <span class="skill-tag">Algorithms</span>
+                        <span class="skill-tag">OOP</span>
+                        <span class="skill-tag">DBMS</span>
+                        <span class="skill-tag">Operating Systems</span>
+                    </div>
+                </div>
+
+                <div class="bento-card">
+                    <div class="card-icon" style="color: #34a853;"><i class="fas fa-trophy"></i></div>
+                    <h3 class="card-title">Key Highlights</h3>
+                    <ul class="card-desc" style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">✦ 5+ years professional experience</li>
+                        <li style="margin-bottom: 0.5rem;">✦ 99.9% crash-free rate</li>
+                        <li style="margin-bottom: 0.5rem;">✦ 98% unit test coverage</li>
+                        <li>✦ Cross-platform expertise</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="logo" style="font-size: 1rem;">
+                <div class="logo-dot" style="width: 6px; height: 6px;"></div>
+                yatin.dev
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">yatinbatra870@gmail.com</p>
+            <div class="social-links">
+                <a href="https://github.com/DeveloperYatin" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/yatin-batra-6571131a3" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/yatin0_0/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:yatinbatra870@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
     </footer>
+
+    <!-- Smooth scroll and navbar effect -->
     <script>
-    // Modal Image Gallery
-    function onClick(element) {
-        document.getElementById("img01").src = element.src;
-        document.getElementById("modal01").style.display = "block";
-        var captionText = document.getElementById("caption");
-        captionText.innerHTML = element.alt;
-    }
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(0, 0, 0, 0.85)';
+                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.5)';
+                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+            }
+        });
 
-    // Change style of navbar on scroll
-    window.onscroll = function() { myFunction() };
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-    function myFunction() {
-        var navbar = document.getElementById("myNavbar");
-        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
-        } else {
-            navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
-        }
-    }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
 
-    // Used to toggle the menu on small screens when clicking on the menu button
-    function toggleFunction() {
-        var x = document.getElementById("navDemo");
-        if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-        } else {
-            x.className = x.className.replace(" w3-show", "");
-        }
-    }
+        document.querySelectorAll('.bento-card, .timeline-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
     </script>
 </body>
-
 </html>
