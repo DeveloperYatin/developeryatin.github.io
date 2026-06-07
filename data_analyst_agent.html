@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Autonomous AI Agents with ADK</title>
+<style>
+/* ADK Workshop — shared theme */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-deep: #0B1020;
+  --bg-panel: #111933;
+  --bg-card: #161F3D;
+  --ink: #E6ECFF;
+  --ink-mute: #98A4C7;
+  --ink-dim: #6B7AA1;
+  --line: #232E55;
+  --line-soft: #1B2444;
+
+  --blue: #4285F4;     /* Google blue */
+  --red: #EA4335;      /* Google red */
+  --yellow: #FBBC04;   /* Google yellow */
+  --green: #34A853;    /* Google green */
+  --cyan: #22D3EE;
+  --violet: #A78BFA;
+
+  --font-display: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.slide-container {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+
+/* Subtle grid background — usable as a layer */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(66, 133, 244, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(66, 133, 244, 0.06) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* Tag / pill */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--ink-mute);
+  background: rgba(255,255,255,0.02);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--green);
+  box-shadow: 0 0 12px var(--green);
+}
+
+/* Code block */
+.code {
+  font-family: var(--font-mono);
+  background: #060A18;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px 28px;
+  color: #D7DFFF;
+  font-size: 22px;
+  line-height: 1.55;
+}
+.code .c-cmt { color: #6B7AA1; }
+.code .c-kw  { color: #A78BFA; }
+.code .c-str { color: #FBBC04; }
+.code .c-fn  { color: #22D3EE; }
+.code .c-pr  { color: #34A853; }
+.code .c-num { color: #EA4335; }
+
+/* Card */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px;
+}
+
+/* Title row */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(ellipse at 50% 50%, #111933 0%, #0B1020 70%);
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-container {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.slide {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+}
+
+.slide.active {
+  display: block;
+}
+
+#slide-viewport {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: center center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #232E55;
+  background: #0B1020;
+}
+
+#presentation-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 30px 20px 10px;
+}
+
+#slide-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  background: rgba(17, 25, 51, 0.95);
+  border: 1px solid #232E55;
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  z-index: 10;
+  user-select: none;
+}
+
+.controls button {
+  background: transparent;
+  border: none;
+  color: #98A4C7;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 999px;
+  transition: all 0.2s;
+}
+
+.controls button:hover {
+  color: #E6ECFF;
+  background: rgba(255,255,255,0.08);
+}
+
+.controls button.primary {
+  background: #4285F4;
+  color: #0B1020;
+}
+
+.controls button.primary:hover {
+  background: #5a95f5;
+  box-shadow: 0 0 12px rgba(66,133,244,0.3);
+}
+
+.controls .indicator {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #98A4C7;
+  min-width: 50px;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+.progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.03);
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4285F4, #22D3EE);
+  transition: width 0.3s ease;
+  width: 0%;
+}
+</style>
+</head>
+<body>
+
+<div id="presentation-wrapper">
+  <div id="slide-wrapper">
+    <div id="slide-viewport">
+      <section class="slide active" id="slide-0">
+<div class="slide-container grid-bg" data-screen-label="01 Title" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <!-- Top brand strip -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:40px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;color:#98A4C7;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;">
+      <span style="width:36px;height:2px;background:#4285F4;display:inline-block;"></span>
+      <span>Technical Workshop · Live Session</span>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;color:#98A4C7;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;">
+      v1.0 · 60 min
+    </div>
+  </div>
+
+  <!-- Color bar decoration (Google palette) -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:260px;width:80px;height:8px;background:#4285F4;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:208px;top:260px;width:80px;height:8px;background:#EA4335;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:296px;top:260px;width:80px;height:8px;background:#FBBC04;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:384px;top:260px;width:80px;height:8px;background:#34A853;"></div>
+
+  <!-- Eyebrow -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:300px;width:1200px;height:36px;font-family:'JetBrains Mono',monospace;font-size:22px;color:#22D3EE;letter-spacing:0.16em;text-transform:uppercase;">
+    Hands-on · Build it locally
+  </div>
+
+  <!-- Big title -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:360px;width:1680px;height:340px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#E6ECFF;font-size:158px;line-height:0.98;letter-spacing:-0.03em;">
+    Building Autonomous<br/>
+    AI Agents <span style="color:#4285F4;">with ADK</span>
+  </div>
+
+  <!-- Subtitle -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:740px;width:1400px;height:80px;font-family:'Inter',sans-serif;font-size:32px;font-weight:400;color:#98A4C7;line-height:1.45;">
+    From chatbot to autonomous workflow — a developer's introduction<br/>
+    to Google's Agent Development Kit.
+  </div>
+
+  <!-- Bottom info row -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:920px;width:1680px;height:60px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #232E55;padding-top:24px;">
+    <div style="display:flex;align-items:center;gap:32px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#98A4C7;">
+      <span style="color:#34A853;">●</span> Live coding workshop
+      <span style="color:#232E55;">|</span>
+      <span>Python 3.12+ · uv · google-adk</span>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;">
+      #ai-agents · #adk
+    </div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-1">
+<div class="slide-container grid-bg" data-screen-label="00 Intro" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <!-- Top brand strip -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:80px;width:1680px;height:40px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;color:#98A4C7;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;">
+      <span style="width:36px;height:2px;background:#4285F4;display:inline-block;"></span>
+      <span>IDC Delhi NCR · Offline Community Connect</span>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;color:#6B7AA1;font-size:16px;letter-spacing:0.14em;text-transform:uppercase;">
+      Speaker Introduction
+    </div>
+  </div>
+
+  <!-- Color bar decoration -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:160px;width:80px;height:6px;background:#4285F4;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:208px;top:160px;width:80px;height:6px;background:#EA4335;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:296px;top:160px;width:80px;height:6px;background:#FBBC04;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:384px;top:160px;width:80px;height:6px;background:#34A853;"></div>
+
+  <!-- Left side: Speaker info -->
+  <!-- Name -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:220px;width:900px;height:120px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:96px;color:#E6ECFF;line-height:1.0;letter-spacing:-0.02em;">
+    Yatin Batra
+  </div>
+
+  <!-- Role pill -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:345px;width:400px;height:40px;">
+    <span style="display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border:1px solid #232E55;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#34A853;background:rgba(52,168,83,0.08);letter-spacing:0.04em;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#34A853;box-shadow:0 0 10px #34A853;"></span>
+      SDE 2 @ Adda247
+    </span>
+  </div>
+
+  <!-- Bio -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:420px;width:900px;height:80px;font-family:'Inter',sans-serif;font-size:26px;color:#98A4C7;line-height:1.5;">
+    Building scalable <span style="color:#4285F4;">Android</span> & <span style="color:#34A853;">Cross-Platform</span> solutions for millions of users.
+  </div>
+
+  <!-- Stats row -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:540px;width:560px;height:120px;background:#111933;border:1px solid #232E55;border-radius:18px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:560px;width:140px;height:90px;text-align:center;">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;color:#4285F4;">5+</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B7AA1;letter-spacing:0.12em;text-transform:uppercase;">Years Exp</div>
+  </div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:330px;top:565px;width:1px;height:70px;background:#232E55;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:370px;top:560px;width:140px;height:90px;text-align:center;">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;color:#EA4335;">10+</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B7AA1;letter-spacing:0.12em;text-transform:uppercase;">Projects</div>
+  </div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:540px;top:565px;width:1px;height:70px;background:#232E55;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:570px;top:560px;width:100px;height:90px;text-align:center;">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;color:#FBBC04;">∞</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B7AA1;letter-spacing:0.12em;text-transform:uppercase;">Curiosity</div>
+  </div>
+
+  <!-- Social links -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:700px;width:440px;height:90px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:720px;width:380px;height:50px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#98A4C7;line-height:2.4;">
+    <span style="color:#4285F4;">▸</span> linkedin.com/in/<span style="color:#E6ECFF;">yatin-batraa</span>
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:752px;width:380px;height:50px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#98A4C7;">
+    <span style="color:#34A853;">▸</span> github.com/<span style="color:#E6ECFF;">DeveloperYatin</span>
+  </div>
+
+  <!-- Specialization tags -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:830px;width:900px;height:30px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">Core Specializations</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:870px;width:900px;height:50px;">
+    <span style="display:inline-block;padding:8px 18px;margin-right:12px;margin-bottom:10px;background:rgba(66,133,244,0.10);border:1px solid rgba(66,133,244,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#4285F4;">Android SDK</span>
+    <span style="display:inline-block;padding:8px 18px;margin-right:12px;margin-bottom:10px;background:rgba(52,168,83,0.10);border:1px solid rgba(52,168,83,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#34A853;">Flutter / Dart</span>
+    <span style="display:inline-block;padding:8px 18px;margin-right:12px;margin-bottom:10px;background:rgba(251,188,4,0.10);border:1px solid rgba(251,188,4,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;">Kotlin</span>
+    <span style="display:inline-block;padding:8px 18px;margin-right:12px;margin-bottom:10px;background:rgba(167,139,250,0.10);border:1px solid rgba(167,139,250,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#A78BFA;">System Design</span>
+    <span style="display:inline-block;padding:8px 18px;margin-right:12px;margin-bottom:10px;background:rgba(234,67,53,0.10);border:1px solid rgba(234,67,53,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#EA4335;">Google ADK</span>
+    <span style="display:inline-block;padding:8px 18px;margin-right:12px;margin-bottom:10px;background:rgba(34,211,238,0.10);border:1px solid rgba(34,211,238,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#22D3EE;">Agentic AI</span>
+    <span style="display:inline-block;padding:8px 18px;margin-right:12px;margin-bottom:10px;background:rgba(52,168,83,0.10);border:1px solid rgba(52,168,83,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#34A853;">LLM Agents</span>
+  </div>
+
+  <!-- Right side: Profile image + decorative elements -->
+  <!-- Glow behind image -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1180px;top:180px;width:580px;height:580px;background:radial-gradient(circle, rgba(66,133,244,0.12) 0%, rgba(52,168,83,0.06) 50%, transparent 70%);border-radius:50%;"></div>
+
+  <!-- Profile image placeholder -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1260px;top:220px;width:480px;height:480px;background:#161F3D;border:2px solid #232E55;border-radius:28px;overflow:hidden;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1260px;top:220px;width:480px;height:480px;display:flex;align-items:center;justify-content:center;">
+    <img src="https://raw.githubusercontent.com/DeveloperYatin/developeryatin.github.io/refs/heads/main/1776350205316.png" alt="Yatin" style="width:480px;height:480px;object-fit:cover;border-radius:26px;"/>
+  </div>
+
+  <!-- Small decorative badge -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1620px;top:200px;width:100px;height:100px;background:#111933;border:1px solid #4285F4;border-radius:50%;display:flex;align-items:center;justify-content:center;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1620px;top:220px;width:100px;height:60px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;color:#4285F4;">AI</div>
+
+  <!-- Bottom event bar -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:970px;width:1680px;height:40px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #232E55;padding-top:20px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#98A4C7;">
+      <span style="color:#4285F4;">●</span> IDC Delhi NCR &nbsp; <span style="color:#232E55;">|</span> &nbsp; Offline Community Connect
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#6B7AA1;">
+      #ai-agents · #google-adk · #autonomous
+    </div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-2">
+<div class="slide-container" data-screen-label="02 Session Overview" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <!-- Eyebrow + slide num -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#4285F4;">●</span> Session Overview</span>
+    <span>02 / 18</span>
+  </div>
+
+  <!-- Title -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:96px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    What you'll walk away with.
+  </div>
+
+  <!-- Three deliverables -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:380px;width:540px;height:520px;background:#111933;border:1px solid #232E55;border-radius:20px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:420px;width:460px;height:80px;font-family:'JetBrains Mono',monospace;font-size:80px;font-weight:700;color:#4285F4;line-height:1;">01</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:540px;width:460px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:600;color:#E6ECFF;line-height:1.1;">A mental model</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:620px;width:460px;height:200px;font-family:'Inter',sans-serif;font-size:22px;line-height:1.5;color:#98A4C7;">
+    Clear understanding of what makes an AI <em>agent</em> different from a chatbot, plus the four building blocks that power every agent system.
+  </div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:690px;top:380px;width:540px;height:520px;background:#111933;border:1px solid #232E55;border-radius:20px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:730px;top:420px;width:460px;height:80px;font-family:'JetBrains Mono',monospace;font-size:80px;font-weight:700;color:#EA4335;line-height:1;">02</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:730px;top:540px;width:460px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:600;color:#E6ECFF;line-height:1.1;">A working agent</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:730px;top:620px;width:460px;height:200px;font-family:'Inter',sans-serif;font-size:22px;line-height:1.5;color:#98A4C7;">
+    A live, locally-running agent built with Google ADK — tool-calling, reasoning over inputs, and answering real questions through a web UI.
+  </div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1260px;top:380px;width:540px;height:520px;background:#111933;border:1px solid #232E55;border-radius:20px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1300px;top:420px;width:460px;height:80px;font-family:'JetBrains Mono',monospace;font-size:80px;font-weight:700;color:#FBBC04;line-height:1;">03</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1300px;top:540px;width:460px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:600;color:#E6ECFF;line-height:1.1;">A path forward</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1300px;top:620px;width:460px;height:200px;font-family:'Inter',sans-serif;font-size:22px;line-height:1.5;color:#98A4C7;">
+    Production patterns, common pitfalls, multi-agent extensions, and the career landscape for the AI-engineering roles emerging in 2025-26.
+  </div>
+
+  <!-- Footer hint -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:960px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.08em;">
+    Follow along on your laptop — we'll pause at every milestone.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-3">
+<div class="slide-container" data-screen-label="03 Agenda" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#4285F4;">●</span> Agenda</span>
+    <span>03 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:96px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Three parts. One agent.
+  </div>
+
+  <!-- Timeline rail -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:240px;top:480px;width:1480px;height:2px;background:linear-gradient(90deg,#4285F4,#EA4335,#FBBC04);"></div>
+
+  <!-- Nodes -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:355px;top:467px;width:28px;height:28px;border-radius:50%;background:#4285F4;border:6px solid #0B1020;box-shadow:0 0 0 2px #4285F4;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:933px;top:467px;width:28px;height:28px;border-radius:50%;background:#EA4335;border:6px solid #0B1020;box-shadow:0 0 0 2px #EA4335;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1505px;top:467px;width:28px;height:28px;border-radius:50%;background:#FBBC04;border:6px solid #0B1020;box-shadow:0 0 0 2px #FBBC04;"></div>
+
+  <!-- Part 1 -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:340px;width:420px;height:100px;font-family:'JetBrains Mono',monospace;font-size:24px;color:#4285F4;letter-spacing:0.1em;">PART 1 · 8 MIN</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:380px;width:420px;height:110px;font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;color:#E6ECFF;line-height:1.05;">Quick Intro</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:560px;width:420px;height:300px;font-family:'Inter',sans-serif;font-size:20px;line-height:1.65;color:#98A4C7;">
+    • What are AI agents?<br/>
+    • Why agents matter now<br/>
+    • Chatbots vs autonomous agents<br/>
+    • Core building blocks<br/>
+    • Google ADK in 60 seconds
+  </div>
+
+  <!-- Part 2 -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:738px;top:340px;width:420px;height:100px;font-family:'JetBrains Mono',monospace;font-size:24px;color:#EA4335;letter-spacing:0.1em;">PART 2 · 40 MIN</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:738px;top:380px;width:420px;height:110px;font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;color:#E6ECFF;line-height:1.05;">Hands-on<br/>Workshop</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:738px;top:560px;width:420px;height:300px;font-family:'Inter',sans-serif;font-size:20px;line-height:1.65;color:#98A4C7;">
+    • Project setup with <code style="color:#22D3EE;font-family:'JetBrains Mono';">uv</code><br/>
+    • <code style="color:#22D3EE;font-family:'JetBrains Mono';">adk create</code> your first agent<br/>
+    • Write custom tools<br/>
+    • Run locally with <code style="color:#22D3EE;font-family:'JetBrains Mono';">adk web</code><br/>
+    • Multi-agent patterns<br/>
+    • Test &amp; iterate
+  </div>
+
+  <!-- Part 3 -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1310px;top:340px;width:420px;height:100px;font-family:'JetBrains Mono',monospace;font-size:24px;color:#FBBC04;letter-spacing:0.1em;">PART 3 · 12 MIN</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1310px;top:380px;width:420px;height:110px;font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;color:#E6ECFF;line-height:1.05;">Wrap-up</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1310px;top:560px;width:420px;height:300px;font-family:'Inter',sans-serif;font-size:20px;line-height:1.65;color:#98A4C7;">
+    • Best practices<br/>
+    • Production considerations<br/>
+    • Q&amp;A + discussion<br/>
+    • Resources &amp; next steps
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:960px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;text-align:center;">
+    ≈ 60 minutes total · breaks built into Part 2 between milestones
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-4">
+<div class="slide-container grid-bg" data-screen-label="04 What Are Agents" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#4285F4;">●</span> Part 1 · Foundations</span>
+    <span>04 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    What is an AI agent?
+  </div>
+
+  <!-- Definition -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:320px;width:1080px;height:220px;background:#111933;border:1px solid #232E55;border-radius:20px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:170px;top:340px;width:60px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:80px;font-weight:700;color:#4285F4;line-height:0.6;">"</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:230px;top:365px;width:920px;height:150px;font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:500;color:#E6ECFF;line-height:1.4;">
+    A system that uses an <span style="color:#4285F4;">LLM</span> as its reasoning engine to <span style="color:#FBBC04;">decide which actions to take</span>, executes them via <span style="color:#EA4335;">tools</span>, and loops until the goal is met.
+  </div>
+
+  <!-- Why Now — compact -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1240px;top:320px;width:560px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#22D3EE;letter-spacing:0.14em;text-transform:uppercase;">Why now?</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1240px;top:360px;width:560px;height:180px;font-family:'Inter',sans-serif;font-size:20px;line-height:1.7;color:#98A4C7;">
+    <span style="color:#4285F4;font-family:'JetBrains Mono';font-size:16px;">01</span> Models can plan multi-step tasks reliably<br/>
+    <span style="color:#EA4335;font-family:'JetBrains Mono';font-size:16px;">02</span> Function calling &amp; MCP give tools a protocol<br/>
+    <span style="color:#FBBC04;font-family:'JetBrains Mono';font-size:16px;">03</span> Frameworks like ADK make it production-ready
+  </div>
+
+  <!-- Chatbot vs Agent comparison -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:560px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Chatbot vs Autonomous Agent</div>
+
+  <!-- Left: chatbot -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:610px;width:820px;height:320px;background:#111933;border:1px solid #232E55;border-radius:18px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:630px;width:760px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.14em;">— CHATBOT —</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:670px;width:760px;height:50px;font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;color:#98A4C7;line-height:1.05;">Reactive. Single-turn.</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:740px;width:760px;height:170px;font-family:'Inter',sans-serif;font-size:20px;line-height:1.7;color:#98A4C7;">
+    <span style="color:#6B7AA1;font-family:'JetBrains Mono';font-size:16px;">→</span> User asks, model answers from training data<br/>
+    <span style="color:#6B7AA1;font-family:'JetBrains Mono';font-size:16px;">→</span> Cannot reach outside the model<br/>
+    <span style="color:#6B7AA1;font-family:'JetBrains Mono';font-size:16px;">→</span> Stops at "here's information"
+  </div>
+
+  <!-- Right: agent -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:960px;top:610px;width:840px;height:320px;background:linear-gradient(180deg,rgba(66,133,244,0.08),rgba(66,133,244,0));border:1px solid #4285F4;border-radius:18px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1000px;top:630px;width:780px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#4285F4;letter-spacing:0.14em;">— AUTONOMOUS AGENT —</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1000px;top:670px;width:780px;height:50px;font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;color:#E6ECFF;line-height:1.05;">Goal-driven. Multi-step.</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1000px;top:740px;width:780px;height:170px;font-family:'Inter',sans-serif;font-size:20px;line-height:1.7;color:#E6ECFF;">
+    <span style="color:#4285F4;font-family:'JetBrains Mono';font-size:16px;">→</span> User states a goal, agent decomposes it<br/>
+    <span style="color:#4285F4;font-family:'JetBrains Mono';font-size:16px;">→</span> Calls tools — search, code, APIs<br/>
+    <span style="color:#4285F4;font-family:'JetBrains Mono';font-size:16px;">→</span> Loops until the goal is <em>achieved</em>
+  </div>
+
+  <!-- Bottom mantra -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:970px;width:1680px;height:50px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:600;color:#E6ECFF;line-height:1.2;">
+    An LLM answers. <span style="color:#6B7AA1;">An agent</span> <span style="color:#4285F4;">acts.</span>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-5">
+<div class="slide-container" data-screen-label="05 Intro ADK" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#4285F4;">●</span> Part 1 · The Framework</span>
+    <span>05 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Four blocks. One framework.
+  </div>
+
+  <!-- Four building blocks - compact row -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:310px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#22D3EE;letter-spacing:0.14em;text-transform:uppercase;">Every agent comes down to these</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:360px;width:400px;height:160px;background:#111933;border:1px solid #4285F4;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:150px;top:380px;width:340px;height:25px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#4285F4;letter-spacing:0.12em;">01 · TOOL CALLING</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:150px;top:410px;width:340px;height:100px;font-family:'Inter',sans-serif;font-size:18px;line-height:1.4;color:#98A4C7;">Model emits structured calls — runtime executes, feeds results back.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:540px;top:360px;width:400px;height:160px;background:#111933;border:1px solid #EA4335;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:570px;top:380px;width:340px;height:25px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#EA4335;letter-spacing:0.12em;">02 · REASONING</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:570px;top:410px;width:340px;height:100px;font-family:'Inter',sans-serif;font-size:18px;line-height:1.4;color:#98A4C7;">LLM decides which tool, in what order, with which arguments. Plan before acting.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:960px;top:360px;width:400px;height:160px;background:#111933;border:1px solid #FBBC04;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:990px;top:380px;width:340px;height:25px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.12em;">03 · MEMORY</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:990px;top:410px;width:340px;height:100px;font-family:'Inter',sans-serif;font-size:18px;line-height:1.4;color:#98A4C7;">Session state, scratchpad, long-term store. Keeps the agent coherent across steps.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1380px;top:360px;width:420px;height:160px;background:#111933;border:1px solid #34A853;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1410px;top:380px;width:360px;height:25px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#34A853;letter-spacing:0.12em;">04 · WORKFLOWS</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1410px;top:410px;width:360px;height:100px;font-family:'Inter',sans-serif;font-size:18px;line-height:1.4;color:#98A4C7;">Sequential, parallel, branching. Sub-agents as specialists. One agent becomes a system.</div>
+
+  <!-- ADK intro -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:540px;width:1680px;height:35px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Enter: Google Agent Development Kit</div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:580px;width:1080px;height:50px;font-family:'Inter',sans-serif;font-size:24px;color:#98A4C7;line-height:1.4;">
+    An open-source Python framework for building, evaluating, and deploying production-grade agents.
+  </div>
+
+  <!-- Four ADK chips -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:650px;width:400px;height:180px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:150px;top:665px;width:340px;height:25px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#4285F4;letter-spacing:0.12em;">CODE-FIRST</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:150px;top:692px;width:340px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#E6ECFF;line-height:1.2;">Just Python.<br/>No DSL, no YAML.</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:150px;top:762px;width:340px;height:50px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;line-height:1.4;">Define agents as plain objects — test like any code.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:540px;top:650px;width:400px;height:180px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:570px;top:665px;width:340px;height:25px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#EA4335;letter-spacing:0.12em;">BATTERIES INCLUDED</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:570px;top:692px;width:340px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#E6ECFF;line-height:1.2;">Search, code exec,<br/>custom tools, MCP.</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:570px;top:762px;width:340px;height:50px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;line-height:1.4;">First-party tools + any Python function.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:960px;top:650px;width:400px;height:180px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:990px;top:665px;width:340px;height:25px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;letter-spacing:0.12em;">MODEL-AGNOSTIC</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:990px;top:692px;width:340px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#E6ECFF;line-height:1.2;">Gemini, GPT,<br/>Claude, local.</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:990px;top:762px;width:340px;height:50px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;line-height:1.4;">Optimized for Gemini but pluggable.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1380px;top:650px;width:420px;height:180px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1410px;top:665px;width:360px;height:25px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#34A853;letter-spacing:0.12em;">LOCAL → PROD</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1410px;top:692px;width:360px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#E6ECFF;line-height:1.2;"><span style="font-family:'JetBrains Mono';color:#22D3EE;font-size:18px;">adk web</span> day one.<br/>Vertex AI day N.</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1410px;top:762px;width:360px;height:50px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;line-height:1.4;">Built-in dev UI, deploy to Agent Engine when ready.</div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:870px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:20px;color:#6B7AA1;text-align:center;">
+    <span style="color:#22D3EE;">$</span> <span style="color:#E6ECFF;">uv pip install google-adk</span>  ·  one command, you're in.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-6">
+<div class="slide-container grid-bg" data-screen-label="06 Workshop Flow" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Part 2 · Hands-on</span>
+    <span>06 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:80px;font-family:'JetBrains Mono',monospace;font-size:24px;color:#22D3EE;letter-spacing:0.16em;text-transform:uppercase;">
+    What we'll build together
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:210px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:96px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    A data analyst agent.
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:350px;width:1500px;height:60px;font-family:'Inter',sans-serif;font-size:28px;color:#98A4C7;line-height:1.4;">
+    Ask your agent a question in English, get back a real answer — backed by web search, data analysis, and custom tools.
+  </div>
+
+  <!-- Flow diagram -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:460px;width:1680px;height:360px;background:#111933;border:1px solid #232E55;border-radius:22px;"></div>
+
+  <!-- User -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:160px;top:570px;width:200px;height:130px;background:rgba(66,133,244,0.10);border:2px solid #4285F4;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:585px;width:200px;height:35px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;color:#4285F4;letter-spacing:0.12em;">USER</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:170px;top:620px;width:180px;height:70px;text-align:center;font-family:'Inter',sans-serif;font-size:16px;color:#E6ECFF;line-height:1.3;">"What are the top<br/>trends in our data?"</div>
+
+  <!-- arrow 1 -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:370px;top:635px;width:80px;height:2px;background:#4285F4;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:440px;top:623px;width:14px;height:24px;font-family:'JetBrains Mono';color:#4285F4;font-size:20px;">▶</div>
+
+  <!-- Agent (root) -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:470px;top:530px;width:280px;height:210px;background:rgba(234,67,53,0.10);border:2px solid #EA4335;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:470px;top:545px;width:280px;height:35px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;color:#EA4335;letter-spacing:0.12em;">ROOT AGENT</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:480px;top:580px;width:260px;height:140px;text-align:center;font-family:'Inter',sans-serif;font-size:16px;color:#E6ECFF;line-height:1.4;">
+    <strong>data_analyst_agent</strong><br/>
+    <span style="font-family:'JetBrains Mono';color:#22D3EE;font-size:14px;">gemini-2.5-flash</span><br/>
+    <span style="color:#98A4C7;font-size:14px;">Plans &amp; routes calls</span>
+  </div>
+
+  <!-- arrow 2 -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:760px;top:635px;width:80px;height:2px;background:#FBBC04;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:830px;top:623px;width:14px;height:24px;font-family:'JetBrains Mono';color:#FBBC04;font-size:20px;">▶</div>
+
+  <!-- Tools stack -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:860px;top:510px;width:380px;height:72px;background:rgba(251,188,4,0.10);border:1px solid #FBBC04;border-radius:12px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:880px;top:522px;width:340px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;letter-spacing:0.12em;">TOOL · google_search</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:880px;top:548px;width:340px;height:26px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;">Real-time web lookups</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:860px;top:594px;width:380px;height:72px;background:rgba(251,188,4,0.10);border:1px solid #FBBC04;border-radius:12px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:880px;top:606px;width:340px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;letter-spacing:0.12em;">TOOL · analyze_csv(file, q)</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:880px;top:632px;width:340px;height:26px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;">Custom data analysis tool</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:860px;top:678px;width:380px;height:72px;background:rgba(251,188,4,0.10);border:1px solid #FBBC04;border-radius:12px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:880px;top:690px;width:340px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;letter-spacing:0.12em;">TOOL · file_upload</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:880px;top:716px;width:340px;height:26px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;">PDFs &amp; unstructured data</div>
+
+  <!-- arrow 3 -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1250px;top:635px;width:80px;height:2px;background:#34A853;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1320px;top:623px;width:14px;height:24px;font-family:'JetBrains Mono';color:#34A853;font-size:20px;">▶</div>
+
+  <!-- Answer -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1350px;top:570px;width:420px;height:130px;background:rgba(52,168,83,0.10);border:2px solid #34A853;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1350px;top:585px;width:420px;height:35px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;color:#34A853;letter-spacing:0.12em;">SYNTHESIZED ANSWER</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1370px;top:620px;width:380px;height:70px;text-align:center;font-family:'Inter',sans-serif;font-size:16px;color:#E6ECFF;line-height:1.4;">"Based on your sales.csv,<br/>revenue grew 12% MoM.<br/>Industry trend confirms this."</div>
+
+  <!-- Milestones -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:860px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#22D3EE;letter-spacing:0.14em;text-transform:uppercase;">Milestones</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:900px;width:1680px;height:50px;font-family:'Inter',sans-serif;font-size:22px;color:#98A4C7;line-height:1.4;">
+    <span style="color:#4285F4;font-family:'JetBrains Mono';">①</span> Setup &nbsp; <span style="color:#232E55;">|</span> &nbsp; <span style="color:#4285F4;font-family:'JetBrains Mono';">②</span> Create agent &nbsp; <span style="color:#232E55;">|</span> &nbsp; <span style="color:#4285F4;font-family:'JetBrains Mono';">③</span> Run locally &nbsp; <span style="color:#232E55;">|</span> &nbsp; <span style="color:#4285F4;font-family:'JetBrains Mono';">④</span> Custom tools &nbsp; <span style="color:#232E55;">|</span> &nbsp; <span style="color:#4285F4;font-family:'JetBrains Mono';">⑤</span> Multi-agent &nbsp; <span style="color:#232E55;">|</span> &nbsp; <span style="color:#4285F4;font-family:'JetBrains Mono';">⑥</span> Test
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-7">
+<div class="slide-container" data-screen-label="07 Prerequisites" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Prereq Recap</span>
+    <span>07 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:80px;font-family:'JetBrains Mono',monospace;font-size:24px;color:#22D3EE;letter-spacing:0.16em;text-transform:uppercase;">
+    You should already have these
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:210px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:96px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Prerequisites checklist.
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:350px;width:1500px;height:50px;font-family:'Inter',sans-serif;font-size:24px;color:#98A4C7;">
+    These were shared ahead — 30 seconds to confirm everyone's ready. Raise a hand if anything's red.
+  </div>
+
+  <!-- Checklist 2-column -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:450px;width:830px;height:120px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:478px;width:50px;height:60px;font-family:'JetBrains Mono',monospace;font-size:40px;color:#34A853;line-height:1;">✓</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:475px;width:700px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">Machine</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:500px;width:700px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.25;">Laptop or desktop — macOS, Linux, or Windows</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:590px;width:830px;height:120px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:618px;width:50px;height:60px;font-family:'JetBrains Mono',monospace;font-size:40px;color:#34A853;line-height:1;">✓</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:615px;width:700px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">Runtime</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:640px;width:700px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.25;">Python 3.12+ installed (any minor version 3.12.x works)</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:730px;width:830px;height:120px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:758px;width:50px;height:60px;font-family:'JetBrains Mono',monospace;font-size:40px;color:#34A853;line-height:1;">✓</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:755px;width:700px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">Package manager</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:780px;width:700px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.25;"><code style="font-family:'JetBrains Mono';color:#22D3EE;">uv</code> installed (fast Python package manager)</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:970px;top:450px;width:830px;height:120px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1010px;top:478px;width:50px;height:60px;font-family:'JetBrains Mono',monospace;font-size:40px;color:#34A853;line-height:1;">✓</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1070px;top:475px;width:700px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">Isolation</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1070px;top:500px;width:700px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.25;">Virtual environment set up &amp; activatable</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:970px;top:590px;width:830px;height:120px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1010px;top:618px;width:50px;height:60px;font-family:'JetBrains Mono',monospace;font-size:40px;color:#34A853;line-height:1;">✓</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1070px;top:615px;width:700px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">Framework</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1070px;top:640px;width:700px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.25;"><code style="font-family:'JetBrains Mono';color:#22D3EE;">google-adk</code> installed in your venv</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:970px;top:730px;width:830px;height:120px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1010px;top:758px;width:50px;height:60px;font-family:'JetBrains Mono',monospace;font-size:40px;color:#34A853;line-height:1;">✓</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1070px;top:755px;width:700px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">API Key</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1070px;top:780px;width:700px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:600;color:#E6ECFF;line-height:1.25;">A Gemini API key (via Google AI Studio or <code style="font-family:'JetBrains Mono';color:#22D3EE;">GOOGLE_API_KEY</code> env var)</div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:900px;width:1680px;height:80px;font-family:'JetBrains Mono',monospace;font-size:22px;color:#6B7AA1;text-align:center;line-height:1.5;">
+    Next slide: a one-shot setup recipe to verify everything in 90 seconds.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-8">
+<div class="slide-container" data-screen-label="08 Project Setup" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Milestone ① · Setup</span>
+    <span>08 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Setup in six commands.
+  </div>
+
+  <!-- Left: verify -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:340px;width:830px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Step 1 · Verify tooling</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:390px;width:830px;height:200px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:24px 28px;font-size:24px;line-height:1.7;color:#D7DFFF;">
+    <span style="color:#6B7AA1;"># confirm Python &amp; uv are on PATH</span><br/>
+    <span style="color:#22D3EE;">$</span> python3 --version<br/>
+    <span style="color:#6B7AA1;">Python 3.12.x</span><br/>
+    <span style="color:#22D3EE;">$</span> uv --version
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:620px;width:830px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Step 2 · Project folder</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:670px;width:830px;height:120px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:24px 28px;font-size:24px;line-height:1.7;color:#D7DFFF;">
+    <span style="color:#22D3EE;">$</span> mkdir -p ai-agents-adk &amp;&amp; cd ai-agents-adk
+  </div>
+
+  <!-- Right: env + install -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:980px;top:340px;width:820px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Step 3 · Virtual env</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:980px;top:390px;width:820px;height:200px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:24px 28px;font-size:24px;line-height:1.7;color:#D7DFFF;">
+    <span style="color:#6B7AA1;"># create &amp; activate</span><br/>
+    <span style="color:#22D3EE;">$</span> uv venv<br/>
+    <span style="color:#22D3EE;">$</span> source .venv/bin/activate<br/>
+    <span style="color:#6B7AA1;">(.venv) $</span> <span style="color:#34A853;">ready</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:980px;top:620px;width:820px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Step 4 · Install ADK</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:980px;top:670px;width:820px;height:120px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:24px 28px;font-size:24px;line-height:1.7;color:#D7DFFF;">
+    <span style="color:#22D3EE;">$</span> uv pip install google-adk --no-cache
+  </div>
+
+  <!-- Win note -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:830px;width:1680px;height:120px;background:rgba(34,211,238,0.06);border:1px solid #22D3EE;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:855px;width:60px;height:80px;font-family:'JetBrains Mono',monospace;font-size:32px;color:#22D3EE;font-weight:700;">i</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:855px;width:1540px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#22D3EE;letter-spacing:0.14em;text-transform:uppercase;">Windows users</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:885px;width:1540px;height:60px;font-family:'Inter',sans-serif;font-size:22px;color:#E6ECFF;line-height:1.4;">
+    Use <code style="font-family:'JetBrains Mono';color:#22D3EE;">.venv\Scripts\activate</code> instead of <code style="font-family:'JetBrains Mono';color:#22D3EE;">source .venv/bin/activate</code> — everything else is identical across OSes.
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:980px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;text-align:center;">
+    👉 Once <code style="color:#34A853;">google-adk</code> installs cleanly, give a thumbs-up in chat. We move together.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-9">
+<div class="slide-container" data-screen-label="09 Creating Agents" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Milestone ② · Create</span>
+    <span>09 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:100px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:78px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Your first agent.
+  </div>
+
+  <!-- Left: scaffold -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:290px;width:820px;height:35px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Scaffold via CLI</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:330px;width:820px;height:150px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:20px 24px;font-size:20px;line-height:1.6;color:#D7DFFF;">
+    <span style="color:#22D3EE;">$</span> adk create data_analyst_agent<br/>
+    <span style="color:#6B7AA1;">? Model: gemini-2.5-flash</span><br/>
+    <span style="color:#6B7AA1;">? Backend: Google AI</span><br/>
+    <span style="color:#34A853;">✓ created data_analyst_agent/</span>
+  </div>
+
+  <!-- File tree -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:510px;width:820px;height:35px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">What you get</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:550px;width:820px;height:220px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:20px 24px;font-size:19px;line-height:1.7;color:#D7DFFF;">
+    data_analyst_agent/<br/>
+    ├── <span style="color:#22D3EE;">__init__.py</span><br/>
+    ├── <span style="color:#22D3EE;">agent.py</span> &nbsp;&nbsp;<span style="color:#6B7AA1;"># ← your root_agent lives here</span><br/>
+    ├── <span style="color:#22D3EE;">.env</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6B7AA1;"># API key config</span><br/>
+    └── <span style="color:#22D3EE;">tools.py</span> &nbsp;<span style="color:#6B7AA1;"># your custom tool functions</span>
+  </div>
+
+  <!-- Right: agent.py code -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:980px;top:290px;width:820px;height:35px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">agent.py — the heart of it</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:980px;top:330px;width:820px;height:440px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:20px 24px;font-size:18px;line-height:1.5;color:#D7DFFF;">
+    <span style="color:#A78BFA;">from</span> google.adk.agents <span style="color:#A78BFA;">import</span> Agent<br/>
+    <br/>
+    root_agent = Agent(<br/>
+    &nbsp;&nbsp;model=<span style="color:#FBBC04;">"gemini-2.5-flash"</span>,<br/>
+    &nbsp;&nbsp;name=<span style="color:#FBBC04;">"data_analyst_agent"</span>,<br/>
+    &nbsp;&nbsp;description=(<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FBBC04;">"Analyzes data, answers questions"</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FBBC04;">"using search and custom tools."</span><br/>
+    &nbsp;&nbsp;),<br/>
+    &nbsp;&nbsp;instruction=(<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FBBC04;">"You are an expert data analyst."</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FBBC04;">"Use tools to find and analyze data."</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FBBC04;">"Always cite your sources."</span><br/>
+    &nbsp;&nbsp;),<br/>
+    &nbsp;&nbsp;tools=[],&nbsp;&nbsp;<span style="color:#6B7AA1;"># ← we'll add tools next</span><br/>
+    )
+  </div>
+
+  <!-- Bottom note -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:830px;width:1680px;height:90px;background:rgba(34,211,238,0.05);border:1px solid rgba(34,211,238,0.2);border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:855px;width:1600px;height:50px;font-family:'Inter',sans-serif;font-size:22px;color:#E6ECFF;line-height:1.4;">
+    <strong style="color:#22D3EE;">Five fields.</strong> That's a working agent — model, name, description, instruction, tools. Everything else is detail.
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:960px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;text-align:center;">
+    👉 Run <code style="color:#22D3EE;">adk create data_analyst_agent</code> now — give a thumbs-up when done.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-10">
+<div class="slide-container" data-screen-label="10 Running Locally" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Milestone ③ · Run</span>
+    <span>10 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Run it. Watch it think.
+  </div>
+
+  <!-- One-liner command -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:340px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">The dev loop</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:390px;width:1680px;height:140px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:30px 36px;font-size:32px;line-height:1.5;color:#D7DFFF;">
+    <span style="color:#22D3EE;">(.venv) $</span> <span style="color:#E6ECFF;">adk web</span><br/>
+    <span style="color:#6B7AA1;">→ ADK dev UI ready at</span> <span style="color:#34A853;">http://localhost:8000</span>
+  </div>
+
+  <!-- Browser mock -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:570px;width:980px;height:370px;background:#0E1730;border:1px solid #232E55;border-radius:14px;"></div>
+  <!-- Window chrome -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:570px;width:980px;height:44px;background:#161F3D;border-bottom:1px solid #232E55;border-radius:14px 14px 0 0;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:144px;top:588px;width:12px;height:12px;border-radius:50%;background:#EA4335;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:164px;top:588px;width:12px;height:12px;border-radius:50%;background:#FBBC04;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:184px;top:588px;width:12px;height:12px;border-radius:50%;background:#34A853;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:584px;width:600px;height:20px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B7AA1;">localhost:8000  ·  ADK Web</div>
+
+  <!-- Chat content -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:635px;width:900px;height:50px;font-family:'Inter',sans-serif;font-size:16px;color:#98A4C7;">
+    <span style="color:#4285F4;font-family:'JetBrains Mono';">YOU →</span> What are the top selling categories in sales.csv?
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:685px;width:900px;height:26px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#FBBC04;">
+    ⚙ TOOL CALL · analyze_csv(file="sales.csv", question="top categories")
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:711px;width:900px;height:26px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#FBBC04;">
+    ⚙ TOOL CALL · google_search(query="retail category trends 2025")
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:737px;width:900px;height:26px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#34A853;">
+    ✓ Results returned
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:775px;width:900px;height:100px;font-family:'Inter',sans-serif;font-size:15px;color:#E6ECFF;line-height:1.45;">
+    <span style="color:#EA4335;font-family:'JetBrains Mono';">AGENT →</span> Top 3 categories by revenue: Electronics ($412k), Clothing ($301k), Home & Garden ($289k). Industry data shows electronics growing 15% YoY.
+  </div>
+
+  <!-- Right: feature list -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1140px;top:570px;width:660px;height:35px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">What the dev UI gives you</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1140px;top:615px;width:660px;height:70px;background:#111933;border:1px solid #232E55;border-radius:12px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1170px;top:628px;width:600px;height:46px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.3;">
+    <strong style="color:#4285F4;">▶ Chat</strong> — talk to your agent live<br/>
+    <span style="color:#98A4C7;font-size:15px;">No frontend code needed.</span>
+  </div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1140px;top:695px;width:660px;height:70px;background:#111933;border:1px solid #232E55;border-radius:12px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1170px;top:708px;width:600px;height:46px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.3;">
+    <strong style="color:#EA4335;">▶ Trace</strong> — every tool call, in order<br/>
+    <span style="color:#98A4C7;font-size:15px;">Inputs, outputs, latency, errors.</span>
+  </div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1140px;top:775px;width:660px;height:70px;background:#111933;border:1px solid #232E55;border-radius:12px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1170px;top:788px;width:600px;height:46px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.3;">
+    <strong style="color:#FBBC04;">▶ Inspect</strong> — see the raw prompt &amp; response<br/>
+    <span style="color:#98A4C7;font-size:15px;">Debug instructions in real time.</span>
+  </div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1140px;top:855px;width:660px;height:60px;background:#111933;border:1px solid #232E55;border-radius:12px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1170px;top:866px;width:600px;height:40px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.3;">
+    <strong style="color:#34A853;">▶ Reload</strong> — edit <code style="font-family:'JetBrains Mono';color:#22D3EE;">agent.py</code>, refresh, retry
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:960px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;text-align:center;">
+    First successful answer = a working agent. Now let's add custom tools.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-11">
+<div class="slide-container" data-screen-label="11 Custom Tools" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Milestone ④ · Custom Tools</span>
+    <span>11 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:100px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:78px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Write your own tools.
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:270px;width:1680px;height:35px;font-family:'Inter',sans-serif;font-size:24px;color:#98A4C7;">
+    Any Python function with type hints + a docstring becomes a tool the agent can call.
+  </div>
+
+  <!-- Left: tool code -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:320px;width:1060px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">tools.py — custom data analyst tools</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:355px;width:1060px;height:420px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:14px 18px;font-size:13.5px;line-height:1.42;color:#D7DFFF;overflow:hidden;">
+    <span style="color:#A78BFA;">def</span> <span style="color:#22D3EE;">analyze_csv</span>(file_path: <span style="color:#FBBC04;">str</span>, question: <span style="color:#FBBC04;">str</span>) -> <span style="color:#FBBC04;">dict</span>:<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">"""Analyze a CSV file and answer a question about it.</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">Args:</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">file_path: Path to the CSV file.</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">question: The analytical question to answer.</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">Returns: Dict with the analysis result.</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">"""</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#A78BFA;">import</span> pandas <span style="color:#A78BFA;">as</span> pd<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;df = pd.read_csv(file_path)<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#A78BFA;">return</span> {<span style="color:#FBBC04;">"rows"</span>: len(df), <span style="color:#FBBC04;">"columns"</span>: list(df.columns)}<br/>
+    <br/>
+    <span style="color:#A78BFA;">def</span> <span style="color:#22D3EE;">calculate_metrics</span>(data: <span style="color:#FBBC04;">list</span>, metric: <span style="color:#FBBC04;">str</span>) -> <span style="color:#FBBC04;">dict</span>:<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">"""Calculate statistical metrics on a list of numbers.</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">Args:</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">data: List of numeric values to analyze.</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">metric: One of "mean", "median", "sum", "growth".</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">Returns: Dict with the computed metric value.</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98A4C7;">"""</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#A78BFA;">import</span> statistics<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;result = getattr(statistics, metric)(data)<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#A78BFA;">return</span> {<span style="color:#FBBC04;">"metric"</span>: metric, <span style="color:#FBBC04;">"value"</span>: result}
+  </div>
+
+  <!-- Right: wiring + rules -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1220px;top:320px;width:580px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Wire it in — agent.py</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1220px;top:355px;width:580px;height:200px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:14px 18px;font-size:14px;line-height:1.5;color:#D7DFFF;overflow:hidden;">
+    <span style="color:#A78BFA;">from</span> .tools <span style="color:#A78BFA;">import</span> (<br/>
+    &nbsp;&nbsp;analyze_csv,<br/>
+    &nbsp;&nbsp;calculate_metrics,<br/>
+    )<br/>
+    <br/>
+    root_agent = Agent(<br/>
+    &nbsp;&nbsp;...<br/>
+    &nbsp;&nbsp;tools=[analyze_csv, calculate_metrics],<br/>
+    )
+  </div>
+
+  <!-- Key rules -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1220px;top:580px;width:580px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#22D3EE;letter-spacing:0.14em;text-transform:uppercase;">Rules for custom tools</div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1220px;top:615px;width:580px;height:140px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1250px;top:630px;width:530px;height:115px;font-family:'Inter',sans-serif;font-size:16px;line-height:1.7;color:#E6ECFF;overflow:hidden;">
+    <span style="color:#34A853;">✓</span> Type hints on all params &amp; return<br/>
+    <span style="color:#34A853;">✓</span> Docstring describes <em>when</em> to use it<br/>
+    <span style="color:#34A853;">✓</span> Args section documents each param<br/>
+    <span style="color:#34A853;">✓</span> Return a dict or simple type
+  </div>
+
+  <!-- Bottom -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:820px;width:1680px;height:50px;text-align:center;font-family:'Inter',sans-serif;font-size:20px;color:#98A4C7;line-height:1.4;">
+    The model reads your <strong style="color:#E6ECFF;">docstring + type hints</strong> to decide when and how to call the tool.<br/>
+    <span style="font-family:'JetBrains Mono';font-size:15px;color:#6B7AA1;">Think of docstrings as prompts for the model.</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:900px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:17px;color:#6B7AA1;text-align:center;">
+    👉 Create <code style="color:#22D3EE;">tools.py</code> with your functions, import in <code style="color:#22D3EE;">agent.py</code>, reload <code style="color:#22D3EE;">adk web</code>.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-12">
+<div class="slide-container" data-screen-label="12 Tool Integration" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Milestone ④ · Integration</span>
+    <span>12 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:100px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:78px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Wire it all together.
+  </div>
+
+  <!-- Left: code -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:280px;width:1060px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">agent.py — full data analyst with tools</div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:315px;width:1060px;height:430px;font-family:'JetBrains Mono',monospace;background:#060A18;border:1px solid #232E55;border-radius:14px;padding:14px 18px;font-size:13.5px;line-height:1.45;color:#D7DFFF;overflow:hidden;">
+    <span style="color:#A78BFA;">from</span> google.adk.agents <span style="color:#A78BFA;">import</span> Agent<br/>
+    <span style="color:#A78BFA;">from</span> google.adk.tools <span style="color:#A78BFA;">import</span> google_search, AgentTool<br/>
+    <span style="color:#A78BFA;">from</span> .tools <span style="color:#A78BFA;">import</span> analyze_csv, calculate_metrics, file_upload<br/>
+    <br/>
+    <span style="color:#6B7AA1;"># Sub-agent for web research</span><br/>
+    search_agent = Agent(<br/>
+    &nbsp;&nbsp;name=<span style="color:#FBBC04;">"search_agent"</span>,<br/>
+    &nbsp;&nbsp;model=<span style="color:#FBBC04;">"gemini-2.5-flash"</span>,<br/>
+    &nbsp;&nbsp;instruction=<span style="color:#FBBC04;">"Search the web for data and trends. Cite sources."</span>,<br/>
+    &nbsp;&nbsp;tools=[google_search],<br/>
+    )<br/>
+    <br/>
+    <span style="color:#6B7AA1;"># Root agent — the data analyst</span><br/>
+    root_agent = Agent(<br/>
+    &nbsp;&nbsp;model=<span style="color:#FBBC04;">"gemini-2.5-flash"</span>,<br/>
+    &nbsp;&nbsp;name=<span style="color:#FBBC04;">"data_analyst_agent"</span>,<br/>
+    &nbsp;&nbsp;instruction=(<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FBBC04;">"You are an expert data analyst. Use search"</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FBBC04;">"for market trends. Use analyze_csv for local"</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FBBC04;">"data files. Always cite your sources."</span><br/>
+    &nbsp;&nbsp;),<br/>
+    &nbsp;&nbsp;tools=[<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#22D3EE;">AgentTool</span>(search_agent),<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;analyze_csv,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;calculate_metrics,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;file_upload,<br/>
+    &nbsp;&nbsp;],<br/>
+    )
+  </div>
+
+  <!-- Right: 3 tool kinds -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1220px;top:280px;width:580px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Three flavors of tool</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1220px;top:320px;width:580px;height:140px;background:#111933;border-left:4px solid #4285F4;border-radius:0 12px 12px 0;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:332px;width:540px;height:22px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4285F4;letter-spacing:0.12em;text-transform:uppercase;">Built-in</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:356px;width:540px;height:28px;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;color:#E6ECFF;line-height:1.2;"><code style="font-family:'JetBrains Mono';color:#22D3EE;">google_search</code>, <code style="font-family:'JetBrains Mono';color:#22D3EE;">code_exec</code></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:390px;width:540px;height:45px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;line-height:1.4;">First-party tools. Import and pass to <code style="font-family:'JetBrains Mono';">tools=[…]</code>.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1220px;top:475px;width:580px;height:140px;background:#111933;border-left:4px solid #FBBC04;border-radius:0 12px 12px 0;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:487px;width:540px;height:22px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#FBBC04;letter-spacing:0.12em;text-transform:uppercase;">Custom Python Functions</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:511px;width:540px;height:28px;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;color:#E6ECFF;line-height:1.2;"><code style="font-family:'JetBrains Mono';color:#22D3EE;">analyze_csv</code>, <code style="font-family:'JetBrains Mono';color:#22D3EE;">calculate_metrics</code></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:545px;width:540px;height:45px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;line-height:1.4;">Any typed function — docstring becomes the tool schema for the model.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1220px;top:630px;width:580px;height:140px;background:#111933;border-left:4px solid #EA4335;border-radius:0 12px 12px 0;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:642px;width:540px;height:22px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#EA4335;letter-spacing:0.12em;text-transform:uppercase;">MCP Servers</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:666px;width:540px;height:28px;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;color:#E6ECFF;line-height:1.2;">External tool servers via protocol</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1244px;top:700px;width:540px;height:45px;font-family:'Inter',sans-serif;font-size:15px;color:#98A4C7;line-height:1.4;">Plug in databases, APIs, file systems — any MCP-compatible server.</div>
+
+  <!-- Bottom tip -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:820px;width:1680px;height:65px;background:rgba(34,211,238,0.05);border:1px solid rgba(34,211,238,0.2);border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:834px;width:1600px;height:38px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.4;">
+    <strong style="color:#22D3EE;">Pro tip:</strong> Use <code style="font-family:'JetBrains Mono';color:#22D3EE;">AgentTool(sub_agent)</code> to wrap any agent as a tool — the root agent can delegate to specialists.
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:910px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:17px;color:#6B7AA1;text-align:center;">
+    Reload <code style="color:#22D3EE;">adk web</code> → ask "Analyze my sales.csv" → watch the tool call light up.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-13">
+<div class="slide-container" data-screen-label="13 Workflow" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> The Loop</span>
+    <span>13 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    The autonomous loop.
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:290px;width:1680px;height:40px;font-family:'Inter',sans-serif;font-size:26px;color:#98A4C7;">
+    What actually happens between "user prompt" and "final answer" — what makes it <em>autonomous</em>.
+  </div>
+
+  <!-- Big circular loop diagram -->
+  <!-- Center label -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:780px;top:540px;width:360px;height:120px;background:#111933;border:2px solid #4285F4;border-radius:60px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:780px;top:560px;width:360px;height:40px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#4285F4;letter-spacing:0.16em;">REACT LOOP</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:780px;top:595px;width:360px;height:50px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:#E6ECFF;">Think · Act · Observe</div>
+
+  <!-- 4 stations around -->
+  <!-- 01 Plan top -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:780px;top:380px;width:360px;height:120px;background:rgba(66,133,244,0.08);border:1px solid #4285F4;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:800px;top:400px;width:320px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#4285F4;letter-spacing:0.12em;">01 · PLAN</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:800px;top:425px;width:320px;height:60px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.35;">Decompose the goal.<br/><span style="color:#98A4C7;font-size:15px;">"I need to analyze sales → call analyze_csv"</span></div>
+
+  <!-- 02 Act right -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1180px;top:540px;width:360px;height:120px;background:rgba(251,188,4,0.08);border:1px solid #FBBC04;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1200px;top:560px;width:320px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.12em;">02 · ACT</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1200px;top:585px;width:320px;height:60px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.35;">Emit a tool call.<br/><span style="color:#98A4C7;font-size:15px;">analyze_csv(file="sales.csv", ...)</span></div>
+
+  <!-- 03 Observe bottom -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:780px;top:700px;width:360px;height:120px;background:rgba(52,168,83,0.08);border:1px solid #34A853;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:800px;top:720px;width:320px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#34A853;letter-spacing:0.12em;">03 · OBSERVE</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:800px;top:745px;width:320px;height:60px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.35;">Read the tool's output.<br/><span style="color:#98A4C7;font-size:15px;">{"rows": 1200, "top_category": "Electronics"}</span></div>
+
+  <!-- 04 Decide left -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:380px;top:540px;width:360px;height:120px;background:rgba(234,67,53,0.08);border:1px solid #EA4335;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:400px;top:560px;width:320px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#EA4335;letter-spacing:0.12em;">04 · DECIDE</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:400px;top:585px;width:320px;height:60px;font-family:'Inter',sans-serif;font-size:18px;color:#E6ECFF;line-height:1.35;">Done, or loop again?<br/><span style="color:#98A4C7;font-size:15px;">If goal met → reply. Else → plan again.</span></div>
+
+  <!-- Arrows (subtle) -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1140px;top:445px;width:60px;height:60px;border-top:2px solid #4285F4;border-right:2px solid #FBBC04;border-radius:0 60px 0 0;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1140px;top:660px;width:60px;height:60px;border-right:2px solid #FBBC04;border-bottom:2px solid #34A853;border-radius:0 0 60px 0;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:720px;top:660px;width:60px;height:60px;border-bottom:2px solid #34A853;border-left:2px solid #EA4335;border-radius:0 0 0 60px;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:720px;top:445px;width:60px;height:60px;border-top:2px solid #4285F4;border-left:2px solid #EA4335;border-radius:60px 0 0 0;"></div>
+
+  <!-- Reply -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:860px;width:1680px;height:75px;background:rgba(167,139,250,0.06);border:1px solid #A78BFA;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:150px;top:876px;width:1640px;height:45px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#A78BFA;letter-spacing:0.12em;">
+    EXIT CONDITION &nbsp;→&nbsp; <span style="color:#E6ECFF;font-family:'Inter';font-weight:500;text-transform:none;letter-spacing:0;">When the model judges the goal complete, it stops calling tools and emits a final response to the user.</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:960px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;text-align:center;">
+    Instructions shape <em>when</em> and <em>how</em> to use tools. Writing them well = 80% of agent quality.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-14">
+<div class="slide-container" data-screen-label="14 Multi-Agent" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Multi-Agent Patterns</span>
+    <span>14 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    From one agent to a team.
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:290px;width:1680px;height:40px;font-family:'Inter',sans-serif;font-size:26px;color:#98A4C7;">
+    The same primitive — an Agent — composes. Sub-agents become tools of an orchestrator agent.
+  </div>
+
+  <!-- Diagram: orchestrator with 3 specialist agents -->
+  <!-- Orchestrator -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:760px;top:400px;width:400px;height:120px;background:rgba(66,133,244,0.10);border:2px solid #4285F4;border-radius:18px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:760px;top:420px;width:400px;height:30px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;color:#4285F4;letter-spacing:0.16em;">ORCHESTRATOR</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:760px;top:450px;width:400px;height:70px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.2;">root_agent<br/><span style="font-family:'Inter';font-size:16px;color:#98A4C7;font-weight:400;">decomposes &amp; routes</span></div>
+
+  <!-- Lines down -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:958px;top:520px;width:2px;height:60px;background:#232E55;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:380px;top:580px;width:1160px;height:2px;background:#232E55;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:380px;top:580px;width:2px;height:40px;background:#232E55;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:958px;top:580px;width:2px;height:40px;background:#232E55;"></div>
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1538px;top:580px;width:2px;height:40px;background:#232E55;"></div>
+
+  <!-- 3 specialists -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:200px;top:620px;width:360px;height:200px;background:#111933;border:1px solid #EA4335;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:640px;width:320px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#EA4335;letter-spacing:0.12em;">SPECIALIST</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:670px;width:320px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">search_agent</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:220px;top:730px;width:320px;height:80px;font-family:'Inter',sans-serif;font-size:18px;color:#98A4C7;line-height:1.4;">Market research &amp; trends. Owns <code style="font-family:'JetBrains Mono';color:#22D3EE;">google_search</code>.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:780px;top:620px;width:360px;height:200px;background:#111933;border:1px solid #FBBC04;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:800px;top:640px;width:320px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.12em;">SPECIALIST</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:800px;top:670px;width:320px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">data_agent</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:800px;top:730px;width:320px;height:80px;font-family:'Inter',sans-serif;font-size:18px;color:#98A4C7;line-height:1.4;">CSV &amp; file analysis. Owns <code style="font-family:'JetBrains Mono';color:#22D3EE;">analyze_csv</code>.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1360px;top:620px;width:360px;height:200px;background:#111933;border:1px solid #34A853;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1380px;top:640px;width:320px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#34A853;letter-spacing:0.12em;">SPECIALIST</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1380px;top:670px;width:320px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">metrics_agent</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1380px;top:730px;width:320px;height:80px;font-family:'Inter',sans-serif;font-size:18px;color:#98A4C7;line-height:1.4;">Stats &amp; computations. Owns <code style="font-family:'JetBrains Mono';color:#22D3EE;">calculate_metrics</code>.</div>
+
+  <!-- Patterns row -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:850px;width:540px;height:50px;font-family:'Inter',sans-serif;font-size:19px;color:#E6ECFF;line-height:1.4;">
+    <strong style="color:#4285F4;font-family:'JetBrains Mono';">ROUTER</strong> — orchestrator picks <em>one</em> specialist per turn.
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:690px;top:850px;width:540px;height:50px;font-family:'Inter',sans-serif;font-size:19px;color:#E6ECFF;line-height:1.4;">
+    <strong style="color:#FBBC04;font-family:'JetBrains Mono';">PIPELINE</strong> — specialists run in sequence, output → input.
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1260px;top:850px;width:540px;height:50px;font-family:'Inter',sans-serif;font-size:19px;color:#E6ECFF;line-height:1.4;">
+    <strong style="color:#34A853;font-family:'JetBrains Mono';">PARALLEL</strong> — fan out, fan in for synthesis.
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:930px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;text-align:center;">
+    Same code shape: <code style="color:#22D3EE;">Agent(... tools=[AgentTool(other_agent), ...])</code>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-15">
+<div class="slide-container" data-screen-label="15 Execute Test" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#EA4335;">●</span> Milestone ⑥ · Test</span>
+    <span>15 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Drive it. Break it. Tune it.
+  </div>
+
+  <!-- Three test prompts -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:330px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Try these prompts in <code style="color:#22D3EE;">adk web</code></div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:390px;width:540px;height:200px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:410px;width:480px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#4285F4;letter-spacing:0.12em;">PROMPT 01 · WEB RESEARCH</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:445px;width:480px;height:140px;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:500;color:#E6ECFF;line-height:1.35;">
+    "What are the top e-commerce trends for 2025? Cite sources."
+    <div style="margin-top:14px;color:#98A4C7;font-size:16px;font-family:'JetBrains Mono';">→ should trigger google_search</div>
+  </div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:690px;top:390px;width:540px;height:200px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:410px;width:480px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.12em;">PROMPT 02 · DATA ANALYSIS</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:445px;width:480px;height:140px;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:500;color:#E6ECFF;line-height:1.35;">
+    "Analyze sales.csv — what are the top 3 categories by revenue?"
+    <div style="margin-top:14px;color:#98A4C7;font-size:16px;font-family:'JetBrains Mono';">→ should call analyze_csv</div>
+  </div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1260px;top:390px;width:540px;height:200px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:410px;width:480px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#EA4335;letter-spacing:0.12em;">PROMPT 03 · MIXED</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:445px;width:480px;height:140px;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:500;color:#E6ECFF;line-height:1.35;">
+    "Compare our sales data with industry growth trends and give a summary."
+    <div style="margin-top:14px;color:#98A4C7;font-size:16px;font-family:'JetBrains Mono';">→ should use BOTH tools, then synthesize</div>
+  </div>
+
+  <!-- What good looks like -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:620px;width:1680px;height:250px;background:#0E1730;border:1px solid #232E55;border-radius:18px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:645px;width:1600px;height:35px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#22D3EE;letter-spacing:0.14em;text-transform:uppercase;">What "working" looks like in the trace</div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:690px;width:780px;height:160px;font-family:'Inter',sans-serif;font-size:18px;line-height:1.7;color:#E6ECFF;">
+    <span style="color:#34A853;">✓</span> Agent picks the right tool for the question.<br/>
+    <span style="color:#34A853;">✓</span> Tool calls have correct arguments.<br/>
+    <span style="color:#34A853;">✓</span> Failed tool call → agent retries with a fix.<br/>
+    <span style="color:#34A853;">✓</span> Final answer cites sources when using search.
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:960px;top:690px;width:800px;height:160px;font-family:'Inter',sans-serif;font-size:18px;line-height:1.7;color:#E6ECFF;">
+    <span style="color:#EA4335;">✗</span> Uses search when a custom tool is better → refine instructions.<br/>
+    <span style="color:#EA4335;">✗</span> Skips tools and answers from memory → add "always use tools".<br/>
+    <span style="color:#EA4335;">✗</span> Endless tool loop → set <code style="font-family:'JetBrains Mono';color:#22D3EE;">max_iterations</code>.<br/>
+    <span style="color:#EA4335;">✗</span> Wrong arguments → improve docstrings.
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:910px;width:1680px;height:70px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:600;color:#E6ECFF;line-height:1.3;">
+    🎉 If you're here — <span style="color:#34A853;">you've shipped an agent.</span> Pause &amp; celebrate.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-16">
+<div class="slide-container" data-screen-label="16 Best Practices" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#FBBC04;">●</span> Part 3 · Production</span>
+    <span>16 / 18</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:140px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.0;color:#E6ECFF;letter-spacing:-0.02em;">
+    Demo → production.
+  </div>
+
+  <!-- 6 best practices in 2x3 grid -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:340px;width:540px;height:260px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:355px;width:480px;height:40px;font-family:'JetBrains Mono',monospace;font-size:28px;color:#4285F4;font-weight:700;">01</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:395px;width:480px;height:50px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">Short, sharp instructions</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:450px;width:480px;height:100px;font-family:'Inter',sans-serif;font-size:17px;line-height:1.5;color:#98A4C7;">Imperative + measurable: "Always cite sources. Use tools before answering." Avoid prose paragraphs.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:690px;top:340px;width:540px;height:260px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:355px;width:480px;height:40px;font-family:'JetBrains Mono',monospace;font-size:28px;color:#EA4335;font-weight:700;">02</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:395px;width:480px;height:50px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">Tool docs are prompts</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:450px;width:480px;height:100px;font-family:'Inter',sans-serif;font-size:17px;line-height:1.5;color:#98A4C7;">The model reads your function's docstring &amp; type hints. Write them for the model, not just for humans.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1260px;top:340px;width:540px;height:260px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:355px;width:480px;height:40px;font-family:'JetBrains Mono',monospace;font-size:28px;color:#FBBC04;font-weight:700;">03</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:395px;width:480px;height:50px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">Bound the loop</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:450px;width:480px;height:100px;font-family:'Inter',sans-serif;font-size:17px;line-height:1.5;color:#98A4C7;">Cap iterations, cap tokens, cap tool retries. An agent without limits is a runaway bill.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:620px;width:540px;height:260px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:635px;width:480px;height:40px;font-family:'JetBrains Mono',monospace;font-size:28px;color:#34A853;font-weight:700;">04</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:675px;width:480px;height:50px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">Human in the loop</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:730px;width:480px;height:100px;font-family:'Inter',sans-serif;font-size:17px;line-height:1.5;color:#98A4C7;">Destructive actions (writes, deletes, sends) get an approval gate. Reads can be autonomous.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:690px;top:620px;width:540px;height:260px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:635px;width:480px;height:40px;font-family:'JetBrains Mono',monospace;font-size:28px;color:#A78BFA;font-weight:700;">05</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:675px;width:480px;height:50px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">Trace + evaluate</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:730px;width:480px;height:100px;font-family:'Inter',sans-serif;font-size:17px;line-height:1.5;color:#98A4C7;">Log every step. Build an eval set of canonical prompts. Watch regressions when you change instructions.</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1260px;top:620px;width:540px;height:260px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:635px;width:480px;height:40px;font-family:'JetBrains Mono',monospace;font-size:28px;color:#22D3EE;font-weight:700;">06</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:675px;width:480px;height:50px;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:#E6ECFF;line-height:1.15;">Least-privilege auth</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:730px;width:480px;height:100px;font-family:'Inter',sans-serif;font-size:17px;line-height:1.5;color:#98A4C7;">Service accounts scoped per tool. Read-only by default. Audit what the agent did, not just what it said.</div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:920px;width:1680px;height:30px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;text-align:center;">
+    Treat agents like junior engineers with root access — supervise accordingly.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-17">
+<div class="slide-container" data-screen-label="17 Q&amp;A" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#FBBC04;">●</span> Open Floor</span>
+    <span>17 / 18</span>
+  </div>
+
+  <!-- Big Q&A wordmark -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:160px;width:1680px;height:80px;font-family:'JetBrains Mono',monospace;font-size:24px;color:#22D3EE;letter-spacing:0.16em;text-transform:uppercase;">
+    Discussion · 10–15 minutes
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:210px;width:1680px;height:240px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:200px;line-height:0.95;color:#E6ECFF;letter-spacing:-0.03em;">
+    Q<span style="color:#4285F4;">&amp;</span>A.
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:440px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:20px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Prompts to get us started</div>
+
+  <!-- Three discussion prompts as quote cards -->
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:500px;width:540px;height:380px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:515px;width:60px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:70px;font-weight:700;color:#4285F4;line-height:0.7;">"</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:575px;width:480px;height:220px;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:500;color:#E6ECFF;line-height:1.35;">
+    What's <span style="color:#4285F4;">one workflow at your job</span> you'd hand to an agent first — and what's the riskiest tool call it would need to make?
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:152px;top:840px;width:480px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">→ Personal</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:690px;top:500px;width:540px;height:380px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:515px;width:60px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:70px;font-weight:700;color:#EA4335;line-height:0.7;">"</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:575px;width:480px;height:220px;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:500;color:#E6ECFF;line-height:1.35;">
+    Where would you <span style="color:#EA4335;">draw the line</span> between agent-decides and human-approves? Read-only OK? Email send?
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:722px;top:840px;width:480px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">→ Safety</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:1260px;top:500px;width:540px;height:380px;background:#111933;border:1px solid #232E55;border-radius:16px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:515px;width:60px;height:60px;font-family:'Space Grotesk',sans-serif;font-size:70px;font-weight:700;color:#FBBC04;line-height:0.7;">"</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:575px;width:480px;height:220px;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:500;color:#E6ECFF;line-height:1.35;">
+    How would you <span style="color:#FBBC04;">measure</span> whether your agent is actually better than the human workflow it replaced?
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1292px;top:840px;width:480px;height:30px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#6B7AA1;letter-spacing:0.14em;text-transform:uppercase;">→ Evaluation</div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:920px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:20px;color:#6B7AA1;text-align:center;">
+    Mic's open. Type questions in chat too — we'll get to them.
+  </div>
+
+</div>
+</section>
+
+<section class="slide" id="slide-18">
+<div class="slide-container grid-bg" data-screen-label="18 Closing" style="position:relative;width:1920px;height:1080px;overflow:hidden;">
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:90px;width:1680px;height:30px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:#6B7AA1;letter-spacing:0.18em;text-transform:uppercase;">
+    <span><span style="color:#4285F4;">●</span><span style="color:#EA4335;">●</span><span style="color:#FBBC04;">●</span><span style="color:#34A853;">●</span> &nbsp; Fin.</span>
+    <span>18 / 18</span>
+  </div>
+
+  <!-- Big thank you -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:180px;width:1680px;height:80px;font-family:'JetBrains Mono',monospace;font-size:24px;color:#22D3EE;letter-spacing:0.16em;text-transform:uppercase;">
+    That's the workshop
+  </div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:230px;width:1680px;height:240px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:172px;line-height:0.95;color:#E6ECFF;letter-spacing:-0.03em;">
+    Thank you. <span style="color:#4285F4;">Go ship.</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:500px;width:1680px;height:60px;font-family:'Inter',sans-serif;font-size:28px;color:#98A4C7;line-height:1.4;">
+    You now have a working agent on your laptop — keep iterating on it this week.
+  </div>
+
+  <!-- Resources -->
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:120px;top:610px;width:1680px;height:40px;font-family:'JetBrains Mono',monospace;font-size:20px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">Resources to keep building</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:680px;width:820px;height:110px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:700px;width:740px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#4285F4;letter-spacing:0.14em;text-transform:uppercase;">▶ ADK Getting Started</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:725px;width:740px;height:60px;font-family:'JetBrains Mono',monospace;font-size:20px;color:#E6ECFF;line-height:1.3;">google.github.io/adk-docs/get-started</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:980px;top:680px;width:820px;height:110px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1020px;top:700px;width:740px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#EA4335;letter-spacing:0.14em;text-transform:uppercase;">▶ ADK official docs</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1020px;top:725px;width:740px;height:60px;font-family:'JetBrains Mono',monospace;font-size:20px;color:#E6ECFF;line-height:1.3;">google.github.io/adk-docs<br/>github.com/google/adk-python</div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:120px;top:810px;width:820px;height:110px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:830px;width:740px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#FBBC04;letter-spacing:0.14em;text-transform:uppercase;">▶ Sample agents</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:160px;top:855px;width:740px;height:60px;font-family:'JetBrains Mono',monospace;font-size:20px;color:#E6ECFF;line-height:1.3;">github.com/google/adk-samples<br/><span style="color:#98A4C7;font-family:'Inter';font-size:18px;">data analyst · customer service · RAG · multi-agent</span></div>
+
+  <div data-object="true" data-object-type="shape" style="position:absolute;left:980px;top:810px;width:820px;height:110px;background:#111933;border:1px solid #232E55;border-radius:14px;"></div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1020px;top:830px;width:740px;height:30px;font-family:'JetBrains Mono',monospace;font-size:16px;color:#34A853;letter-spacing:0.14em;text-transform:uppercase;">▶ Deploy when ready</div>
+  <div data-object="true" data-object-type="textbox" style="position:absolute;left:1020px;top:855px;width:740px;height:60px;font-family:'JetBrains Mono',monospace;font-size:20px;color:#E6ECFF;line-height:1.3;">cloud.google.com/vertex-ai/generative-ai/<br/>docs/agent-engine/overview</div>
+
+
+
+</div>
+</section>
+
+
+      <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button onclick="prevSlide()">←</button>
+    <span class="indicator" id="indicator">01 / 19</span>
+    <button class="primary" onclick="nextSlide()">→</button>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const total = 19;
+const slides = document.querySelectorAll('.slide');
+const indicator = document.getElementById('indicator');
+const progressBar = document.getElementById('progress-bar');
+const viewport = document.getElementById('slide-viewport');
+const wrapper = document.getElementById('slide-wrapper');
+
+function showSlide(idx) {
+  slides.forEach(s => s.classList.remove('active'));
+  slides[idx].classList.add('active');
+  current = idx;
+  indicator.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  progressBar.style.width = ((idx + 1) / total * 100) + '%';
+}
+
+function nextSlide() { if (current < total - 1) showSlide(current + 1); }
+function prevSlide() { if (current > 0) showSlide(current - 1); }
+
+function resize() {
+  const w = window.innerWidth - 40;
+  const h = window.innerHeight - 80;
+  const scale = Math.min(w / 1920, h / 1080);
+  viewport.style.transform = 'scale(' + scale + ')';
+  wrapper.style.width = Math.floor(1920 * scale) + 'px';
+  wrapper.style.height = Math.floor(1080 * scale) + 'px';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { nextSlide(); e.preventDefault(); }
+  if (e.key === 'ArrowLeft' || e.key === 'Backspace') { prevSlide(); e.preventDefault(); }
+  if (e.key === 'Home') { showSlide(0); e.preventDefault(); }
+  if (e.key === 'End') { showSlide(total - 1); e.preventDefault(); }
+});
+
+let touchX = 0;
+document.addEventListener('touchstart', e => { touchX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+  const diff = e.changedTouches[0].screenX - touchX;
+  if (diff < -50) nextSlide();
+  if (diff > 50) prevSlide();
+});
+
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>
