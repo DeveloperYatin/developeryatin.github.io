@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Build Smarter, Ship Faster: Flutter & AI for MVP Development | DevConnect 2026</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #070a13;
+            --bg-card-dark: rgba(17, 25, 43, 0.7);
+            --border-dark: rgba(255, 255, 255, 0.08);
+            --text-primary-dark: #f8fafc;
+            --text-secondary-dark: #94a3b8;
+            
+            --bg-light: #f8fafc;
+            --bg-card-light: rgba(255, 255, 255, 0.8);
+            --border-light: rgba(0, 0, 0, 0.06);
+            --text-primary-light: #0f172a;
+            --text-secondary-light: #475569;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: var(--bg-dark);
+            color: var(--text-primary-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        body.light-theme {
+            background: #e2e8f0;
+            color: var(--text-primary-light);
+        }
+
+        /* Presentation Wrapper */
+        .presentation-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1280px;
+            height: 100%;
+            max-height: 720px;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #0b0f19;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border-radius: 16px;
+            border: 1px solid var(--border-dark);
+            transition: all 0.4s ease;
+        }
+
+        body.light-theme .presentation-wrapper {
+            background: #ffffff;
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.15);
+            border-color: var(--border-light);
+        }
+
+        @media (max-width: 1280px) {
+            .presentation-wrapper {
+                aspect-ratio: auto;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+        }
+
+        /* Slides styling */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            overflow-y: auto;
+            padding: 3rem 4rem;
+            -webkit-overflow-scrolling: touch;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            animation: slideFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Premium Gradients */
+        .gradient-text {
+            background: linear-gradient(135deg, #00f5ff 0%, #02569b 50%, #7928ca 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .glow-accent {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.1) 0%, transparent 70%);
+            filter: blur(40px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .glow-accent-purple {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(121, 40, 202, 0.1) 0%, transparent 70%);
+            filter: blur(50px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Tech grid background */
+        .tech-grid {
+            background-image:
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        body.light-theme .tech-grid {
+            background-image:
+                linear-gradient(rgba(2, 86, 155, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(2, 86, 155, 0.03) 1px, transparent 1px);
+        }
+
+        /* Glassmorphic Card */
+        .glass-card {
+            background: var(--bg-card-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light-theme .glass-card {
+            background: var(--bg-card-light);
+            border-color: var(--border-light);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 245, 255, 0.2);
+            box-shadow: 0 12px 30px -10px rgba(0, 245, 255, 0.15);
+        }
+
+        body.light-theme .glass-card:hover {
+            border-color: rgba(2, 86, 155, 0.2);
+            box-shadow: 0 12px 30px -10px rgba(2, 86, 155, 0.1);
+        }
+
+        /* Code syntax styling */
+        .code-block {
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+            background: #030712;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        body.light-theme .code-block {
+            background: #0f172a;
+        }
+
+        /* Navigation controls */
+        .nav-controls {
+            position: fixed;
+            bottom: 25px;
+            right: 30px;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(17, 25, 43, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        body.light-theme .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #475569;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-btn:hover {
+            background: #02569b;
+            color: #ffffff;
+            border-color: #00f5ff;
+            transform: scale(1.05);
+        }
+
+        /* Slide progress tracker */
+        .progress-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            z-index: 99;
+        }
+
+        body.light-theme .progress-bar-container {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00f5ff 0%, #02569b 50%, #7928ca 100%);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Top header indicators */
+        .deck-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary-dark);
+            z-index: 10;
+        }
+
+        body.light-theme .deck-header {
+            border-bottom-color: rgba(0, 0, 0, 0.05);
+            color: var(--text-secondary-light);
+        }
+
+        .deck-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 0.75rem;
+            margin-top: 1.5rem;
+            z-index: 10;
+        }
+
+        body.light-theme .deck-footer {
+            border-top-color: rgba(0, 0, 0, 0.05);
+            color: var(--text-secondary-light);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(17, 25, 43, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        body.light-theme .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #0f172a;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
+            color: #00f5ff;
+            border-color: #00f5ff;
+        }
+
+        body.light-theme .theme-toggle-btn:hover {
+            color: #02569b;
+            border-color: #02569b;
+        }
+
+        /* Code highlighting custom classes */
+        .c-kw { color: #f43f5e; font-weight: bold; } /* keyword */
+        .c-cls { color: #38bdf8; } /* class */
+        .c-str { color: #34d399; } /* string */
+        .c-cmt { color: #64748b; font-style: italic; } /* comment */
+        .c-fn { color: #facc15; } /* function */
+        .c-var { color: #a78bfa; } /* variable */
+    </style>
+</head>
+
+<body>
+    <!-- Main Presentation Container -->
+    <div class="presentation-wrapper">
+        <div class="tech-grid absolute inset-0 opacity-40"></div>
+        
+        <!-- Glowing Ambient Dots -->
+        <div class="glow-accent top-[-50px] left-[-50px]"></div>
+        <div class="glow-accent-purple bottom-[-80px] right-[-50px]"></div>
+
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </button>
+
+        <!-- Slide 1: Cover Slide -->
+        <section class="slide active" id="slide-1">
+            <div class="deck-header">
+                <span>DevConnect 2026</span>
+                <span>CodeWithTechno Session</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center items-center text-center my-auto">
+                <div class="mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
+                    <i class="fas fa-bolt animate-pulse"></i> DevConnect 2026 Keynote
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-4">
+                    Build Smarter, Ship Faster:<br>
+                    <span class="gradient-text">Flutter & AI for MVP Development</span>
+                </h1>
+                
+                <p class="text-lg max-w-2xl text-slate-400 font-medium mb-8 leading-relaxed">
+                    How developers and startups use generative AI tools to prototype, build, and deploy cross-platform apps in record time.
+                </p>
+                
+                <div class="flex gap-3 text-sm">
+                    <span class="px-4 py-2 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300 font-semibold flex items-center gap-2">
+                        <i class="fab fa-flutter text-[#02569b]"></i> Flutter Cross-Platform
+                    </span>
+                    <span class="px-4 py-2 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300 font-semibold flex items-center gap-2">
+                        <i class="fas fa-robot text-purple-400"></i> AI MVP Tools
+                    </span>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 1 / 18</span>
+                <span>Press Space or use Arrows to navigate</span>
+            </div>
+        </section>
+
+        <!-- Slide 2: Speaker Introduction -->
+        <section class="slide" id="slide-2">
+            <div class="deck-header">
+                <span>Speaker Profile</span>
+                <span>DevConnect 2026</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center my-auto">
+                <div class="grid grid-cols-12 gap-6 lg:gap-8 items-center max-w-5xl mx-auto w-full">
+                    <!-- Left side: Speaker info -->
+                    <div class="col-span-12 lg:col-span-7 space-y-4">
+                        <!-- Eyebrow & Title -->
+                        <div>
+                            <h2 class="text-sm font-mono tracking-widest text-slate-400 uppercase">Speaker Introduction</h2>
+                            <div class="flex gap-1.5 mt-2">
+                                <span class="w-10 h-1 bg-[#4285F4] rounded-full"></span>
+                                <span class="w-10 h-1 bg-[#EA4335] rounded-full"></span>
+                                <span class="w-10 h-1 bg-[#FBBC04] rounded-full"></span>
+                                <span class="w-10 h-1 bg-[#34A853] rounded-full"></span>
+                            </div>
+                        </div>
+
+                        <!-- Name & Role -->
+                        <div class="space-y-2">
+                            <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-slate-100">Yatin Batra</h1>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#34A853]"></span>
+                                <span class="text-[10px] font-mono text-emerald-400 tracking-wider uppercase font-bold">SDE 2 @ Adda247</span>
+                            </div>
+                        </div>
+
+                        <!-- Bio -->
+                        <p class="text-xs lg:text-sm text-slate-300 leading-relaxed">
+                            Building scalable <span class="text-blue-400 font-semibold">Android</span> & <span class="text-emerald-400 font-semibold">Cross-Platform</span> solutions for millions of users.
+                        </p>
+
+                        <!-- Stats Row -->
+                        <div class="flex items-center justify-around p-3 bg-slate-900/60 border border-slate-800 rounded-xl text-center max-w-md w-full">
+                            <div class="flex-1">
+                                <div class="text-xl lg:text-2xl font-bold text-blue-400">5+</div>
+                                <div class="text-[8px] text-slate-500 uppercase font-bold tracking-wider">Years Exp</div>
+                            </div>
+                            <div class="w-px h-6 bg-slate-800"></div>
+                            <div class="flex-1">
+                                <div class="text-xl lg:text-2xl font-bold text-rose-500">10+</div>
+                                <div class="text-[8px] text-slate-500 uppercase font-bold tracking-wider">Projects</div>
+                            </div>
+                            <div class="w-px h-6 bg-slate-800"></div>
+                            <div class="flex-1">
+                                <div class="text-xl lg:text-2xl font-bold text-amber-500">∞</div>
+                                <div class="text-[8px] text-slate-500 uppercase font-bold tracking-wider">Curiosity</div>
+                            </div>
+                        </div>
+
+                        <!-- Socials -->
+                        <div class="flex flex-wrap gap-4 text-xs font-mono text-slate-400">
+                            <a href="https://www.linkedin.com/in/yatin-batra-6571131a3" target="_blank" class="hover:text-blue-400 transition-colors flex items-center gap-1">
+                                <span class="text-blue-500">▸</span> linkedin.com/in/<span class="text-slate-200">yatin-batra</span>
+                            </a>
+                            <a href="https://github.com/DeveloperYatin" target="_blank" class="hover:text-emerald-400 transition-colors flex items-center gap-1">
+                                <span class="text-emerald-500">▸</span> github.com/<span class="text-slate-200">DeveloperYatin</span>
+                            </a>
+                        </div>
+
+                        <!-- Specializations -->
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-[9px] font-mono text-blue-400">Android SDK</span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[9px] font-mono text-emerald-400">Flutter / Dart</span>
+                            <span class="px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/20 text-[9px] font-mono text-yellow-400">Kotlin</span>
+                            <span class="px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20 text-[9px] font-mono text-purple-400">System Design</span>
+                            <span class="px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-[9px] font-mono text-cyan-400">Agentic AI</span>
+                        </div>
+                    </div>
+
+                    <!-- Right side: Profile image + overlays -->
+                    <div class="col-span-12 lg:col-span-5 flex justify-center relative">
+                        <div class="relative w-64 h-64 lg:w-[380px] lg:h-[380px]">
+                            <!-- Glow Behind -->
+                            <div class="absolute -inset-4 bg-gradient-to-tr from-blue-500 to-emerald-500 opacity-20 blur-2xl rounded-full"></div>
+                            
+                            <!-- Profile Image Container -->
+                            <div class="w-full h-full rounded-2xl border border-slate-800 bg-[#161F3D] overflow-hidden shadow-2xl relative z-10">
+                                <img src="https://raw.githubusercontent.com/DeveloperYatin/developeryatin.github.io/refs/heads/main/1776350205316.png" 
+                                     alt="Yatin Batra" 
+                                     class="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105" />
+                            </div>
+
+                            <!-- Circular Overlay Badge -->
+                            <div class="absolute -top-3 -right-3 w-12 h-12 bg-[#111933] border border-blue-500/40 rounded-full flex flex-col items-center justify-center shadow-lg z-20 font-sans">
+                                <span class="text-[9px] font-mono text-blue-400 leading-none">CORE</span>
+                                <span class="text-xs font-bold text-slate-200 leading-none">AI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 2 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 3: The MVP Challenge -->
+        <section class="slide" id="slide-3">
+            <div class="deck-header">
+                <span>The Startup Challenge</span>
+                <span>Speed vs. Quality</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    The MVP Challenge: <span class="text-cyan-400">Tech Debt vs. Speed-to-Market</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <!-- Column 1 -->
+                    <div class="glass-card p-6">
+                        <div class="flex items-center gap-3 text-rose-500 font-bold mb-3">
+                            <i class="fas fa-business-time text-xl"></i>
+                            <h3>The Entrepreneur's Burden</h3>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-500 font-bold">•</span>
+                                <span>High cash burn rate requires validation within weeks, not months.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-500 font-bold">•</span>
+                                <span>Slow releases risk missing the market window completely.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-500 font-bold">•</span>
+                                <span>Frequent product pivots require highly responsive engineering.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Column 2 -->
+                    <div class="glass-card p-6">
+                        <div class="flex items-center gap-3 text-cyan-400 font-bold mb-3">
+                            <i class="fas fa-code text-xl"></i>
+                            <h3>The Developer's Reality</h3>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 font-bold">•</span>
+                                <span>"Hacked" MVPs accumulate structural debt that halts later progress.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 font-bold">•</span>
+                                <span>Rewriting bad code is 5x more expensive than writing clean code once.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 font-bold">•</span>
+                                <span>Stability, offline state, and crash prevention are vital for initial trust.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center text-sm font-semibold text-slate-400">
+                    <span class="text-yellow-400">The Solution:</span> Combine Flutter (single-codebase multiplatform) with Generative AI (automated developer scaffolding).
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 3 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 4: Framework Synergy: Why Flutter? -->
+        <section class="slide" id="slide-4">
+            <div class="deck-header">
+                <span>Framework Choice</span>
+                <span>Why Flutter?</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    Why Flutter is the <span class="text-cyan-400">Ultimate MVP Foundation</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-2">
+                    <div class="glass-card p-5">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg mb-3">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="font-bold mb-2">Write Once, Run Everywhere</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Target iOS, Android, Web, and Desktop from a single shared codebase. Halves initial team costs and syncs features perfectly.
+                        </p>
+                    </div>
+                    
+                    <div class="glass-card p-5">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg mb-3">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3 class="font-bold mb-2">Sub-Second Hot Reload</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Allows developers to see UI changes instantly without losing app state. Boosts visual design tuning and debugging speeds by 10x.
+                        </p>
+                    </div>
+                    
+                    <div class="glass-card p-5">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg mb-3">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <h3 class="font-bold mb-2">Rich Widget Ecosystem</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Fully customizable, high-fidelity UI components built-in. Easily match custom Figma specifications down to the pixel.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex items-center gap-3 p-3 rounded-lg bg-cyan-950/20 border border-cyan-800/30 text-xs text-cyan-300 max-w-2xl mx-auto">
+                    <i class="fas fa-info-circle text-sm flex-shrink-0"></i>
+                    <span><strong>Business Impact:</strong> Entrepreneurs build a single team, while mid-to-senior devs focus on a single high-quality architecture instead of managing separate platforms.</span>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 4 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 5: The AI MVP Toolkit -->
+        <section class="slide" id="slide-5">
+            <div class="deck-header">
+                <span>The AI Toolkit</span>
+                <span>Major AI Tools for Fast MVPs</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4 text-center">
+                    The Modern <span class="gradient-text">AI MVP Developer Toolkit</span>
+                </h2>
+                <p class="text-center text-xs text-slate-400 mb-6 max-w-2xl mx-auto">
+                    These are the four major categories of tools you need to integrate into your workflow to ship MVPs 3x faster.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
+                    <div class="glass-card p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="text-cyan-400 text-lg mb-2"><i class="fas fa-robot"></i></div>
+                            <h3 class="font-bold text-xs mb-1">1. Claude Projects</h3>
+                            <p class="text-[10px] text-slate-400 leading-relaxed">
+                                AI workspace with customized system context. Exceptional logic scaffolding, multi-file code reviews, and visual Artifact prototyping.
+                            </p>
+                        </div>
+                        <span class="text-[9px] text-cyan-300 font-mono mt-3">Code Scaffolding</span>
+                    </div>
+
+                    <div class="glass-card p-4 flex flex-col justify-between border-cyan-500/20 bg-cyan-950/5">
+                        <div>
+                            <div class="text-purple-400 text-lg mb-2"><i class="fas fa-file-code"></i></div>
+                            <h3 class="font-bold text-xs mb-1">2. Arch Skills (.md)</h3>
+                            <p class="text-[10px] text-slate-400 leading-relaxed">
+                                Feeding structured style guidelines and BLoC contracts directly to the LLM to kickstart development with clean scalable architecture.
+                            </p>
+                        </div>
+                        <span class="text-[9px] text-purple-300 font-mono mt-3">Reusable AI Prompts</span>
+                    </div>
+
+                    <div class="glass-card p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="text-emerald-400 text-lg mb-2"><i class="fas fa-terminal"></i></div>
+                            <h3 class="font-bold text-xs mb-1">3. Gemini CLI</h3>
+                            <p class="text-[10px] text-slate-400 leading-relaxed">
+                                Command-line tool accessing Gemini models. Scans local commit code, triggers secure checks, and writes automated PR reports.
+                            </p>
+                        </div>
+                        <span class="text-[9px] text-emerald-300 font-mono mt-3">Security & CI/CD</span>
+                    </div>
+
+                    <div class="glass-card p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="text-yellow-400 text-lg mb-2"><i class="fas fa-vial"></i></div>
+                            <h3 class="font-bold text-xs mb-1">4. Testing Mocks</h3>
+                            <p class="text-[10px] text-slate-400 leading-relaxed">
+                                Prompting AI to write mock repositories and complete unit/widget test suites to prevent future regressions.
+                            </p>
+                        </div>
+                        <span class="text-[9px] text-yellow-300 font-mono mt-3">QA Automation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 5 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 6: Claude: AI-First Development -->
+        <section class="slide" id="slide-6">
+            <div class="deck-header">
+                <span>Tool 1: Claude AI</span>
+                <span>AI-First Code Scaffolding</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    Tool 1 — Claude: <span class="text-cyan-400">The Multi-File Code Architect</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    <div class="md:col-span-5 text-xs text-slate-400 space-y-3 leading-relaxed">
+                        <p>
+                            <strong>Claude Sonnet 3.5</strong> is currently the leading model for software engineering logic, displaying superior context comprehension and reasoning.
+                        </p>
+                        <ul class="space-y-2 text-slate-300">
+                            <li><i class="fas fa-folder-open text-cyan-400 mr-1.5"></i> <strong>Claude Projects:</strong> Create workspaces and upload source structures to set a persistent system context.</li>
+                            <li><i class="fas fa-code text-cyan-400 mr-1.5"></i> <strong>Artifacts Window:</strong> Generate, review, and visually test isolated widgets and layouts in real-time.</li>
+                        </ul>
+                        <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-[10px]">
+                            <span class="text-yellow-400 font-bold">Pro Tip:</span> Ask Claude to outline file diffs first rather than rewriting entire large folders, saving token capacity.
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-7">
+                        <div class="glass-card p-4 space-y-3">
+                            <span class="text-[10px] uppercase font-mono tracking-widest text-cyan-400">Claude Project Workflow</span>
+                            <div class="space-y-2">
+                                <div class="p-2 bg-slate-900/60 border border-slate-800/80 rounded text-[10px] text-slate-300">
+                                    <strong class="text-purple-400">Step 1: Upload Specs</strong> - Load database models and API blueprints to Project Knowledge.
+                                </div>
+                                <div class="p-2 bg-slate-900/60 border border-slate-800/80 rounded text-[10px] text-slate-300">
+                                    <strong class="text-emerald-400">Step 2: Interactive Prompt</strong> - Instruct: "Build state controller for user authentication screen using project standards."
+                                </div>
+                                <div class="p-2 bg-slate-900/60 border border-slate-800/80 rounded text-[10px] text-slate-300">
+                                    <strong class="text-[#02569b]">Step 3: Review & Copy</strong> - Review code side-by-side inside Claude's interactive interface.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 6 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 7: Reusable AI Skills -->
+        <section class="slide" id="slide-7">
+            <div class="deck-header">
+                <span>Tool 2: Custom AI Skills</span>
+                <span>Flutter Architecture Skills</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+                    Tool 2 — Reusable AI Skills: <span class="text-cyan-400">flutter-arch-skills</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                    <div class="md:col-span-6 text-xs text-slate-400 space-y-3 leading-relaxed">
+                        <p>
+                            To prevent AI from generating messy code, you must feed it strict design guidelines from the very start.
+                        </p>
+                        <p>
+                            Use <a href="https://github.com/DeveloperYatin/flutter-arch-skills" target="_blank" class="text-cyan-400 hover:underline">github.com/DeveloperYatin/flutter-arch-skills</a> – a set of reusable, project-agnostic markdown files that define strict Flutter architectural rules.
+                        </p>
+                        <div class="p-3 rounded-lg bg-cyan-950/20 border border-cyan-800/30 text-cyan-300 text-[10px]">
+                            <strong class="block mb-1"><i class="fab fa-github"></i> Reusable .md Rules:</strong>
+                            Specify folder structures, Clean Architecture details, and BLoC coding rules that any AI (Claude, Copilot, ChatGPT) can parse instantly.
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-6">
+                        <div class="glass-card p-4 space-y-3">
+                            <span class="text-[10px] uppercase font-mono tracking-widest text-purple-400">How to Feed Skills to Claude/AI</span>
+                            <div class="p-2.5 bg-slate-900 border border-slate-800 rounded font-mono text-[9px] text-slate-400 space-y-1">
+                                <div><span class="text-cyan-400"># 1. Attach skill documentation</span></div>
+                                <div>Input: "Follow guidelines inside <span class="text-emerald-400">flutter-bloc-rules.md</span>"</div>
+                                <div class="mt-2 text-slate-500">// AI now scaffold state events, repository logic,</div>
+                                <div>// and screen widgets that exactly conform to your patterns.</div>
+                            </div>
+                            <span class="text-[10px] text-slate-500 italic block">Ensures scalable structure from day one!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 7 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 8: Custom Scaffolding: Starting with a Good Arch Pace -->
+        <section class="slide" id="slide-8">
+            <div class="deck-header">
+                <span>Clean Scaffolding</span>
+                <span>Architecture Pace & Scaling</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    Bootstrapping MVP with a <span class="text-cyan-400">Scalable Architectural Pace</span>
+                </h2>
+                
+                <p class="text-xs text-slate-400 mb-4 max-w-3xl leading-relaxed">
+                    By providing structured markdown skills to Claude at the initial stage, developers ensure that every auto-generated class maps cleanly to designated application layers, preventing messy spaghetti configurations.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="glass-card p-4">
+                        <div class="text-[#f43f5e] font-bold text-xs uppercase mb-2">1. Abstract Contracts First</div>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">
+                            AI scaffolds clean data contracts (interfaces) defining fetch/write methods, decoupling network implementations from the UI.
+                        </p>
+                    </div>
+                    
+                    <div class="glass-card p-4 border-cyan-500/20">
+                        <div class="text-cyan-400 font-bold text-xs uppercase mb-2">2. Strict BLoC Boundaries</div>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">
+                            Widget layers communicate with repositories exclusively through BLoC events and states, enforcing unidirectional data flow.
+                        </p>
+                    </div>
+                    
+                    <div class="glass-card p-4">
+                        <div class="text-[#facc15] font-bold text-xs uppercase mb-2">3. Agnostic Data Layers</div>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">
+                            Model deserializers and cache drivers are separated cleanly. Mocking data sources for testing takes seconds.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 8 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 9: Figma-to-Code: Rapid UI Prototyping -->
+        <section class="slide" id="slide-9">
+            <div class="deck-header">
+                <span>Tool 3: Figma to Code</span>
+                <span>UI Prototyping</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    Tool 3 — Figma to Code: <span class="text-cyan-400">Instant Flutter Layouts</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <div class="flex flex-col justify-center">
+                        <h3 class="font-semibold text-lg text-slate-200 mb-2">From Pixels to Nested Widgets</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                            Instead of spending hours writing rows, columns, padding, and alignments, use AI UI generation tools to convert Figma designs directly into Flutter layouts.
+                        </p>
+                        
+                        <div class="glass-card p-4 text-xs text-slate-300">
+                            <span class="font-bold text-cyan-400"><i class="fas fa-lightbulb"></i> Prompting Best Practice:</span>
+                            <p class="mt-1">
+                                Avoid fixed sizing. Instruct the AI layout assistant to use relative constraint structures like <code class="bg-slate-900 px-1 py-0.5 rounded text-rose-400">Expanded</code>, <code class="bg-slate-900 px-1 py-0.5 rounded text-rose-400">Flexible</code>, and <code class="bg-slate-900 px-1 py-0.5 rounded text-rose-400">MediaQuery</code>.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-5 space-y-4">
+                        <h3 class="font-bold text-xs text-slate-400 uppercase">Recommended Visual AI Tools</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3 p-2 rounded bg-slate-900/60 border border-slate-800">
+                                <i class="fab fa-flutter text-[#02569b] text-base mt-0.5"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-200">FlutterFlow AI</h4>
+                                    <p class="text-[10px] text-slate-400">Excellent tool for rapid drag-and-drop combined with prompt-driven UI page generations.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-2 rounded bg-slate-900/60 border border-slate-800">
+                                <i class="fas fa-magic text-purple-400 text-base mt-0.5"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-200">Claude Artifacts</h4>
+                                    <p class="text-[10px] text-slate-400">Great for generating isolated widget prototypes, interactive charts, and animations.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 9 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 10: Gemini CLI: Automated Code Auditing -->
+        <section class="slide" id="slide-10">
+            <div class="deck-header">
+                <span>Tool 4: Gemini CLI</span>
+                <span>Automated Code Auditing</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    Tool 4 — Gemini CLI: <span class="text-cyan-400">Automated Pipeline Reviews</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    <div class="md:col-span-7">
+                        <div class="glass-card p-5 space-y-4">
+                            <div class="flex items-center justify-between text-xs border-b border-slate-800 pb-2">
+                                <span class="font-mono text-slate-400">CI Pipeline Steps</span>
+                                <span class="font-bold text-cyan-400">Automation Result</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-slate-300"><i class="fas fa-code-commit mr-2"></i> 1. Dev Pushes Code Commit</span>
+                                <span class="bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded text-[10px]">Triggered</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-slate-300"><i class="fas fa-shield-halved mr-2"></i> 2. Gemini Security vulnerability scan</span>
+                                <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-[10px]">Secure ✓</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-slate-300"><i class="fas fa-bug mr-2"></i> 3. Gemini logic & architectural check</span>
+                                <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-[10px]">Approved ✓</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-5 text-xs text-slate-400 space-y-3 leading-relaxed">
+                        <p>
+                            <strong>Gemini CLI</strong> is an open-source terminal interface for accessing Gemini models. You can easily integrate it into your terminal or CI/CD pipelines.
+                        </p>
+                        <p>
+                            It automatically inspects every commit or Pull Request for security bugs, styling issues, and secret leaks, creating automated markdown reviews.
+                        </p>
+                        <div class="p-2.5 rounded bg-cyan-950/20 border border-cyan-800/30 text-cyan-300 font-mono text-[10px]">
+                            gemini review --diff pr.patch
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 10 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 11: Scaffolding BLoC: Practical Code Example -->
+        <section class="slide" id="slide-11">
+            <div class="deck-header">
+                <span>Technical Implementation</span>
+                <span>Scaffolding Clean BLoCs</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-xl md:text-2xl font-bold tracking-tight mb-2">
+                    Scaffolding State Management with <span class="text-cyan-400">BLoC</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                    <div class="md:col-span-4 text-xs text-slate-400 leading-relaxed">
+                        <p class="mb-3">
+                            Implementing events, states, and business logic logic (BLoC) involves repetitive boilerplates.
+                        </p>
+                        <p class="mb-3">
+                            Using structured prompting rules (like in `flutter-arch-skills`), AI scaffolds clean, testable BLoC handlers in seconds.
+                        </p>
+                        <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-[10px]">
+                            <strong class="text-yellow-400">Senior Rule:</strong> Always separate BLoC state types (Initial, Loading, Loaded, Error) for clean UI reactivity.
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-8">
+                        <pre class="code-block h-[260px] text-[10px] leading-relaxed"><code><span class="c-cmt">// AI-Scaffolded BLoC Logic (Clean Arch)</span>
+<span class="c-kw">class</span> <span class="c-cls">ProductBloc</span> <span class="c-kw">extends</span> <span class="c-cls">Bloc</span>&lt;<span class="c-cls">ProductEvent</span>, <span class="c-cls">ProductState</span>&gt; {
+  <span class="c-kw">final</span> <span class="c-cls">ProductRepository</span> <span class="c-var">repository</span>;
+
+  <span class="c-cls">ProductBloc</span>({<span class="c-kw">required</span> <span class="c-kw">this</span>.<span class="c-var">repository</span>}) : <span class="c-kw">super</span>(<span class="c-cls">ProductInitial</span>()) {
+    <span class="c-fn">on</span>&lt;<span class="c-cls">FetchProducts</span>&gt;((event, emit) <span class="c-kw">async</span> {
+      <span class="c-fn">emit</span>(<span class="c-cls">ProductLoading</span>());
+      <span class="c-kw">try</span> {
+        <span class="c-kw">final</span> <span class="c-var">products</span> = <span class="c-kw">await</span> <span class="c-var">repository</span>.<span class="c-fn">getProducts</span>();
+        <span class="c-fn">emit</span>(<span class="c-cls">ProductLoaded</span>(products: <span class="c-var">products</span>));
+      } <span class="c-kw">catch</span> (<span class="c-var">e</span>) {
+        <span class="c-fn">emit</span>(<span class="c-cls">ProductError</span>(message: <span class="c-var">e</span>.<span class="c-fn">toString</span>()));
+      }
+    });
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 11 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 12: Automated QA & Testing -->
+        <section class="slide" id="slide-12">
+            <div class="deck-header">
+                <span>Quality Assurance</span>
+                <span>Automated Testing with AI</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-xl md:text-2xl font-bold tracking-tight mb-2">
+                    Automated QA: Writing Mocks and <span class="text-cyan-400">Unit Tests with AI</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                    <div class="md:col-span-8">
+                        <pre class="code-block h-[260px] text-[10px] leading-relaxed"><code><span class="c-cmt">// AI-Generated Unit Test with Mocktail</span>
+<span class="c-kw">void</span> <span class="c-fn">main</span>() {
+  <span class="c-kw">late</span> <span class="c-cls">MockProductRepository</span> <span class="c-var">mockRepo</span>;
+  <span class="c-kw">late</span> <span class="c-cls">ProductBloc</span> <span class="c-var">productBloc</span>;
+
+  <span class="c-fn">setUp</span>(() {
+    <span class="c-var">mockRepo</span> = <span class="c-cls">MockProductRepository</span>();
+    <span class="c-var">productBloc</span> = <span class="c-cls">ProductBloc</span>(repository: <span class="c-var">mockRepo</span>);
+  });
+
+  <span class="c-fn">test</span>(<span class="c-str">'emits [Loading, Loaded] when products fetch succeeds'</span>, () {
+    <span class="c-fn">when</span>(() =&gt; <span class="c-var">mockRepo</span>.<span class="c-fn">getProducts</span>()).<span class="c-fn">thenAnswer</span>((_) =&gt; <span class="c-cls">Future</span>.<span class="c-fn">value</span>([]));
+    
+    <span class="c-var">productBloc</span>.<span class="c-fn">add</span>(<span class="c-cls">FetchProducts</span>());
+    
+    <span class="c-fn">expectLater</span>(<span class="c-var">productBloc</span>.<span class="c-fn">stream</span>, <span class="c-fn">emitsInOrder</span>([
+      <span class="c-cls">ProductLoading</span>(),
+      <span class="c-cls">ProductLoaded</span>(products: [])
+    ]));
+  });
+}</code></pre>
+                    </div>
+
+                    <div class="md:col-span-4 text-xs text-slate-400 leading-relaxed">
+                        <h4 class="font-bold text-slate-200 mb-2">Eliminate Boring Test Boilerplate</h4>
+                        <p class="mb-3">
+                            Writing mock tests manually is a main bottleneck for developers, leading to untested MVPs.
+                        </p>
+                        <p class="mb-3">
+                            AI is exceptionally good at writing mock setups, testing edge-cases, and verifying repository calls.
+                        </p>
+                        <span class="text-cyan-400 font-bold">Benefit:</span> Maintain 90%+ code coverage without delaying launch cycles.
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 12 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 13: The Entrepreneurial ROI -->
+        <section class="slide" id="slide-13">
+            <div class="deck-header">
+                <span>Business Value</span>
+                <span>The Entrepreneurial ROI</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    The Entrepreneurial ROI: <span class="text-cyan-400">Shipping 3x Faster</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
+                    <div class="glass-card p-6 text-center border-cyan-500/20">
+                        <div class="text-4xl font-black text-cyan-400 mb-2">60%</div>
+                        <h3 class="font-bold text-sm text-slate-200 mb-2">Reduction in TTM</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Launch your product in weeks. Complete functional mockups and core feature pipelines are shipped way ahead of schedule.
+                        </p>
+                    </div>
+                    
+                    <div class="glass-card p-6 text-center border-purple-500/20">
+                        <div class="text-4xl font-black text-purple-400 mb-2">1/2</div>
+                        <h3 class="font-bold text-sm text-slate-200 mb-2">Development Cost</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            By coding single shared codebase using AI-augmented engineers, you cut resource costs in half while building a scalable system.
+                        </p>
+                    </div>
+                    
+                    <div class="glass-card p-6 text-center border-emerald-500/20">
+                        <div class="text-4xl font-black text-emerald-400 mb-2">3x</div>
+                        <h3 class="font-bold text-sm text-slate-200 mb-2">Feature Iterations</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Pivoting based on real customer feedback is simplified. Easily generate modifications across layers in minutes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 13 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 14: Security Guardrails -->
+        <section class="slide" id="slide-14">
+            <div class="deck-header">
+                <span>Risk Management</span>
+                <span>Security Guardrails</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    Security Guardrails: <span class="text-cyan-400">Secure AI Dev Workflow</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <div class="glass-card p-5">
+                        <div class="flex items-center gap-3 text-rose-500 font-bold mb-3">
+                            <i class="fas fa-exclamation-triangle text-xl"></i>
+                            <h3>Critical Vulnerabilities</h3>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-300">
+                            <li>• **Hardcoded Keys:** AI models can sometimes generate API keys, secrets, or certificates directly in code.</li>
+                            <li>• **SQL Injection:** Careless raw database calls generated without input parameters.</li>
+                            <li>• **Deprecation Risks:** AI generating logic pointing to insecure, deprecated package versions.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-card p-5 border-emerald-500/20">
+                        <div class="flex items-center gap-3 text-emerald-400 font-bold mb-3">
+                            <i class="fas fa-shield-halved text-xl"></i>
+                            <h3>Prevention & Safety Rules</h3>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-300">
+                            <li>• **Static Analyzers:** Enforce strict type systems and secure lint setups in Flutter.</li>
+                            <li>• **Secret Scanners:** Integrate git hooks scanning for credentials before any push commits.</li>
+                            <li>• **LLM System Prompt rules:** Constrain AI assistants to write secure, parameterized SQL.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 14 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 15: Mitigating Risks -->
+        <section class="slide" id="slide-15">
+            <div class="deck-header">
+                <span>Risk Control</span>
+                <span>Mitigating Risks</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                    Mitigating Risks: <span class="text-cyan-400">Trust but Verify</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <div class="glass-card p-5">
+                        <div class="flex items-center gap-3 text-yellow-400 font-bold mb-3">
+                            <i class="fas fa-triangle-exclamation text-xl"></i>
+                            <h3>LLM Risks</h3>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-300">
+                            <li>• **Outdated API Generation:** Flutter releases updates frequently. LLMs might generate obsolete patterns.</li>
+                            <li>• **Code Hallucinations:** Introducing phantom packages that do not exist.</li>
+                            <li>• **Code Ownership:** Devs accepting suggestions without review.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-card p-5 border-cyan-500/20">
+                        <div class="flex items-center gap-3 text-cyan-400 font-bold mb-3">
+                            <i class="fas fa-clipboard-check text-xl"></i>
+                            <h3>Best Mitigation Practices</h3>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-300">
+                            <li>• **Peer Review:** Make AI changes review-mandatory in every workflow.</li>
+                            <li>• **Use SDK Context:** Feed current package versions and documentation to LLM context before asking for logic.</li>
+                            <li>• **Sandbox execution:** Test AI-generated scripts in isolated environments first.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 15 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 16: Future Trends: Agentic Development -->
+        <section class="slide" id="slide-16">
+            <div class="deck-header">
+                <span>The Road Ahead</span>
+                <span>Future of Product Engineering</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center text-center max-w-4xl mx-auto">
+                <div class="mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 text-xs font-semibold uppercase tracking-wider mx-auto">
+                    <i class="fas fa-brain animate-pulse"></i> Agentic Workflows
+                </div>
+                
+                <h2 class="text-3xl font-bold tracking-tight mb-4 text-slate-100">
+                    The Future: From Co-Pilots to <span class="gradient-text">Autonomous AI Agents</span>
+                </h2>
+                
+                <p class="text-sm text-slate-400 mb-8 leading-relaxed max-w-2xl mx-auto">
+                    The software ecosystem is shifting from passive code completion tools to multi-agent developer groups. AI agents can diagnose test failures, rewrite interfaces, and deploy changes directly under human guidance.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+                        <div class="text-purple-400 font-bold text-xs uppercase mb-1">Interactive Copilots</div>
+                        <p class="text-[10px] text-slate-400">Suggest auto-complete comments and short functions as you type.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center border-purple-500/20">
+                        <div class="text-cyan-400 font-bold text-xs uppercase mb-1">Autonomous Systems</div>
+                        <p class="text-[10px] text-slate-400">AI executes command lines, creates entire features, and fixes test scripts autonomously.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+                        <div class="text-yellow-400 font-bold text-xs uppercase mb-1">Multi-Agent Teams</div>
+                        <p class="text-[10px] text-slate-400">AI agents talk to each other to debug code, test performance, and write deployments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 16 / 18</span>
+                <span>DevConnect 2026 by CodeWithTechno</span>
+            </div>
+        </section>
+
+        <!-- Slide 17: Closing & Thank You -->
+        <section class="slide" id="slide-17">
+            <div class="deck-header">
+                <span>Closing Session</span>
+                <span>Q&A & Thank You</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center items-center text-center my-auto">
+                <div class="w-16 h-16 bg-gradient-to-br from-cyan-400 to-[#02569b] rounded-full flex items-center justify-center text-3xl text-white mb-6 shadow-lg">
+                    <i class="fas fa-heart"></i>
+                </div>
+                
+                <h2 class="text-3xl md:text-4xl font-black text-slate-100 mb-2">
+                    Thank You, <span class="gradient-text">DevConnect 2026!</span>
+                </h2>
+                <p class="text-sm text-slate-400 mb-8 max-w-lg mx-auto">
+                    Deep gratitude to CodeWithTechno and the DevConnect community for hosting this session. Let's make shipping smarter a standard!
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl mb-8">
+                    <div class="glass-card p-4 text-left">
+                        <div class="text-cyan-400 font-bold text-xs mb-1">Questions & Discussions</div>
+                        <p class="text-[10px] text-slate-400">Happy to discuss Flutter architecture scaling, custom LLM instructions, or setting up secure PR scans.</p>
+                    </div>
+                    <div class="glass-card p-4 text-left">
+                        <div class="text-purple-400 font-bold text-xs mb-1">Let's Collaborate</div>
+                        <p class="text-[10px] text-slate-400">Connect with me on LinkedIn to keep sharing tips and code on AI-driven mobile development.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4 text-xs font-bold">
+                    <a href="https://github.com/DeveloperYatin" target="_blank" class="px-5 py-2.5 bg-slate-900 border border-slate-800 text-white rounded-lg flex items-center gap-2 hover:bg-slate-800 transition-all">
+                        <i class="fab fa-github"></i> GitHub Profile
+                    </a>
+                    <a href="https://www.linkedin.com/in/yatin-batra-6571131a3" target="_blank" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg flex items-center gap-2 hover:bg-blue-500 transition-all">
+                        <i class="fab fa-linkedin"></i> LinkedIn Connect
+                    </a>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 17 / 18</span>
+                <span>Yatin Batra / developeryatin.github.io</span>
+            </div>
+        </section>
+
+        <!-- Slide 18: QR Code Access / Grab slides -->
+        <section class="slide" id="slide-18">
+            <div class="deck-header">
+                <span>Grab the Slides</span>
+                <span>DevConnect 2026</span>
+            </div>
+            
+            <div class="flex-1 flex flex-col items-center justify-center text-center relative z-10">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-100 mb-2 tracking-tight">
+                    Access the <span class="gradient-text">Presentation Online</span>
+                </h2>
+                <p class="text-slate-400 text-xs mb-6 max-w-md mx-auto">
+                    Scan the QR code below to download the slides or view them online.
+                </p>
+
+                <div class="relative group">
+                    <!-- Animated border glow -->
+                    <div class="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-[#02569b] rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 animate-pulse"></div>
+
+                    <div class="relative bg-slate-950 p-4 rounded-2xl border border-slate-800 shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]">
+                        <div class="bg-white p-3 rounded-xl">
+                            <img id="qr-image"
+                                src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://developeryatin.github.io/flutter-ai-mvp.html"
+                                alt="QR Code" class="w-40 h-40 mix-blend-multiply">
+                        </div>
+                    </div>
+
+                    <!-- Decorative camera icon -->
+                    <div class="absolute -top-3 -right-3 w-8 h-8 bg-slate-900 border border-slate-800 rounded-full shadow-lg flex items-center justify-center text-cyan-400">
+                        <i class="fas fa-camera text-xs"></i>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <a href="https://developeryatin.github.io/flutter-ai-mvp.html" target="_blank" class="inline-flex items-center gap-2.5 px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl shadow-lg hover:bg-slate-800/80 transition-colors hover:border-cyan-500/30">
+                        <i class="fab fa-github text-white text-base"></i>
+                        <span class="text-slate-300 font-mono text-xs">developeryatin.github.io/flutter-ai-mvp.html</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="deck-footer">
+                <span>Slide 18 / 18</span>
+                <span>Yatin Batra / developeryatin.github.io</span>
+            </div>
+        </section>
+
+        <!-- Progress Tracker Bar -->
+        <div class="progress-bar-container" id="progress-container">
+            <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+
+    </div>
+
+    <!-- Arrow Navigation Button overlays inside body -->
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()" title="Previous Slide (Left Arrow)"><i class="fas fa-chevron-left"></i></button>
+        <button class="nav-btn" onclick="nextSlide()" title="Next Slide (Right Arrow/Space)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 18;
+        let startX = 0;
+
+        function updateSlide() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            
+            // Show current slide
+            const activeSlide = document.getElementById(`slide-${currentSlide}`);
+            if (activeSlide) {
+                activeSlide.classList.add('active');
+            }
+
+            // Update Progress Bar
+            const progressPercent = (currentSlide / totalSlides) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            // Update slide page tracker content
+            const activeFooterSpan = activeSlide.querySelector('.deck-footer span:first-child');
+            if (activeFooterSpan) {
+                activeFooterSpan.innerText = `Slide ${currentSlide} / ${totalSlides}`;
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        // Spacebar is blocked if user is scrolling/interacting inside code block or cards,
+        // but we handle standard keydown events generally.
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            if (n >= 1 && n <= totalSlides) {
+                currentSlide = n;
+                updateSlide();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Click on Progress Bar to jump to specific slide
+        const progressContainer = document.getElementById('progress-container');
+        progressContainer.addEventListener('click', (e) => {
+            const containerWidth = progressContainer.offsetWidth;
+            const clickX = e.offsetX;
+            const targetSlide = Math.ceil((clickX / containerWidth) * totalSlides);
+            goToSlide(targetSlide);
+        });
+
+        // Touch Swipe Navigation for mobile screens
+        const wrapper = document.querySelector('.presentation-wrapper');
+        wrapper.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        }, { passive: true });
+
+        wrapper.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            const diffX = startX - endX;
+
+            if (Math.abs(diffX) > 60) { // Threshold for swipe
+                if (diffX > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }, { passive: true });
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Check for saved theme preference or default to dark
+        const savedTheme = localStorage.getItem('presentation-theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            const isLight = body.classList.contains('light-theme');
+            
+            if (isLight) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('presentation-theme', 'light');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('presentation-theme', 'dark');
+            }
+        });
+
+        // Initialize progress bar width on load
+        updateSlide();
+    </script>
+</body>
+
+</html>
