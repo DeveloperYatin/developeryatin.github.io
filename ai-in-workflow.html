@@ -194,6 +194,338 @@
     .slide h2{font-size:24px}
     .grid2,.grid3,.grid4,.ladder,.stack-tiles,.before-after,.quads,.phases,.cta-list{grid-template-columns:1fr!important;gap:10px!important}
   }
+
+  /* Interactive Components Styles */
+  .interactive-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(52, 168, 83, 0.15);
+    border: 1px solid rgba(52, 168, 83, 0.35);
+    color: #7ce6a3;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  .interactive-box {
+    background: rgba(17, 21, 28, 0.95);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .interactive-box.highlight {
+    border-color: rgba(155, 114, 203, 0.5);
+    box-shadow: 0 0 20px rgba(155, 114, 203, 0.15);
+  }
+
+  .interactive-btn {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.25);
+  }
+
+  .interactive-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(155, 114, 203, 0.4);
+    filter: brightness(1.1);
+  }
+
+  .interactive-btn.secondary {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    box-shadow: none;
+  }
+
+  .interactive-btn.secondary:hover {
+    border-color: var(--purple);
+    color: var(--purple);
+  }
+
+  .preset-btn {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .preset-btn:hover, .preset-btn.active {
+    background: rgba(155, 114, 203, 0.18);
+    border-color: rgba(155, 114, 203, 0.5);
+    color: #fff;
+  }
+
+  .calc-slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+
+  .calc-slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .calc-slider-label span.val {
+    color: var(--blue);
+    font-weight: 700;
+  }
+
+  .calc-slider {
+    width: 100%;
+    accent-color: var(--purple);
+    cursor: pointer;
+    height: 6px;
+    background: var(--line);
+    border-radius: 3px;
+  }
+
+  .term-box {
+    background: #06080b;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: #a4c2ff;
+    max-height: 170px;
+    overflow-y: auto;
+  }
+  .term-line { margin: 2px 0; }
+  .term-green { color: #7ce6a3; }
+  .term-yellow { color: #ffd96a; }
+  .term-purple { color: #d6b3ee; }
+  .term-red { color: #ff9b8f; }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px 28px;
+    max-width: 560px;
+    width: 90%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    position: relative;
+  }
+
+  .quiz-opt {
+    width: 100%;
+    text-align: left;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 9px 13px;
+    color: var(--ink);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 6px;
+  }
+  .quiz-opt:hover {
+    border-color: var(--purple);
+    background: rgba(155, 114, 203, 0.1);
+  }
+  .quiz-opt.selected-correct {
+    border-color: var(--green)!important;
+    background: rgba(52, 168, 83, 0.18)!important;
+    color: #7ce6a3!important;
+  }
+  .quiz-opt.selected-wrong {
+    border-color: var(--red)!important;
+    background: rgba(234, 67, 53, 0.18)!important;
+    color: #ff9b8f!important;
+  }
+  .toast-notice {
+    position: fixed;
+    top: 70px;
+    right: 30px;
+    background: rgba(52, 168, 83, 0.95);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 10000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+  }
+  .toast-notice.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Visualizations Styles */
+  .donut-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(17, 21, 28, 0.95);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-top: 14px;
+  }
+  
+  .donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .legend-item:hover, .legend-item.active {
+    background: rgba(155, 114, 203, 0.15);
+    border-color: rgba(155, 114, 203, 0.4);
+  }
+
+  .legend-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  /* Knowledge Graph SVG Nodes */
+  .kg-node {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .kg-node:hover circle {
+    stroke-width: 3px;
+    filter: drop-shadow(0 0 10px rgba(155,114,203,0.8));
+  }
+  .kg-beam {
+    stroke-dasharray: 6;
+    animation: beamFlow 2s linear infinite;
+  }
+  @keyframes beamFlow {
+    to { stroke-dashoffset: -24; }
+  }
+
+  /* Visual Comparison Bars */
+  .comp-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .comp-bar-label {
+    width: 90px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .comp-bar-track {
+    flex: 1;
+    height: 22px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .comp-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  /* Horizontal Timeline Visualizer */
+  .timeline-nodes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    position: relative;
+    margin-top: 14px;
+  }
+  .timeline-node {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  .timeline-node:hover, .timeline-node.active {
+    border-color: var(--purple);
+    background: linear-gradient(180deg, #181424, #11151c);
+    box-shadow: 0 0 16px rgba(155, 114, 203, 0.25);
+    transform: translateY(-2px);
+  }
+  .timeline-node-step {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--purple);
+    letter-spacing: .08em;
+    margin-bottom: 4px;
+  }
 </style>
 </head>
 <body>
@@ -340,6 +672,47 @@
           <p>The average worker toggles between many apps to complete one task, paying attention-switch cost on every handoff.</p>
         </div>
       </div>
+
+      <!-- Interactive Donut Breakdown Chart Visualizer -->
+      <div class="donut-container">
+        <div style="position:relative;width:120px;height:120px;flex-shrink:0;display:grid;place-items:center">
+          <svg width="120" height="120" viewBox="0 0 42 42">
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#161b24" stroke-width="5"></circle>
+            <!-- 2.5 hrs (31%) Red -->
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--red)" stroke-width="5" stroke-dasharray="31 69" stroke-dashoffset="25"></circle>
+            <!-- 2.0 hrs (25%) Yellow -->
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--yellow)" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="94"></circle>
+            <!-- 1.5 hrs (19%) Purple -->
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--purple)" stroke-width="5" stroke-dasharray="19 81" stroke-dashoffset="69"></circle>
+            <!-- 2.0 hrs (25%) Green -->
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--green)" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="50"></circle>
+          </svg>
+          <div style="position:absolute;text-align:center">
+            <div style="font-size:16px;font-weight:800;color:#fff">8.0 hrs</div>
+            <div style="font-size:9.5px;color:var(--muted);font-weight:700">WORK DAY</div>
+          </div>
+        </div>
+
+        <div class="donut-legend">
+          <div style="font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:2px">VISUAL BREAKDOWN · WHERE 8 HOURS GO</div>
+          <div class="legend-item active" onclick="highlightTimeSink('copy')">
+            <span><span class="legend-color" style="background:var(--red)"></span>Repetitive Copy / Paste &amp; Re-entry</span>
+            <span style="font-weight:700;color:var(--red)">2.5 hrs (31%)</span>
+          </div>
+          <div class="legend-item" onclick="highlightTimeSink('toggle')">
+            <span><span class="legend-color" style="background:var(--yellow)"></span>App Toggling &amp; Context Switch</span>
+            <span style="font-weight:700;color:var(--yellow)">2.0 hrs (25%)</span>
+          </div>
+          <div class="legend-item" onclick="highlightTimeSink('format')">
+            <span><span class="legend-color" style="background:var(--purple)"></span>Document Formatting &amp; Email Sync</span>
+            <span style="font-weight:700;color:var(--purple)">1.5 hrs (19%)</span>
+          </div>
+          <div class="legend-item" onclick="highlightTimeSink('deep')">
+            <span><span class="legend-color" style="background:var(--green)"></span>Actual Deep Work &amp; Innovation</span>
+            <span style="font-weight:700;color:var(--green)">2.0 hrs (25%)</span>
+          </div>
+        </div>
+      </div>
       <span class="num">03</span>
     </section>
 
@@ -349,27 +722,94 @@
       <h2>The Automation Maturity Ladder</h2>
       <p>Most teams plateau at Level 2. Each rung buys back time and quality, and unlocks the next.</p>
       <div class="ladder">
-        <div class="rung L1">
+        <div class="rung L1" id="rungL1">
           <div class="rn">L1 · MANUAL</div>
           <h3>Hand-typed, hand-carried</h3>
           <p>Every step is human executed. Reports, briefings, and follow-ups are written from scratch every time.</p>
         </div>
-        <div class="rung L2">
+        <div class="rung L2" id="rungL2">
           <div class="rn">L2 · ASSISTED</div>
           <h3>Smart Compose, Smart Reply</h3>
           <p>Inline AI hints nudge the human. Faster, but the human still does every step.</p>
         </div>
-        <div class="rung L3">
+        <div class="rung L3" id="rungL3">
           <div class="rn">L3 · AUTOMATED</div>
           <h3>Multi-step agents</h3>
           <p>Research → draft → slides runs as one orchestrated flow. Human reviews the output.</p>
         </div>
-        <div class="rung L4">
+        <div class="rung L4" id="rungL4">
           <div class="rn">L4 · AGENTIC</div>
           <h3>Async multi-agent teams</h3>
           <p>Specialized agents run on schedules, share memory, and report back. Humans set direction, not tasks.</p>
         </div>
       </div>
+
+      <!-- Interactive Maturity Assessment Tool -->
+      <div class="interactive-box" style="margin-top:14px;background:rgba(17,21,28,0.95);border:1px solid rgba(155,114,203,0.35)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="interactive-badge">⚡ Interactive Tool</span>
+            <span style="font-size:13.5px;font-weight:700;color:#fff">Where is your team on the AI Maturity Ladder?</span>
+          </div>
+          <button class="interactive-btn" style="padding:4px 12px;font-size:12px" onclick="toggleMaturityQuiz()">
+            <i class="fas fa-calculator"></i> <span id="toggleMaturityBtnText">Take 30-Sec Assessment</span>
+          </button>
+        </div>
+
+        <div id="maturityQuizArea" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--purple);margin-bottom:6px">Q1 · REPETITIVE TASKS</div>
+              <select id="mq1" style="background:#161b24;color:#fff;padding:6px;border-radius:6px;font-size:12px;border:1px solid var(--line);width:100%" onchange="calcMaturityScore()">
+                <option value="1">L1: 100% manual copy/paste</option>
+                <option value="2">L2: Using inline AI suggestions</option>
+                <option value="3">L3: Multi-step prompt templates</option>
+                <option value="4">L4: Autonomous background agents</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:6px">Q2 · RESEARCH & BRIEFINGS</div>
+              <select id="mq2" style="background:#161b24;color:#fff;padding:6px;border-radius:6px;font-size:12px;border:1px solid var(--line);width:100%" onchange="calcMaturityScore()">
+                <option value="1">L1: Reading tabs one by one</option>
+                <option value="2">L2: ChatGPT/Gemini web chat</option>
+                <option value="3">L3: Source-grounded NotebookLM</option>
+                <option value="4">L4: Scheduled NotebookLM + Opal pipeline</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:6px">Q3 · CODING & OPS</div>
+              <select id="mq3" style="background:#161b24;color:#fff;padding:6px;border-radius:6px;font-size:12px;border:1px solid var(--line);width:100%" onchange="calcMaturityScore()">
+                <option value="1">L1: Hand-written scripts/PRs</option>
+                <option value="2">L2: Copilot inline autocomplete</option>
+                <option value="3">L3: Jules AI async pull requests</option>
+                <option value="4">L4: Antigravity multi-agent orchestration</option>
+              </select>
+            </div>
+          </div>
+          
+          <div id="maturityResultBox" style="margin-top:12px;padding:12px 14px;background:rgba(155,114,203,0.12);border:1px dashed var(--purple);border-radius:10px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <span style="font-size:11px;color:var(--muted);font-weight:700">ASSESSMENT RESULT:</span>
+                <div id="maturityResultTitle" style="font-size:13.5px;font-weight:800;color:#fff">Select options above to calculate</div>
+              </div>
+              <div id="maturityResultBadge" style="padding:4px 12px;border-radius:999px;font-size:12px;font-weight:800;background:var(--purple);color:#fff">
+                CALCULATING...
+              </div>
+            </div>
+            <!-- Visual Gauge Progress Bar -->
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--muted);margin-bottom:3px">
+                <span>AUTOMATION CAPABILITY METRIC</span> <span id="maturityPercentText" style="color:var(--purple)">0% Automated</span>
+              </div>
+              <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden">
+                <div id="maturityGaugeFill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--purple),var(--green));transition:width 0.5s ease"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="src">Framework adapted from MIT Sloan AI maturity research and Google Cloud's agentic maturity framing. <a href="https://mitsloan.mit.edu/ideas-made-to-matter/whats-your-companys-ai-maturity-level" target="_blank" rel="noopener">MIT Sloan</a> · <a href="https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next26" target="_blank" rel="noopener">Google Cloud Next '26</a></div>
       <span class="num">04</span>
     </section>
@@ -379,46 +819,68 @@
       <div class="kicker">The Google AI stack</div>
       <h2>Meet the Stack</h2>
       <p>Seven products today, one trajectory: from helpful assistant to orchestrated team. Each product ladders into the next.</p>
-      <div class="stack-tiles">
-        <div class="tile">
+      <!-- Preset Scenario Selector -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <span style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">Interactive Solution Architect:</span>
+        <button class="preset-btn active" onclick="selectStackPreset('code')"><i class="fas fa-code"></i> Async Code & Testing</button>
+        <button class="preset-btn" onclick="selectStackPreset('research')"><i class="fas fa-book-open"></i> Research & Briefings</button>
+        <button class="preset-btn" onclick="selectStackPreset('ops')"><i class="fas fa-bolt"></i> No-Code Mini-App Ops</button>
+        <button class="preset-btn" onclick="selectStackPreset('fleet')"><i class="fas fa-server"></i> Enterprise Fleet Control</button>
+      </div>
+
+      <div class="stack-tiles" id="stackTilesContainer">
+        <div class="tile" data-tool="gemini">
           <div class="ico purple">✦</div>
           <h3>Gemini 3</h3>
           <p>Multimodal foundation model, with Gemini 3 Flash for speed-critical paths.</p>
         </div>
-        <div class="tile">
+        <div class="tile" data-tool="workspace">
           <div class="ico blue">W</div>
           <h3>Gemini in Workspace</h3>
           <p>Docs, Sheets, Slides, Gmail, Meet, Drive — AI already where your team works.</p>
         </div>
-        <div class="tile">
+        <div class="tile" data-tool="notebooklm">
           <div class="ico yellow">N</div>
           <h3>NotebookLM<br/><span style="font-size:11px;color:#aab3cf">(Gemini Notebook)</span></h3>
           <p>Source-grounded research and briefing assistant, renamed July 2026.</p>
         </div>
-        <div class="tile">
+        <div class="tile" data-tool="jules">
           <div class="ico green">J</div>
           <h3>Jules</h3>
           <p>Async coding agent for GitHub repos: tests, fixes, migrations, reviews.</p>
         </div>
-        <div class="tile">
+        <div class="tile" data-tool="antigravity">
           <div class="ico purple">A</div>
           <h3>Antigravity</h3>
           <p>Agent-first IDE with sub-agents, scheduled tasks, browser control surface.</p>
         </div>
-        <div class="tile">
+        <div class="tile" data-tool="opal">
           <div class="ico red">O</div>
           <h3>Opal</h3>
           <p>No-code builder for AI mini-apps from a natural-language prompt.</p>
         </div>
-        <div class="tile">
+        <div class="tile" data-tool="vertex">
           <div class="ico blue">V</div>
           <h3>Vertex Agent Builder</h3>
           <p>Now branded Gemini Enterprise Agent Platform — production agents at scale.</p>
         </div>
-        <div class="tile">
+        <div class="tile" data-tool="compose">
           <div class="ico yellow">+</div>
           <h3>…and they compose</h3>
           <p>NotebookLM feeds Antigravity feeds Opal. The stack is the strategy.</p>
+        </div>
+      </div>
+
+      <!-- Live Pipeline Output Box -->
+      <div id="stackPipelineBox" class="interactive-box" style="margin-top:12px;padding:10px 14px;background:rgba(155,114,203,0.1);border:1px solid rgba(155,114,203,0.4);border-radius:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:11px;font-weight:700;color:var(--purple);letter-spacing:.08em;text-transform:uppercase" id="pipelineTitle">PIPELINE ARCHITECTURE</span>
+          <span style="font-size:11px;color:var(--muted)" id="pipelineMeta">Click preset buttons above to test tool composition</span>
+        </div>
+        <div id="pipelineSteps" style="margin-top:6px;font-size:13px;color:#fff;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="pill" style="background:rgba(66,133,244,0.2)">NotebookLM (Ingest PDFs)</span> ➔ 
+          <span class="pill" style="background:rgba(155,114,203,0.2)">Antigravity (Orchestrate Agent)</span> ➔ 
+          <span class="pill" style="background:rgba(234,67,53,0.2)">Opal (Deploy Mini-App)</span>
         </div>
       </div>
       <span class="num">05</span>
@@ -464,6 +926,63 @@
             <div class="ttl" style="color:#d6b3ee">EXAMPLE · WEEKLY COMPETITOR BRIEF</div>
             <h3>10 PDFs → briefing + podcast</h3>
             <p>1. Drop competitor reports into a notebook. <br/>2. NotebookLM indexes them, surfaces contradictions. <br/>3. Ask "what changed in pricing this week?" <br/>4. Generate an audio overview for the commute. <br/>5. Export the chat as a Docs draft. <br/><br/><span style="color:#aab3cf">Time: 30 min, sources cited inline.</span></p>
+          </div>
+        </div>
+      </div>
+      <!-- Interactive Source Knowledge Graph Visualization -->
+      <div class="interactive-box" style="margin-top:14px;background:rgba(14,17,23,0.95);border:1px solid rgba(251,188,5,0.35);padding:12px 16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-size:11.5px;font-weight:700;color:var(--yellow);letter-spacing:.08em;text-transform:uppercase">
+            <i class="fas fa-project-diagram"></i> INTERACTIVE SOURCE KNOWLEDGE GRAPH
+          </div>
+          <span style="font-size:11px;color:var(--muted)">Click source nodes to inspect citation connections</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 240px;gap:16px;align-items:center">
+          <div style="height:140px;position:relative">
+            <svg width="100%" height="100%" viewBox="0 0 450 140">
+              <!-- Beam lines connecting sources to central Hub -->
+              <line x1="70" y1="30" x2="225" y2="70" stroke="rgba(251,188,5,0.4)" stroke-width="2" class="kg-beam" id="kgBeam1"></line>
+              <line x1="70" y1="110" x2="225" y2="70" stroke="rgba(66,133,244,0.4)" stroke-width="2" class="kg-beam" id="kgBeam2"></line>
+              <line x1="380" y1="30" x2="225" y2="70" stroke="rgba(52,168,83,0.4)" stroke-width="2" class="kg-beam" id="kgBeam3"></line>
+              <line x1="380" y1="110" x2="225" y2="70" stroke="rgba(155,114,203,0.4)" stroke-width="2" class="kg-beam" id="kgBeam4"></line>
+
+              <!-- Central Node (NotebookLM) -->
+              <g class="kg-node" onclick="inspectKGNode('hub')">
+                <circle cx="225" cy="70" r="28" fill="#161b24" stroke="var(--yellow)" stroke-width="2.5"></circle>
+                <text x="225" y="66" text-anchor="middle" fill="#ffd96a" font-size="11" font-weight="800">Gemini</text>
+                <text x="225" y="78" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">Notebook</text>
+              </g>
+
+              <!-- Node 1: PDFs -->
+              <g class="kg-node" onclick="inspectKGNode('pdf')">
+                <circle cx="70" cy="30" r="18" fill="#1a1320" stroke="var(--yellow)" stroke-width="1.5"></circle>
+                <text x="70" y="34" text-anchor="middle" fill="#ffd96a" font-size="10" font-weight="700">PDFs</text>
+              </g>
+
+              <!-- Node 2: Web Docs -->
+              <g class="kg-node" onclick="inspectKGNode('web')">
+                <circle cx="70" cy="110" r="18" fill="#0f192b" stroke="var(--blue)" stroke-width="1.5"></circle>
+                <text x="70" y="114" text-anchor="middle" fill="#a4c2ff" font-size="10" font-weight="700">Web</text>
+              </g>
+
+              <!-- Node 3: Audio Overviews -->
+              <g class="kg-node" onclick="inspectKGNode('audio')">
+                <circle cx="380" cy="30" r="18" fill="#0e1f16" stroke="var(--green)" stroke-width="1.5"></circle>
+                <text x="380" y="34" text-anchor="middle" fill="#7ce6a3" font-size="10" font-weight="700">Audio</text>
+              </g>
+
+              <!-- Node 4: Transcripts -->
+              <g class="kg-node" onclick="inspectKGNode('trans')">
+                <circle cx="380" cy="110" r="18" fill="#1c1426" stroke="var(--purple)" stroke-width="1.5"></circle>
+                <text x="380" y="114" text-anchor="middle" fill="#d6b3ee" font-size="10" font-weight="700">Notes</text>
+              </g>
+            </svg>
+          </div>
+
+          <div id="kgInspectBox" style="background:#090c10;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:11.5px;color:#cdd6ee;min-height:90px">
+            <div style="font-weight:700;color:var(--yellow);margin-bottom:4px">✦ Grounded Citation Engine</div>
+            Click nodes in the graph to inspect citation beams &amp; source grounding parameters.
           </div>
         </div>
       </div>
@@ -533,6 +1052,53 @@
           <p>Each project gets its own permission scope, so cross-project leakage is harder.</p>
         </div>
       </div>
+
+      <!-- Live Agent Mission Simulator Sandbox -->
+      <div class="interactive-box" style="margin-top:14px;background:rgba(6,8,11,0.95);border:1px solid rgba(155,114,203,0.35);padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="interactive-badge" style="background:rgba(155,114,203,0.2);color:#d6b3ee;border-color:rgba(155,114,203,0.4)">
+              <i class="fas fa-terminal"></i> Live Mission Sandbox
+            </span>
+            <span style="font-size:12.5px;font-weight:700;color:#fff">Simulate Antigravity Multi-Agent Task Execution</span>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="interactive-btn" style="padding:4px 12px;font-size:11.5px" id="runSimBtn" onclick="runAntigravitySim()">
+              <i class="fas fa-play"></i> Run Agent Mission
+            </button>
+            <button class="interactive-btn secondary" style="padding:4px 10px;font-size:11.5px" onclick="resetAntigravitySim()">
+              <i class="fas fa-undo"></i> Reset
+            </button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 220px;gap:12px;align-items:stretch">
+          <!-- Terminal output -->
+          <div class="term-box" id="agTermOutput">
+            <div class="term-line term-purple">[System Ready] Select 'Run Agent Mission' to orchestrate sub-agents...</div>
+          </div>
+          <!-- Agent Status Panel -->
+          <div style="background:#0e1219;border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Active Sub-Agents</div>
+              <div style="font-size:11.5px;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                <span>🤖 Orchestrator</span> <span id="agStatus1" style="color:var(--muted)">Idle</span>
+              </div>
+              <div style="font-size:11.5px;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                <span>💻 Jules Code Agent</span> <span id="agStatus2" style="color:var(--muted)">Idle</span>
+              </div>
+              <div style="font-size:11.5px;display:flex;align-items:center;justify-content:space-between">
+                <span>🌐 Browser Agent</span> <span id="agStatus3" style="color:var(--muted)">Idle</span>
+              </div>
+            </div>
+            <div style="margin-top:8px;padding-top:6px;border-top:1px solid var(--line)">
+              <div style="font-size:10px;color:var(--muted);font-weight:700">MISSION STATUS</div>
+              <div id="agMissionBadge" style="font-size:11px;font-weight:800;color:var(--purple);margin-top:2px">READY TO LAUNCH</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="src">Announced at Google I/O 2026 · Antigravity 2.0 rolls in 2.0 release.<br/><a href="https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/" target="_blank" rel="noopener">I/O 2026 dev highlights</a> · <a href="https://antigravity.google/blog/google-io-2026" target="_blank" rel="noopener">Antigravity blog</a></div>
       <span class="num">09</span>
     </section>
@@ -553,10 +1119,31 @@
           </ul>
           <div class="src"><a href="https://developers.google.com/opal" target="_blank" rel="noopener">Google for Developers</a> · <a href="https://blog.google/innovation-and-ai/models-and-research/google-labs/opal-expansion/" target="_blank" rel="noopener">Expansion blog</a></div>
         </div>
-        <div class="card" style="background:linear-gradient(180deg,#11151c,#1a1320);border-color:rgba(234,67,53,.3)">
-          <div class="ttl" style="color:#ff9b8f">EXAMPLE · MEETING SUMMARIZER MINI-APP</div>
-          <h3>Prompt → 4-step workflow</h3>
-          <p>Step 1 · Upload transcript<br/>Step 2 · Gemini extracts decisions &amp; action items<br/>Step 3 · Group by owner, format as a table<br/>Step 4 · Email each owner their rows<br/><br/><span style="color:#aab3cf">Built by a non-engineer in minutes.</span></p>
+        <div class="card" style="background:linear-gradient(180deg,#11151c,#1a1320);border-color:rgba(234,67,53,.35)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div class="ttl" style="color:#ff9b8f">INTERACTIVE OPAL BUILDER</div>
+            <button class="interactive-btn" style="padding:4px 10px;font-size:11px" onclick="runOpalWorkflowSim()">
+              <i class="fas fa-bolt"></i> Test Run App
+            </button>
+          </div>
+          <h3 style="font-size:17px;margin-bottom:8px">Prompt → 4-Step Workflow Node Graph</h3>
+          <div style="display:flex;flex-direction:column;gap:6px" id="opalNodesContainer">
+            <div class="pill" id="opalNode1" style="background:rgba(255,255,255,0.06);border-color:var(--line);justify-content:space-between;width:100%">
+              <span>Step 1 · Input: Meeting Transcript</span> <i class="fas fa-check-circle" style="color:var(--muted)"></i>
+            </div>
+            <div class="pill" id="opalNode2" style="background:rgba(255,255,255,0.06);border-color:var(--line);justify-content:space-between;width:100%">
+              <span>Step 2 · Gemini 3: Extract Action Items</span> <i class="fas fa-check-circle" style="color:var(--muted)"></i>
+            </div>
+            <div class="pill" id="opalNode3" style="background:rgba(255,255,255,0.06);border-color:var(--line);justify-content:space-between;width:100%">
+              <span>Step 3 · Formatter: Markdown Table</span> <i class="fas fa-check-circle" style="color:var(--muted)"></i>
+            </div>
+            <div class="pill" id="opalNode4" style="background:rgba(255,255,255,0.06);border-color:var(--line);justify-content:space-between;width:100%">
+              <span>Step 4 · Workspace: Email Owners</span> <i class="fas fa-check-circle" style="color:var(--muted)"></i>
+            </div>
+          </div>
+          <div id="opalOutputBox" style="margin-top:10px;padding:8px 12px;background:#090c10;border:1px solid var(--line);border-radius:8px;font-size:11.5px;color:#a4c2ff;font-family:monospace;min-height:50px">
+            Click 'Test Run App' to see Opal assemble & execute live.
+          </div>
         </div>
       </div>
       <span class="num">10</span>
@@ -613,7 +1200,76 @@
           </ol>
         </div>
       </div>
-      <p style="margin-top:18px;font-size:13px;color:#aab3cf">Numbers are representative; measure your own baseline against them — most teams see a 60–80% reduction in repetitive research-brief cycles once all three agents are wired.</p>
+      <!-- Interactive Time & Cost Savings ROI Calculator -->
+      <div class="interactive-box" style="margin-top:14px;background:rgba(17,21,28,0.95);border:1px solid rgba(52,168,83,0.35);padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="interactive-badge" style="background:rgba(52,168,83,0.2);color:#7ce6a3;border-color:rgba(52,168,83,0.4)">
+              <i class="fas fa-calculator"></i> Interactive ROI Calculator
+            </span>
+            <span style="font-size:12.5px;font-weight:700;color:#fff">Estimate your team's monthly time &amp; cost savings</span>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:center">
+          <div class="calc-slider-group">
+            <div class="calc-slider-label">
+              <span>Team Size</span> <span class="val" id="valTeamSize">10 members</span>
+            </div>
+            <input type="range" class="calc-slider" id="sliderTeamSize" min="1" max="50" value="10" oninput="calcROI()">
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-label">
+              <span>Manual Hours / Worker / Wk</span> <span class="val" id="valHours">8 hours</span>
+            </div>
+            <input type="range" class="calc-slider" id="sliderHours" min="1" max="30" value="8" oninput="calcROI()">
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-label">
+              <span>Avg Hourly Rate ($)</span> <span class="val" id="valRate">$60 / hr</span>
+            </div>
+            <input type="range" class="calc-slider" id="sliderRate" min="20" max="200" step="5" value="60" oninput="calcROI()">
+          </div>
+        </div>
+
+        <!-- Dynamic Visual Comparison Bar Chart -->
+        <div style="margin-top:10px;margin-bottom:10px;padding:8px;background:rgba(0,0,0,0.3);border-radius:8px">
+          <div style="font-size:10.5px;font-weight:700;color:var(--muted);margin-bottom:6px">VISUAL TIME DISTRIBUTION COMPARISON</div>
+          <div class="comp-bar-wrapper">
+            <div class="comp-bar-label">Manual (Before)</div>
+            <div class="comp-bar-track">
+              <div class="comp-bar-fill" id="barManual" style="width:100%;background:linear-gradient(90deg, #ea4335, #c0392b)">100% Time</div>
+            </div>
+          </div>
+          <div class="comp-bar-wrapper">
+            <div class="comp-bar-label">Agentic (After)</div>
+            <div class="comp-bar-track">
+              <div class="comp-bar-fill" id="barAgentic" style="width:25%;background:linear-gradient(90deg, #34a853, #2ecc71)">25% Time (-75%)</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:8px;padding:10px 14px;background:rgba(52,168,83,0.1);border:1px dashed var(--green);border-radius:10px;display:flex;align-items:center;justify-content:space-around;text-align:center">
+          <div>
+            <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">MONTHLY TIME RECLAIMED</div>
+            <div style="font-size:20px;font-weight:800;color:#7ce6a3" id="roiMonthlyHours">258 Hours</div>
+          </div>
+          <div style="width:1px;height:26px;background:var(--line)"></div>
+          <div>
+            <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">ANNUAL COST SAVINGS</div>
+            <div style="font-size:20px;font-weight:800;color:var(--yellow)" id="roiAnnualSavings">$185,760</div>
+          </div>
+          <div style="width:1px;height:26px;background:var(--line)"></div>
+          <div>
+            <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">EFFICIENCY GAIN</div>
+            <div style="font-size:20px;font-weight:800;color:var(--blue)" id="roiEfficiency">+75% Faster</div>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top:14px;font-size:12.5px;color:#aab3cf">Numbers are representative; measure your own baseline against them — most teams see a 60–80% reduction in repetitive research-brief cycles once all three agents are wired.</p>
       <span class="num">12</span>
     </section>
 
@@ -624,27 +1280,74 @@
       <p>Every rung has a sharp edge. Plan for them.</p>
       <div class="quads">
         <div class="quad">
-          <div class="qa">RISK 01</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="qa">RISK 01</div>
+            <button class="interactive-btn secondary" style="padding:2px 8px;font-size:11px" onclick="toggleRiskQuiz(1)">
+              <i class="fas fa-question-circle"></i> Quiz
+            </button>
+          </div>
           <h3>Data privacy</h3>
           <p>Which data is allowed to leave your workspace and feed the model? Some teams default-pipe sensitive records.</p>
+          <div id="riskQuiz1" style="display:none;margin-top:8px;padding:8px;background:#0d1117;border-radius:8px;font-size:11.5px">
+            <div style="font-weight:700;margin-bottom:4px;color:#fff">Scenario: How to protect proprietary PII?</div>
+            <button class="quiz-opt" onclick="checkRiskAns(1, 0, 1)">A. Ban all AI tools completely</button>
+            <button class="quiz-opt" onclick="checkRiskAns(1, 1, 1)">B. Enforce Workspace IAM + Gemini Enterprise data residency</button>
+            <div id="riskFeedback1" style="font-weight:700;margin-top:4px"></div>
+          </div>
           <div class="fix">Fix: Workspace IAM scopes + Gemini Enterprise regional data residency.</div>
         </div>
+
         <div class="quad">
-          <div class="qa">RISK 02</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="qa">RISK 02</div>
+            <button class="interactive-btn secondary" style="padding:2px 8px;font-size:11px" onclick="toggleRiskQuiz(2)">
+              <i class="fas fa-question-circle"></i> Quiz
+            </button>
+          </div>
           <h3>Hallucination</h3>
           <p>An agent that confabulates citations costs more than no agent at all.</p>
+          <div id="riskQuiz2" style="display:none;margin-top:8px;padding:8px;background:#0d1117;border-radius:8px;font-size:11.5px">
+            <div style="font-weight:700;margin-bottom:4px;color:#fff">Scenario: How to eliminate fabricated facts?</div>
+            <button class="quiz-opt" onclick="checkRiskAns(2, 0, 0)">A. Ground with NotebookLM sources &amp; require human review</button>
+            <button class="quiz-opt" onclick="checkRiskAns(2, 1, 0)">B. Increase AI temperature to 1.0</button>
+            <div id="riskFeedback2" style="font-weight:700;margin-top:4px"></div>
+          </div>
           <div class="fix">Fix: Ground with NotebookLM where citations matter; require human review before any external send.</div>
         </div>
+
         <div class="quad">
-          <div class="qa">RISK 03</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="qa">RISK 03</div>
+            <button class="interactive-btn secondary" style="padding:2px 8px;font-size:11px" onclick="toggleRiskQuiz(3)">
+              <i class="fas fa-question-circle"></i> Quiz
+            </button>
+          </div>
           <h3>Cost surprises</h3>
           <p>Agent orchestration can run away — multiple agents looping on a bad plan burns tokens fast.</p>
+          <div id="riskQuiz3" style="display:none;margin-top:8px;padding:8px;background:#0d1117;border-radius:8px;font-size:11.5px">
+            <div style="font-weight:700;margin-bottom:4px;color:#fff">Scenario: How to prevent token budget blowouts?</div>
+            <button class="quiz-opt" onclick="checkRiskAns(3, 0, 1)">A. Let agents loop indefinitely until done</button>
+            <button class="quiz-opt" onclick="checkRiskAns(3, 1, 1)">B. Set Vertex per-agent budget alerts &amp; Flash vs Pro tiers</button>
+            <div id="riskFeedback3" style="font-weight:700;margin-top:4px"></div>
+          </div>
           <div class="fix">Fix: Per-agent budget alerts in Vertex; require model-tier choice (Flash vs Pro) per task.</div>
         </div>
+
         <div class="quad">
-          <div class="qa">RISK 04</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="qa">RISK 04</div>
+            <button class="interactive-btn secondary" style="padding:2px 8px;font-size:11px" onclick="toggleRiskQuiz(4)">
+              <i class="fas fa-question-circle"></i> Quiz
+            </button>
+          </div>
           <h3>Shadow AI</h3>
           <p>Opal and Jules let anyone ship an agent. That's wonderful — until no one knows what exists.</p>
+          <div id="riskQuiz4" style="display:none;margin-top:8px;padding:8px;background:#0d1117;border-radius:8px;font-size:11.5px">
+            <div style="font-weight:700;margin-bottom:4px;color:#fff">Scenario: How to govern citizen-built agents?</div>
+            <button class="quiz-opt" onclick="checkRiskAns(4, 0, 0)">A. Maintain a central Vertex Agent Registry &amp; weekly reviews</button>
+            <button class="quiz-opt" onclick="checkRiskAns(4, 1, 0)">B. Disable Opal &amp; Jules for all employees</button>
+            <div id="riskFeedback4" style="font-weight:700;margin-top:4px"></div>
+          </div>
           <div class="fix">Fix: Maintain an agent registry in Vertex; weekly Office-of-AI review of new agents.</div>
         </div>
       </div>
@@ -678,10 +1381,101 @@
           <p>Move critical agents to Vertex AI Agent Builder. Stand up the agent registry and budget alerts.</p>
         </div>
       </div>
+
+      <!-- Interactive Visual Timeline Roadmap -->
+      <div class="interactive-box" style="margin-top:14px;background:rgba(17,21,28,0.95);border:1px solid rgba(155,114,203,0.3);padding:12px 16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:11.5px;font-weight:700;color:var(--purple);letter-spacing:.08em;text-transform:uppercase">
+            <i class="fas fa-route"></i> VISUAL MILESTONE TRACKER
+          </span>
+          <span style="font-size:11px;color:var(--muted)">Click milestone nodes to inspect deliverables</span>
+        </div>
+
+        <div class="timeline-nodes">
+          <div class="timeline-node active" id="tnode1" onclick="inspectTimelineNode(1)">
+            <div class="timeline-node-step">WEEK 1-2</div>
+            <div style="font-size:12.5px;font-weight:700;color:#fff">Workspace Rollout</div>
+          </div>
+          <div class="timeline-node" id="tnode2" onclick="inspectTimelineNode(2)">
+            <div class="timeline-node-step">WEEK 3</div>
+            <div style="font-size:12.5px;font-weight:700;color:#fff">NotebookLM Ingest</div>
+          </div>
+          <div class="timeline-node" id="tnode3" onclick="inspectTimelineNode(3)">
+            <div class="timeline-node-step">WEEK 4</div>
+            <div style="font-size:12.5px;font-weight:700;color:#fff">Agent Task Pilot</div>
+          </div>
+          <div class="timeline-node" id="tnode4" onclick="inspectTimelineNode(4)">
+            <div class="timeline-node-step">MONTH 2+</div>
+            <div style="font-size:12.5px;font-weight:700;color:#fff">Vertex Scaling</div>
+          </div>
+        </div>
+
+        <div id="timelineInspectBox" style="margin-top:10px;padding:10px 14px;background:#090c10;border:1px solid var(--line);border-radius:8px;font-size:11.5px;color:#cdd6ee">
+          <span style="color:#7ce6a3;font-weight:700">✦ Phase 1 Deliverables:</span> Enable Gemini in Docs/Sheets/Slides. Collect 5 power-user case studies.
+        </div>
+      </div>
       <span class="num">14</span>
     </section>
 
-    <!-- Slide 15 -->
+    <!-- Slide 15: Interactive Knowledge Check & Custom Action Plan Generator -->
+    <section class="slide">
+      <div class="kicker">Interactive Quiz</div>
+      <h2>Test Your AI Workflow IQ 🧠</h2>
+      <p>Verify what you've learned &amp; generate your personalized 30-day team roadmap.</p>
+
+      <div class="grid2" style="grid-template-columns:1fr 1fr;gap:20px;margin-top:14px">
+        <!-- Left: Quiz Questions -->
+        <div style="background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <span style="font-size:12px;font-weight:700;color:var(--purple);text-transform:uppercase">Knowledge Check</span>
+            <span id="iqScoreBadge" style="font-size:11px;font-weight:800;background:rgba(155,114,203,0.2);color:#d6b3ee;padding:3px 10px;border-radius:999px">Score: 0 / 3</span>
+          </div>
+
+          <!-- Q1 -->
+          <div style="margin-bottom:12px">
+            <div style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:6px">1. Which tool provides source-grounded Q&amp;A on PDFs?</div>
+            <button class="quiz-opt" onclick="answerIQ(1, 0, 1, this)">A. ChatGPT web search</button>
+            <button class="quiz-opt" onclick="answerIQ(1, 1, 1, this)">B. NotebookLM (Gemini Notebook)</button>
+          </div>
+
+          <!-- Q2 -->
+          <div style="margin-bottom:12px">
+            <div style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:6px">2. What is Jules designed to handle autonomously?</div>
+            <button class="quiz-opt" onclick="answerIQ(2, 0, 0, this)">A. Async GitHub coding, testing &amp; pull requests</button>
+            <button class="quiz-opt" onclick="answerIQ(2, 1, 0, this)">B. Generating presentation slide themes</button>
+          </div>
+
+          <!-- Q3 -->
+          <div style="margin-bottom:8px">
+            <div style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:6px">3. How does Antigravity differ from inline chat helpers?</div>
+            <button class="quiz-opt" onclick="answerIQ(3, 0, 1, this)">A. It only auto-completes single lines of code</button>
+            <button class="quiz-opt" onclick="answerIQ(3, 1, 1, this)">B. Agent-first IDE with sub-agents &amp; browser surface</button>
+          </div>
+        </div>
+
+        <!-- Right: Generated Roadmap Output -->
+        <div style="background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div class="ttl" style="color:var(--green)">YOUR PERSONALIZED ROADMAP</div>
+            <h3 style="font-size:18px;margin-bottom:8px">30-Day AI Execution Plan</h3>
+            <p style="font-size:12.5px;color:#aab3cf">Answer the questions on the left to unlock your tailored AI adoption roadmap.</p>
+
+            <div id="roadmapResultBox" style="margin-top:12px;padding:12px;background:#090c10;border:1px solid var(--line);border-radius:10px;font-size:11.5px;line-height:1.6;color:#cdd6ee">
+              ✦ Complete the Knowledge Check to generate roadmap recommendations...
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <button class="interactive-btn" style="width:100%;justify-content:center" onclick="copyRoadmap()">
+              <i class="fas fa-copy"></i> Copy Roadmap to Clipboard
+            </button>
+          </div>
+        </div>
+      </div>
+      <span class="num">15</span>
+    </section>
+
+    <!-- Slide 16 -->
     <section class="slide hero closing">
       <div class="kicker">Closing</div>
       <h1><span class="gradient-text">Stop typing. Start orchestrating.</span></h1>
@@ -706,7 +1500,7 @@
       <div style="margin-top:32px">
         <span class="pill">Antigravity · Gemini 3 · NotebookLM · Jules · Opal · Vertex · Workspace AI</span>
       </div>
-      <span class="num">15</span>
+      <span class="num">16</span>
     </section>
 
     <!-- Slide 16: Thank You & QR Code Connect -->
@@ -780,13 +1574,13 @@
         <span class="pill">Q&amp;A · Slides · Discussion · Connect</span>
       </div>
 
-      <span class="num">16</span>
+      <span class="num">17</span>
     </section>
 
   </div>
 </main>
 
-<!-- Floating Navigation Controls (Same as other pages) -->
+<!-- Floating Navigation Controls -->
 <div class="nav-controls">
   <button class="nav-btn" id="prevBtn" onclick="prevSlide()" title="Previous Slide (Left Arrow)">
     <i class="fas fa-chevron-left"></i>
@@ -795,6 +1589,9 @@
     <i class="fas fa-chevron-right"></i>
   </button>
 </div>
+
+<!-- Toast Notice -->
+<div class="toast-notice" id="toastNotice">Roadmap copied to clipboard! 📋</div>
 
 <script>
   let currentSlideIndex = 0;
@@ -849,11 +1646,11 @@
     }
   }
 
-  // Auto Screen Size Adaptation (Scales slide container smoothly to any window dimension)
+  // Auto Screen Size Adaptation
   function scaleDeck() {
     const scaler = document.getElementById('deckScaler');
     if (!scaler) return;
-    const paddingH = 130; // top bar (57px) + bottom dock (60px) + margins
+    const paddingH = 130;
     const paddingW = 32;
     const targetW = 1140;
     const targetH = 650;
@@ -872,11 +1669,12 @@
   window.addEventListener('load', () => {
     scaleDeck();
     goToSlide(0);
+    calcROI();
   });
 
   // Keyboard Navigation
   document.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
 
     switch (e.key) {
       case 'ArrowRight':
@@ -923,6 +1721,390 @@
       else prevSlide();
     }
   }, { passive: true });
+
+  /* --- Interactive & Visualization Handlers --- */
+
+  // Visualization 1: Slide 3 Time Sink Donut Highlight
+  function highlightTimeSink(type, evt) {
+    const items = document.querySelectorAll('.legend-item');
+    items.forEach(item => item.classList.remove('active'));
+    const target = evt ? evt.currentTarget : (typeof window !== 'undefined' && window.event ? window.event.currentTarget : null);
+    if (target) target.classList.add('active');
+  }
+
+  // Visualization 2: Slide 4 Maturity Score & Gauge Meter Arc
+  function toggleMaturityQuiz() {
+    const area = document.getElementById('maturityQuizArea');
+    const btnText = document.getElementById('toggleMaturityBtnText');
+    if (!area) return;
+    if (area.style.display === 'none') {
+      area.style.display = 'block';
+      if (btnText) btnText.textContent = 'Hide Assessment';
+      calcMaturityScore();
+    } else {
+      area.style.display = 'none';
+      if (btnText) btnText.textContent = 'Take 30-Sec Assessment';
+    }
+  }
+
+  function calcMaturityScore() {
+    const q1 = parseInt(document.getElementById('mq1')?.value || '1');
+    const q2 = parseInt(document.getElementById('mq2')?.value || '1');
+    const q3 = parseInt(document.getElementById('mq3')?.value || '1');
+    
+    const avg = (q1 + q2 + q3) / 3;
+    const roundedLevel = Math.round(avg);
+
+    ['rungL1', 'rungL2', 'rungL3', 'rungL4'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.boxShadow = 'none';
+    });
+
+    const targetRung = document.getElementById(`rungL${roundedLevel}`);
+    if (targetRung) {
+      targetRung.style.boxShadow = '0 0 25px rgba(155,114,203,0.7)';
+    }
+
+    const titleEl = document.getElementById('maturityResultTitle');
+    const badgeEl = document.getElementById('maturityResultBadge');
+    const fillEl = document.getElementById('maturityGaugeFill');
+    const textEl = document.getElementById('maturityPercentText');
+
+    const percents = [15, 35, 70, 95];
+    const pct = percents[roundedLevel - 1];
+
+    if (fillEl) fillEl.style.width = `${pct}%`;
+    if (textEl) textEl.textContent = `${pct}% Automated`;
+
+    const descriptions = [
+      "Level 1 (Manual): Heavy manual overhead. Target: Enable Workspace AI + NotebookLM.",
+      "Level 2 (Assisted): Using inline hints. Target: Build your first automated multi-step agent flow.",
+      "Level 3 (Automated): Multi-step agents in place! Target: Scale to async scheduled Antigravity teams.",
+      "Level 4 (Agentic): Advanced async agent fleet! Focus on Vertex AI governance & budget controls."
+    ];
+
+    if (titleEl) titleEl.textContent = descriptions[roundedLevel - 1];
+    if (badgeEl) {
+      badgeEl.textContent = `L${roundedLevel} MATURITY`;
+      badgeEl.style.background = roundedLevel === 4 ? 'var(--purple)' : roundedLevel === 3 ? 'var(--yellow)' : roundedLevel === 2 ? 'var(--blue)' : '#6a737d';
+    }
+  }
+
+  // Visualization 3: Slide 7 Knowledge Graph Inspector
+  function inspectKGNode(type) {
+    const box = document.getElementById('kgInspectBox');
+    if (!box) return;
+
+    const data = {
+      pdf: `<span style="color:#ffd96a;font-weight:700">📄 PDF Reports &amp; Whitepapers</span><br/>Ingests 100+ page documents with zero chunk hallucination. Cites page numbers &amp; tables inline.`,
+      web: `<span style="color:#a4c2ff;font-weight:700">🌐 Web Research Articles</span><br/>Discovers &amp; aggregates live web research via Discover Sources directly into the notebook.`,
+      audio: `<span style="color:#7ce6a3;font-weight:700">🎙️ Audio Overviews (Podcasts)</span><br/>Generates conversational podcast briefings from synthesized source notes for commute listening.`,
+      trans: `<span style="color:#d6b3ee;font-weight:700">📝 Meeting Transcripts &amp; Notes</span><br/>Extracts decisions, owner action items, and contradictions across meeting logs.`,
+      hub: `<span style="color:var(--yellow);font-weight:700">✦ Gemini Notebook Core</span><br/>Grounds model reasoning strictly within user-provided sources. Renamed July 2026.`
+    };
+
+    box.innerHTML = data[type] || data['hub'];
+  }
+
+  // Visualization 4: Slide 12 ROI Visual Comparison Bars
+  function calcROI() {
+    const teamSize = parseInt(document.getElementById('sliderTeamSize')?.value || '10');
+    const hours = parseInt(document.getElementById('sliderHours')?.value || '8');
+    const rate = parseInt(document.getElementById('sliderRate')?.value || '60');
+
+    if (document.getElementById('valTeamSize')) document.getElementById('valTeamSize').textContent = `${teamSize} members`;
+    if (document.getElementById('valHours')) document.getElementById('valHours').textContent = `${hours} hours`;
+    if (document.getElementById('valRate')) document.getElementById('valRate').textContent = `$${rate} / hr`;
+
+    const reclaimedHours = Math.round(teamSize * hours * 4.3 * 0.75);
+    const annualSavings = Math.round(reclaimedHours * rate * 12);
+
+    if (document.getElementById('roiMonthlyHours')) document.getElementById('roiMonthlyHours').textContent = `${reclaimedHours.toLocaleString()} Hours`;
+    if (document.getElementById('roiAnnualSavings')) document.getElementById('roiAnnualSavings').textContent = `$${annualSavings.toLocaleString()}`;
+    if (document.getElementById('roiEfficiency')) document.getElementById('roiEfficiency').textContent = `+75% Faster`;
+
+    const agenticBar = document.getElementById('barAgentic');
+    if (agenticBar) {
+      agenticBar.style.width = `25%`;
+      agenticBar.textContent = `25% Time (-75%)`;
+    }
+  }
+
+  // Visualization 5: Slide 14 Milestone Timeline Inspector
+  function inspectTimelineNode(phase) {
+    document.querySelectorAll('.timeline-node').forEach(n => n.classList.remove('active'));
+    const targetNode = document.getElementById(`tnode${phase}`);
+    if (targetNode) targetNode.classList.add('active');
+
+    const box = document.getElementById('timelineInspectBox');
+    if (!box) return;
+
+    const deliverables = {
+      1: `<span style="color:#7ce6a3;font-weight:700">✦ Phase 1 (Week 1-2):</span> Enable Gemini in Workspace (Docs/Sheets/Slides). Audit 3 manual team rituals (>60 min).`,
+      2: `<span style="color:#a4c2ff;font-weight:700">✦ Phase 2 (Week 3):</span> Build first NotebookLM research notebook for legal/marketing/research teams.`,
+      3: `<span style="color:#ffd96a;font-weight:700">✦ Phase 3 (Week 4):</span> Pilot 1 async coding task with Jules OR 1 Opal mini-app workflow for routine ops.`,
+      4: `<span style="color:#d6b3ee;font-weight:700">✦ Phase 4 (Month 2+):</span> Scale production agents with Vertex AI Agent Builder &amp; set per-agent token budget caps.`
+    };
+
+    box.innerHTML = deliverables[phase] || deliverables[1];
+  }
+
+  // Slide 5 Stack Preset Explorer
+  const STACK_PRESETS = {
+    code: {
+      tools: ['jules', 'antigravity', 'vertex', 'gemini'],
+      title: 'ASYNC CODE REVIEW & TESTING PIPELINE',
+      steps: [
+        { name: 'Jules AI', desc: 'Clones repo & fixes issue PR' },
+        { name: 'Antigravity IDE', desc: 'Runs headless browser tests' },
+        { name: 'Vertex Platform', desc: 'Logs audit trail' }
+      ]
+    },
+    research: {
+      tools: ['notebooklm', 'workspace', 'opal', 'gemini'],
+      title: 'MARKET RESEARCH BRIEF PIPELINE',
+      steps: [
+        { name: 'NotebookLM', desc: 'Ingests 20 PDFs with citations' },
+        { name: 'Opal Mini-App', desc: 'Renders executive summary table' },
+        { name: 'Workspace AI', desc: 'Publishes deck to Drive' }
+      ]
+    },
+    ops: {
+      tools: ['opal', 'gemini', 'workspace'],
+      title: 'NO-CODE OPS MINI-APP PIPELINE',
+      steps: [
+        { name: 'Opal Builder', desc: 'Prompt to 4-step workflow' },
+        { name: 'Gemini 3 Flash', desc: 'Processes text & structures JSON' },
+        { name: 'Gmail / Drive', desc: 'Auto-dispatches alerts' }
+      ]
+    },
+    fleet: {
+      tools: ['vertex', 'antigravity', 'jules', 'gemini'],
+      title: 'ENTERPRISE AGENT FLEET GOVERNANCE',
+      steps: [
+        { name: 'Vertex Agent Builder', desc: 'Enforces IAM & budget caps' },
+        { name: 'Antigravity Harness', desc: 'Schedules nightly audit sub-agents' },
+        { name: 'Jules Agent', desc: 'Auto-patches dependency CVEs' }
+      ]
+    }
+  };
+
+  function selectStackPreset(key, evt) {
+    const btns = document.querySelectorAll('.preset-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    const target = evt ? evt.target : (typeof window !== 'undefined' && window.event ? window.event.target : null);
+    if (target) target.classList.add('active');
+
+    const config = STACK_PRESETS[key];
+    if (!config) return;
+
+    document.querySelectorAll('.tile').forEach(tile => {
+      const tool = tile.getAttribute('data-tool');
+      if (config.tools.includes(tool)) {
+        tile.style.borderColor = 'var(--purple)';
+        tile.style.boxShadow = '0 0 16px rgba(155,114,203,0.3)';
+        tile.style.transform = 'translateY(-3px)';
+      } else {
+        tile.style.borderColor = 'var(--line)';
+        tile.style.boxShadow = 'none';
+        tile.style.transform = 'none';
+      }
+    });
+
+    const titleEl = document.getElementById('pipelineTitle');
+    const stepsEl = document.getElementById('pipelineSteps');
+
+    if (titleEl) titleEl.textContent = config.title;
+    if (stepsEl) {
+      stepsEl.innerHTML = config.steps.map((s, idx) => `
+        <span class="pill" style="background:rgba(155,114,203,0.18)">${s.name}: ${s.desc}</span>
+        ${idx < config.steps.length - 1 ? '➔' : ''}
+      `).join(' ');
+    }
+  }
+
+  // Slide 9 Antigravity Terminal Simulator
+  let simTimer = null;
+  function runAntigravitySim() {
+    resetAntigravitySim();
+    const term = document.getElementById('agTermOutput');
+    const btn = document.getElementById('runSimBtn');
+    if (btn) btn.disabled = true;
+
+    const logs = [
+      { text: "[00:01] ✦ Antigravity 2.0 Mission Control initialized", class: "term-purple" },
+      { text: "[00:02] Orchestrator: Spawning Jules Async Coding Sub-Agent...", class: "term-yellow" },
+      { text: "[00:03] Jules: Repository cloned. Running automated test suite...", class: "term-green" },
+      { text: "[00:05] Jules: 3 test failures detected in AuthController.kt", class: "term-red" },
+      { text: "[00:06] Jules: Auto-applying Coroutine patch & re-running tests...", class: "term-yellow" },
+      { text: "[00:08] Orchestrator: Launching Playwright Browser Sub-Agent...", class: "term-purple" },
+      { text: "[00:10] Browser Agent: Navigating to staging URL...", class: "term-green" },
+      { text: "[00:12] Browser Agent: Screenshot captured. Asserting UI flow...", class: "term-green" },
+      { text: "[00:14] 🟢 Mission Complete! 42 tests passed. Pull Request #142 opened.", class: "term-green" }
+    ];
+
+    let idx = 0;
+    document.getElementById('agStatus1').textContent = 'Active 🟢';
+    document.getElementById('agStatus1').style.color = '#7ce6a3';
+    document.getElementById('agMissionBadge').textContent = 'EXECUTING...';
+
+    simTimer = setInterval(() => {
+      if (idx < logs.length) {
+        const item = logs[idx];
+        const line = document.createElement('div');
+        line.className = `term-line ${item.class}`;
+        line.textContent = item.text;
+        term.appendChild(line);
+        term.scrollTop = term.scrollHeight;
+
+        if (idx === 2) {
+          document.getElementById('agStatus2').textContent = 'Active 🟢';
+          document.getElementById('agStatus2').style.color = '#7ce6a3';
+        }
+        if (idx === 5) {
+          document.getElementById('agStatus3').textContent = 'Active 🟢';
+          document.getElementById('agStatus3').style.color = '#7ce6a3';
+        }
+        idx++;
+      } else {
+        clearInterval(simTimer);
+        document.getElementById('agMissionBadge').textContent = 'MISSION SUCCESS 🏆';
+        document.getElementById('agMissionBadge').style.color = '#7ce6a3';
+        if (btn) btn.disabled = false;
+      }
+    }, 850);
+  }
+
+  function resetAntigravitySim() {
+    if (simTimer) clearInterval(simTimer);
+    const term = document.getElementById('agTermOutput');
+    if (term) term.innerHTML = '<div class="term-line term-purple">[System Ready] Select \'Run Agent Mission\' to orchestrate sub-agents...</div>';
+    
+    ['agStatus1', 'agStatus2', 'agStatus3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.textContent = 'Idle'; el.style.color = 'var(--muted)'; }
+    });
+    
+    const badge = document.getElementById('agMissionBadge');
+    if (badge) { badge.textContent = 'READY TO LAUNCH'; badge.style.color = 'var(--purple)'; }
+    const btn = document.getElementById('runSimBtn');
+    if (btn) btn.disabled = false;
+  }
+
+  // Slide 10 Opal Simulator
+  function runOpalWorkflowSim() {
+    const nodes = [1, 2, 3, 4];
+    nodes.forEach(n => {
+      const el = document.getElementById(`opalNode${n}`);
+      if (el) {
+        el.style.borderColor = 'var(--line)';
+        el.style.background = 'rgba(255,255,255,0.06)';
+      }
+    });
+
+    const box = document.getElementById('opalOutputBox');
+    if (box) box.textContent = "Step 1: Uploading transcript...";
+
+    setTimeout(() => {
+      const n1 = document.getElementById('opalNode1');
+      if (n1) { n1.style.borderColor = 'var(--purple)'; n1.style.background = 'rgba(155,114,203,0.18)'; }
+      if (box) box.textContent = "Step 2: Gemini 3 extracting decisions & action items...";
+    }, 500);
+
+    setTimeout(() => {
+      const n2 = document.getElementById('opalNode2');
+      if (n2) { n2.style.borderColor = 'var(--blue)'; n2.style.background = 'rgba(66,133,244,0.18)'; }
+      if (box) box.textContent = "Step 3: Formatting action items into structured Markdown table...";
+    }, 1100);
+
+    setTimeout(() => {
+      const n3 = document.getElementById('opalNode3');
+      if (n3) { n3.style.borderColor = 'var(--yellow)'; n3.style.background = 'rgba(251,188,5,0.18)'; }
+      if (box) box.textContent = "Step 4: Sending personalized email digest via Workspace...";
+    }, 1700);
+
+    setTimeout(() => {
+      const n4 = document.getElementById('opalNode4');
+      if (n4) { n4.style.borderColor = 'var(--green)'; n4.style.background = 'rgba(52,168,83,0.18)'; }
+      if (box) {
+        box.innerHTML = `<span style="color:#7ce6a3;font-weight:700">✦ Opal Mini-App Execution Complete!</span><br/>Action items formatted into Markdown &amp; emailed.`;
+      }
+    }, 2300);
+  }
+
+  // Slide 13 Risk Quiz
+  function toggleRiskQuiz(idx) {
+    const el = document.getElementById(`riskQuiz${idx}`);
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function checkRiskAns(riskId, selected, correct) {
+    const feedback = document.getElementById(`riskFeedback${riskId}`);
+    if (!feedback) return;
+    if (selected === correct) {
+      feedback.style.color = '#7ce6a3';
+      feedback.textContent = 'Correct! 🟢 Excellent governance practice.';
+    } else {
+      feedback.style.color = '#ff9b8f';
+      feedback.textContent = 'Try again! Hint: Review enterprise governance features.';
+    }
+  }
+
+  // Slide 15 Knowledge Check Quiz & Roadmap Generator
+  let iqAnswers = {};
+  function answerIQ(qNum, selected, correct, btnEl) {
+    const parent = btnEl.parentElement;
+    parent.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected-correct', 'selected-wrong'));
+
+    if (selected === correct) {
+      btnEl.classList.add('selected-correct');
+      iqAnswers[qNum] = true;
+    } else {
+      btnEl.classList.add('selected-wrong');
+      iqAnswers[qNum] = false;
+    }
+
+    const score = Object.values(iqAnswers).filter(Boolean).length;
+    const badge = document.getElementById('iqScoreBadge');
+    if (badge) badge.textContent = `Score: ${score} / 3`;
+
+    generateRoadmap(score);
+  }
+
+  function generateRoadmap(score) {
+    const box = document.getElementById('roadmapResultBox');
+    if (!box) return;
+
+    if (score === 3) {
+      box.innerHTML = `<span style="color:#7ce6a3;font-weight:700">🏆 Score: 3/3 — Workflow Architect!</span><br/><br/>
+      <strong>Your Custom 30-Day AI Roadmap:</strong><br/>
+      • <strong>Week 1:</strong> Enable Workspace AI &amp; set up NotebookLM source library.<br/>
+      • <strong>Week 2:</strong> Run Jules async PR pilot on 5 backlog tasks.<br/>
+      • <strong>Week 3:</strong> Deploy Antigravity IDE scheduled sub-agents.<br/>
+      • <strong>Week 4:</strong> Governance audit in Vertex Agent Builder.`;
+    } else {
+      box.innerHTML = `<span style="color:var(--yellow);font-weight:700">⚡ Score: ${score}/3 — Solid start!</span><br/><br/>
+      <strong>Your Custom 30-Day AI Roadmap:</strong><br/>
+      • <strong>Week 1:</strong> Audit 3 repetitive team rituals (> 60 min each).<br/>
+      • <strong>Week 2:</strong> Ground team research using NotebookLM.<br/>
+      • <strong>Week 3-4:</strong> Pilot one Opal mini-app for ops.`;
+    }
+  }
+
+  function copyRoadmap() {
+    const text = document.getElementById('roadmapResultBox')?.innerText || 'AI Workflow Action Plan';
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('Roadmap copied to clipboard! 📋');
+    });
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastNotice');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
 </script>
 </body>
 </html>
