@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root{
     --bg:#0b0d12;
@@ -44,6 +45,7 @@
   .slide{display:none;width:100%;height:100%;background:linear-gradient(160deg,#0e1117,#10141b 60%,#0c0f15);border:1px solid var(--line);border-radius:20px;padding:44px 50px 50px;position:absolute;inset:0;box-shadow:0 30px 60px -30px rgba(0,0,0,.8);overflow-y:auto}
   
   .slide.active{display:block}
+  .slide.hero.active{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
   .slide.anim-next{animation:slideInNext 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards}
   .slide.anim-prev{animation:slideInPrev 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards}
 
@@ -131,19 +133,54 @@
   .src a{color:#8aa5d6;text-decoration:none}
   .src a:hover{text-decoration:underline}
 
-  /* Bottom Controls Dock - Clean & Focused */
-  .bottom-dock{position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(11,13,18,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;align-items:center;z-index:100}
-  .dock-controls{display:flex;gap:18px;align-items:center}
-  .nav-btn{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--line);padding:9px 24px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;user-select:none}
-  .nav-btn:hover:not(:disabled){background:var(--purple);border-color:var(--purple);box-shadow:0 0 16px rgba(155,114,203,.45);transform:translateY(-1px)}
-  .nav-btn:disabled{opacity:0.3;cursor:not-allowed}
-  
-  .counter-display{font-size:15px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;background:rgba(255,255,255,.04);padding:7px 18px;border-radius:99px;border:1px solid var(--line);letter-spacing:.3px;user-select:none}
+  .speaker-social:hover{border-color:var(--purple)!important;background:rgba(255,255,255,.05)!important;transform:translateY(-1px)}
+  .speaker-img:hover{transform:scale(1.04)}
+
+  /* Floating Navigation Controls (Same as flutter-ai-mvp.html & gemini-cli.html) */
+  .nav-controls {
+    position: fixed;
+    bottom: 25px;
+    right: 30px;
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(17, 21, 28, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    font-size: 14px;
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    background: rgba(155, 114, 203, 0.2);
+    border-color: rgba(155, 114, 203, 0.5);
+    color: var(--purple);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 114, 203, 0.3);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    transform: none;
+  }
 
   /* Print Support */
   @media print{
     html,body{overflow:visible!important;height:auto!important;background:#fff!important;color:#000!important}
-    .topbar,.progress-container,.bottom-dock{display:none!important}
+    .topbar,.progress-container,.nav-controls{display:none!important}
     .deck-viewport{position:relative!important;top:auto!important;bottom:auto!important;display:block!important;overflow:visible!important;padding:0!important}
     .deck-scaler{transform:none!important;width:100%!important;height:auto!important}
     .slide{display:block!important;position:relative!important;inset:auto!important;margin-bottom:30px!important;break-inside:avoid;page-break-inside:avoid;box-shadow:none!important;border:1px solid #ccc!important;background:#fff!important;color:#000!important}
@@ -181,16 +218,107 @@
     <!-- Slide 1 -->
     <section class="slide hero active">
       <span class="eyebrow">Launchpad - Delhi · 2026</span>
-      <div class="title-stack" style="margin-top:18px">
+      <div class="title-stack" style="margin-top:24px;display:flex;flex-direction:column;align-items:center">
         <h1><span class="gradient-text">AI in Your Workflow</span></h1>
         <h1 style="color:#fff">From Manual to Automated</h1>
-        <p class="sub">How Google's agentic AI stack turns hours of repetitive work into minutes — and where to start this quarter.</p>
-        <div style="margin-top:26px"><span class="pill">Powered by Antigravity · Gemini 3 · NotebookLM · Jules · Opal · Vertex AI</span></div>
+        <p class="sub" style="margin-left:auto;margin-right:auto">How Google's agentic AI stack turns hours of repetitive work into minutes — and where to start this quarter.</p>
+        <div style="margin-top:28px"><span class="pill">Powered by Antigravity · Gemini 3 · NotebookLM · Jules · Opal · Vertex AI</span></div>
       </div>
       <span class="num">01</span>
     </section>
 
-    <!-- Slide 2 -->
+    <!-- Slide 2: Speaker Introduction -->
+    <section class="slide">
+      <div class="kicker">Speaker Profile</div>
+      <h2>Speaker <span class="gradient-text">Introduction</span></h2>
+
+      <div class="grid2" style="grid-template-columns: 1.05fr 0.95fr; gap: 36px; align-items: center; margin-top: 16px;">
+        <!-- Left Side: Speaker Info -->
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: 700; color: #d6b3ee; background: rgba(155,114,203,.15); border: 1px solid rgba(155,114,203,.35); padding: 4px 12px; border-radius: 999px; letter-spacing: .05em; text-transform: uppercase;">✦ IgniteRoom · Launchpad - Delhi</span>
+            </div>
+            <h1 style="font-size: 42px; font-weight: 800; margin: 0 0 8px; color: #fff; letter-spacing: -0.02em;">Yatin Batra</h1>
+            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px; background: rgba(52,168,83,.12); border: 1px solid rgba(52,168,83,.3); border-radius: 999px;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green);"></span>
+              <span style="font-size: 12px; font-weight: 700; color: #7ce6a3; letter-spacing: .08em; text-transform: uppercase;">SDE 2 @ Adda247</span>
+            </div>
+          </div>
+
+          <p style="font-size: 14.5px; line-height: 1.55; color: #cdd6ee; margin: 0;">
+            Building scalable <strong style="color: var(--blue);">Android</strong> & <strong style="color: var(--green);">Cross-Platform</strong> solutions for millions of users. Specialized in Agentic AI, Mobile System Architecture & AI Workflows.
+          </p>
+
+          <!-- Stats Row -->
+          <div style="display: flex; align-items: center; justify-content: space-around; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; text-align: center;">
+            <div style="flex: 1;">
+              <div style="font-size: 24px; font-weight: 800; color: var(--blue);">5+</div>
+              <div style="font-size: 10.5px; font-weight: 700; color: var(--muted); letter-spacing: .12em; text-transform: uppercase;">Years Exp</div>
+            </div>
+            <div style="width: 1px; height: 30px; background: var(--line);"></div>
+            <div style="flex: 1;">
+              <div style="font-size: 24px; font-weight: 800; color: var(--red);">10+</div>
+              <div style="font-size: 10.5px; font-weight: 700; color: var(--muted); letter-spacing: .12em; text-transform: uppercase;">Projects</div>
+            </div>
+            <div style="width: 1px; height: 30px; background: var(--line);"></div>
+            <div style="flex: 1;">
+              <div style="font-size: 24px; font-weight: 800; color: var(--yellow);">∞</div>
+              <div style="font-size: 10.5px; font-weight: 700; color: var(--muted); letter-spacing: .12em; text-transform: uppercase;">Curiosity</div>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div style="display: flex; gap: 12px;">
+            <a href="https://www.linkedin.com/in/yatin-batraa/" target="_blank" rel="noopener" class="speaker-social" style="flex: 1; display: flex; align-items: center; gap: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; color: var(--ink); text-decoration: none; transition: all .2s ease;">
+              <i class="fab fa-linkedin" style="font-size: 22px; color: var(--blue);"></i>
+              <div>
+                <div style="font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .1em;">LinkedIn</div>
+                <div style="font-size: 13px; font-weight: 600; color: #fff;">yatin-batraa</div>
+              </div>
+            </a>
+            <a href="https://github.com/DeveloperYatin" target="_blank" rel="noopener" class="speaker-social" style="flex: 1; display: flex; align-items: center; gap: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; color: var(--ink); text-decoration: none; transition: all .2s ease;">
+              <i class="fab fa-github" style="font-size: 22px; color: var(--purple);"></i>
+              <div>
+                <div style="font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .1em;">GitHub</div>
+                <div style="font-size: 13px; font-weight: 600; color: #fff;">DeveloperYatin</div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Tags -->
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span style="font-size: 11px; font-weight: 600; padding: 4px 10px; background: rgba(66,133,244,.12); border: 1px solid rgba(66,133,244,.3); color: #a4c2ff; border-radius: 6px;">Android SDK</span>
+            <span style="font-size: 11px; font-weight: 600; padding: 4px 10px; background: rgba(52,168,83,.12); border: 1px solid rgba(52,168,83,.3); color: #7ce6a3; border-radius: 6px;">Flutter / Dart</span>
+            <span style="font-size: 11px; font-weight: 600; padding: 4px 10px; background: rgba(251,188,5,.12); border: 1px solid rgba(251,188,5,.3); color: #ffd96a; border-radius: 6px;">Kotlin</span>
+            <span style="font-size: 11px; font-weight: 600; padding: 4px 10px; background: rgba(155,114,203,.12); border: 1px solid rgba(155,114,203,.3); color: #d6b3ee; border-radius: 6px;">System Design</span>
+            <span style="font-size: 11px; font-weight: 600; padding: 4px 10px; background: rgba(234,67,53,.12); border: 1px solid rgba(234,67,53,.3); color: #ff9b8f; border-radius: 6px;">Agentic AI</span>
+          </div>
+        </div>
+
+        <!-- Right Side: Expanded Profile Image & Unobstructed View -->
+        <div style="position: relative; display: flex; justify-content: center; align-items: center;">
+          <!-- Glow -->
+          <div style="position: absolute; width: 360px; height: 410px; background: radial-gradient(circle, rgba(155,114,203,.26) 0%, rgba(66,133,244,.15) 55%, transparent 75%); border-radius: 50%; filter: blur(28px);"></div>
+          
+          <!-- Image Box -->
+          <div style="position: relative; width: 360px; height: 410px; border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); background: var(--panel); box-shadow: 0 25px 50px -12px rgba(0,0,0,.7);">
+            <img src="https://raw.githubusercontent.com/DeveloperYatin/developeryatin.github.io/refs/heads/main/1776350205316.png" alt="Yatin Batra" style="width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .5s ease;" class="speaker-img">
+          </div>
+
+          <!-- Floating Accent Badge (Top Right, Non-covering) -->
+          <div style="position: absolute; top: -12px; right: -12px; background: rgba(17,21,28,0.92); backdrop-filter: blur(12px); border: 1px solid rgba(155,114,203,0.4); border-radius: 999px; padding: 6px 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.6); z-index: 20;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--purple); box-shadow: 0 0 10px var(--purple);"></span>
+            <span style="font-size: 11px; font-weight: 700; color: #fff; letter-spacing: .04em;">IgniteRoom</span>
+            <span style="font-size: 9.5px; font-weight: 800; color: #d6b3ee; background: rgba(155,114,203,.25); padding: 2px 7px; border-radius: 999px; text-transform: uppercase;">Speaker</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="num">02</span>
+    </section>
+
+    <!-- Slide 3 -->
     <section class="slide">
       <div class="kicker">The "before" picture</div>
       <h2>The Manual Workflow Problem</h2>
@@ -212,7 +340,7 @@
           <p>The average worker toggles between many apps to complete one task, paying attention-switch cost on every handoff.</p>
         </div>
       </div>
-      <span class="num">02</span>
+      <span class="num">03</span>
     </section>
 
     <!-- Slide 3 -->
@@ -243,10 +371,10 @@
         </div>
       </div>
       <div class="src">Framework adapted from MIT Sloan AI maturity research and Google Cloud's agentic maturity framing. <a href="https://mitsloan.mit.edu/ideas-made-to-matter/whats-your-companys-ai-maturity-level" target="_blank" rel="noopener">MIT Sloan</a> · <a href="https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next26" target="_blank" rel="noopener">Google Cloud Next '26</a></div>
-      <span class="num">03</span>
+      <span class="num">04</span>
     </section>
 
-    <!-- Slide 4 -->
+    <!-- Slide 5 -->
     <section class="slide">
       <div class="kicker">The Google AI stack</div>
       <h2>Meet the Stack</h2>
@@ -293,10 +421,10 @@
           <p>NotebookLM feeds Antigravity feeds Opal. The stack is the strategy.</p>
         </div>
       </div>
-      <span class="num">04</span>
+      <span class="num">05</span>
     </section>
 
-    <!-- Slide 5 -->
+    <!-- Slide 6 -->
     <section class="slide">
       <div class="kicker">Lowest-friction entry point</div>
       <h2>Gemini in Workspace</h2>
@@ -312,10 +440,10 @@
         <div class="card" style="background:linear-gradient(160deg,#11224b,#10141b)"><div class="ttl">ROLL-OUT</div><h3>Live in 2026</h3><p>Google rolled new Gemini features to Docs/Sheets/Slides/Drive for AI Ultra &amp; Pro in Mar 2026, expanding in July 2026.</p></div>
       </div>
       <div class="src"><a href="https://workspace.google.com/blog/product-announcements/july-2026-workspace-feature-drop" target="_blank" rel="noopener">July 2026 Workspace update</a> · <a href="https://blog.google/products-and-platforms/products/workspace/gemini-workspace-updates-march-2026/" target="_blank" rel="noopener">March 2026 Workspace update</a></div>
-      <span class="num">05</span>
+      <span class="num">06</span>
     </section>
 
-    <!-- Slide 6 -->
+    <!-- Slide 7 -->
     <section class="slide">
       <div class="kicker">Research → synthesis</div>
       <h2>NotebookLM (now Gemini Notebook)</h2>
@@ -339,10 +467,10 @@
           </div>
         </div>
       </div>
-      <span class="num">06</span>
+      <span class="num">07</span>
     </section>
 
-    <!-- Slide 7 -->
+    <!-- Slide 8 -->
     <section class="slide">
       <div class="kicker">Engineering layer · L3→L4</div>
       <h2>Jules — The Async Coding Teammate</h2>
@@ -365,10 +493,10 @@
           <div style="margin-top:18px" class="pill">Set it going · sleep · return to PR</div>
         </div>
       </div>
-      <span class="num">07</span>
+      <span class="num">08</span>
     </section>
 
-    <!-- Slide 8 -->
+    <!-- Slide 9 -->
     <section class="slide">
       <div class="kicker">Engineering layer · L4</div>
       <h2>Google Antigravity — Agent-First IDE</h2>
@@ -406,10 +534,10 @@
         </div>
       </div>
       <div class="src">Announced at Google I/O 2026 · Antigravity 2.0 rolls in 2.0 release.<br/><a href="https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/" target="_blank" rel="noopener">I/O 2026 dev highlights</a> · <a href="https://antigravity.google/blog/google-io-2026" target="_blank" rel="noopener">Antigravity blog</a></div>
-      <span class="num">08</span>
+      <span class="num">09</span>
     </section>
 
-    <!-- Slide 9 -->
+    <!-- Slide 10 -->
     <section class="slide">
       <div class="kicker">Citizen-built tools</div>
       <h2>Opal — No-Code AI Mini-Apps</h2>
@@ -431,10 +559,10 @@
           <p>Step 1 · Upload transcript<br/>Step 2 · Gemini extracts decisions &amp; action items<br/>Step 3 · Group by owner, format as a table<br/>Step 4 · Email each owner their rows<br/><br/><span style="color:#aab3cf">Built by a non-engineer in minutes.</span></p>
         </div>
       </div>
-      <span class="num">09</span>
+      <span class="num">10</span>
     </section>
 
-    <!-- Slide 10 -->
+    <!-- Slide 11 -->
     <section class="slide">
       <div class="kicker">Production-grade agents</div>
       <h2>Vertex AI Agent Builder</h2>
@@ -448,10 +576,10 @@
         <div class="card"><div class="ttl">GOVERNANCE</div><h3>Audit &amp; IAM</h3><p>Per-agent IAM, audit logs, regional residency available.</p></div>
       </div>
       <div class="src"><a href="https://cloud.google.com/products/gemini-enterprise-agent-platform" target="_blank" rel="noopener">Product page</a> · <a href="https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next26" target="_blank" rel="noopener">Cloud Next '26</a> · <a href="https://docs.cloud.google.com/gemini/enterprise/docs/release-notes" target="_blank" rel="noopener">Release notes Aug 2026</a></div>
-      <span class="num">10</span>
+      <span class="num">11</span>
     </section>
 
-    <!-- Slide 11 -->
+    <!-- Slide 12 -->
     <section class="slide">
       <div class="kicker">Concrete, not abstract</div>
       <h2>Before / After: The Weekly Competitor Brief</h2>
@@ -486,10 +614,10 @@
         </div>
       </div>
       <p style="margin-top:18px;font-size:13px;color:#aab3cf">Numbers are representative; measure your own baseline against them — most teams see a 60–80% reduction in repetitive research-brief cycles once all three agents are wired.</p>
-      <span class="num">11</span>
+      <span class="num">12</span>
     </section>
 
-    <!-- Slide 12 -->
+    <!-- Slide 13 -->
     <section class="slide">
       <div class="kicker">Don't skip this slide</div>
       <h2>Adoption Risks &amp; Mitigations</h2>
@@ -520,10 +648,10 @@
           <div class="fix">Fix: Maintain an agent registry in Vertex; weekly Office-of-AI review of new agents.</div>
         </div>
       </div>
-      <span class="num">12</span>
+      <span class="num">13</span>
     </section>
 
-    <!-- Slide 13 -->
+    <!-- Slide 14 -->
     <section class="slide">
       <div class="kicker">The plan</div>
       <h2>Your 30-Day Adoption Path</h2>
@@ -550,10 +678,10 @@
           <p>Move critical agents to Vertex AI Agent Builder. Stand up the agent registry and budget alerts.</p>
         </div>
       </div>
-      <span class="num">13</span>
+      <span class="num">14</span>
     </section>
 
-    <!-- Slide 14 -->
+    <!-- Slide 15 -->
     <section class="slide hero closing">
       <div class="kicker">Closing</div>
       <h1><span class="gradient-text">Stop typing. Start orchestrating.</span></h1>
@@ -578,25 +706,94 @@
       <div style="margin-top:32px">
         <span class="pill">Antigravity · Gemini 3 · NotebookLM · Jules · Opal · Vertex · Workspace AI</span>
       </div>
-      <span class="num">14</span>
+      <span class="num">15</span>
+    </section>
+
+    <!-- Slide 16: Thank You & QR Code Connect -->
+    <section class="slide hero">
+      <span class="eyebrow">Connect &amp; Resources · 2026</span>
+      
+      <div style="margin-top:14px">
+        <h1 style="font-size:44px;line-height:1.1;margin:0 0 8px"><span class="gradient-text">Thank You!</span> <span style="color:#fff">Let's Connect</span></h1>
+        <p class="sub" style="margin:0 auto;font-size:15.5px;max-width:640px;color:#cdd6ee">Scan the QR code below to access this presentation online, view speaker details, or connect directly.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:auto 340px;gap:36px;align-items:center;justify-content:center;margin-top:20px">
+        <!-- Left: QR Code Card -->
+        <div style="position:relative;display:flex;flex-direction:column;align-items:center">
+          <!-- Animated Glow -->
+          <div style="position:absolute;inset:-12px;background:radial-gradient(circle, rgba(155,114,203,.35) 0%, rgba(66,133,244,.2) 60%, transparent 75%);border-radius:28px;filter:blur(22px)"></div>
+          
+          <div style="position:relative;background:#fff;padding:14px;border-radius:22px;box-shadow:0 25px 50px rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.2)">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://developeryatin.github.io/ai-in-workflow.html" alt="Presentation QR Code" style="width:170px;height:170px;display:block">
+            
+            <!-- Camera Badge -->
+            <div style="position:absolute;top:-10px;right:-10px;width:34px;height:34px;background:#11151c;border:1.5px solid var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--purple);font-size:13px;box-shadow:0 6px 16px rgba(0,0,0,.6)">
+              <i class="fas fa-camera"></i>
+            </div>
+          </div>
+          
+          <div style="margin-top:14px">
+            <a href="https://developeryatin.github.io/ai-in-workflow.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:var(--panel);border:1px solid var(--line);border-radius:999px;color:#a4c2ff;font-size:12.5px;font-weight:600;text-decoration:none;transition:all .2s ease" class="speaker-social">
+              <i class="fas fa-globe" style="color:var(--blue)"></i>
+              <span>developeryatin.github.io/ai-in-workflow.html</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Speaker & Social Cards -->
+        <div style="display:flex;flex-direction:column;gap:12px;text-align:left">
+          <!-- Profile Badge with Avatar -->
+          <div style="background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 16px;display:flex;align-items:center;gap:14px">
+            <img src="https://raw.githubusercontent.com/DeveloperYatin/developeryatin.github.io/refs/heads/main/1776350205316.png" alt="Yatin Batra" style="width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:top;border:1.5px solid var(--purple);flex-shrink:0">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff">Yatin Batra</div>
+              <div style="font-size:11.5px;font-weight:700;color:#7ce6a3;display:flex;align-items:center;gap:6px;margin-top:2px">
+                <span style="width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)"></span>
+                SDE 2 @ Adda247
+              </div>
+              <div style="font-size:10.5px;color:var(--muted);margin-top:2px">IgniteRoom · Launchpad - Delhi</div>
+            </div>
+          </div>
+
+          <!-- LinkedIn Card -->
+          <a href="https://www.linkedin.com/in/yatin-batraa/" target="_blank" rel="noopener" class="speaker-social" style="display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px;color:var(--ink);text-decoration:none;transition:all .2s ease">
+            <i class="fab fa-linkedin" style="font-size:24px;color:var(--blue)"></i>
+            <div>
+              <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">LinkedIn</div>
+              <div style="font-size:13.5px;font-weight:700;color:#fff">yatin-batraa</div>
+            </div>
+          </a>
+
+          <!-- GitHub Card -->
+          <a href="https://github.com/DeveloperYatin" target="_blank" rel="noopener" class="speaker-social" style="display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px;color:var(--ink);text-decoration:none;transition:all .2s ease">
+            <i class="fab fa-github" style="font-size:24px;color:var(--purple)"></i>
+            <div>
+              <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">GitHub</div>
+              <div style="font-size:13.5px;font-weight:700;color:#fff">DeveloperYatin</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div style="margin-top:20px">
+        <span class="pill">Q&amp;A · Slides · Discussion · Connect</span>
+      </div>
+
+      <span class="num">16</span>
     </section>
 
   </div>
 </main>
 
-<!-- Bottom Navigation Controls (Sole Controls On Screen) -->
-<div class="bottom-dock">
-  <div class="dock-controls">
-    <button class="nav-btn" id="prevBtn" onclick="prevSlide()">
-      ← Prev
-    </button>
-    <div class="counter-display">
-      Slide <span id="curSlideNum">01</span> / <span id="totalSlidesNum">14</span>
-    </div>
-    <button class="nav-btn" id="nextBtn" onclick="nextSlide()">
-      Next →
-    </button>
-  </div>
+<!-- Floating Navigation Controls (Same as other pages) -->
+<div class="nav-controls">
+  <button class="nav-btn" id="prevBtn" onclick="prevSlide()" title="Previous Slide (Left Arrow)">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <button class="nav-btn" id="nextBtn" onclick="nextSlide()" title="Next Slide (Right Arrow/Space)">
+    <i class="fas fa-chevron-right"></i>
+  </button>
 </div>
 
 <script>
@@ -610,13 +807,13 @@
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
 
-  totalSlidesNumEl.textContent = String(totalSlides).padStart(2, '0');
+  if (totalSlidesNumEl) totalSlidesNumEl.textContent = String(totalSlides).padStart(2, '0');
 
   // Update active slide view
   function goToSlide(index, direction = 'next') {
     if (index < 0 || index >= totalSlides) return;
 
-    slides[currentSlideIndex].classList.remove('active', 'anim-next', 'anim-prev');
+    slides.forEach(s => s.classList.remove('active', 'anim-next', 'anim-prev'));
     
     currentSlideIndex = index;
     const targetSlide = slides[currentSlideIndex];
@@ -629,13 +826,15 @@
     }
 
     // Update UI counters and progress bar
-    curSlideNumEl.textContent = String(currentSlideIndex + 1).padStart(2, '0');
-    const pct = ((currentSlideIndex + 1) / totalSlides) * 100;
-    progressFillEl.style.width = `${pct}%`;
+    if (curSlideNumEl) curSlideNumEl.textContent = String(currentSlideIndex + 1).padStart(2, '0');
+    if (progressFillEl) {
+      const pct = ((currentSlideIndex + 1) / totalSlides) * 100;
+      progressFillEl.style.width = `${pct}%`;
+    }
 
     // Update Nav Buttons State
-    prevBtn.disabled = currentSlideIndex === 0;
-    nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+    if (prevBtn) prevBtn.disabled = currentSlideIndex === 0;
+    if (nextBtn) nextBtn.disabled = currentSlideIndex === totalSlides - 1;
   }
 
   function nextSlide() {
