@@ -21,7 +21,7 @@
     --purple:#9b72cb;
     --line:rgba(255,255,255,.08);
     --slide-w: 1140px;
-    --slide-h: 650px;
+    --slide-h: 700px;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;height:100%;width:100%;overflow:hidden}
@@ -38,11 +38,11 @@
   .progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple),var(--red));width:7.14%;transition:width .3s ease}
 
   /* Deck Viewport & Auto Screen Adaptation */
-  .deck-viewport{position:fixed;top:57px;bottom:60px;left:0;right:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px}
+  .deck-viewport{position:fixed;top:57px;bottom:50px;left:0;right:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px}
   .deck-scaler{width:var(--slide-w);height:var(--slide-h);position:relative;transform-origin:center center;transition:transform .15s cubic-bezier(0.16,1,0.3,1);flex-shrink:0}
 
-  /* Slide Base */
-  .slide{display:none;width:100%;height:100%;background:linear-gradient(160deg,#0e1117,#10141b 60%,#0c0f15);border:1px solid var(--line);border-radius:20px;padding:44px 50px 50px;position:absolute;inset:0;box-shadow:0 30px 60px -30px rgba(0,0,0,.8);overflow-y:auto}
+  /* Slide Base - Optimized for Fit Without Scroll */
+  .slide{display:none;width:100%;height:100%;background:linear-gradient(160deg,#0e1117,#10141b 60%,#0c0f15);border:1px solid var(--line);border-radius:20px;padding:32px 42px 36px;position:absolute;inset:0;box-shadow:0 30px 60px -30px rgba(0,0,0,.8);overflow:hidden}
   
   .slide.active{display:block}
   .slide.hero.active{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
@@ -58,28 +58,28 @@
     to { opacity: 1; transform: translateX(0) scale(1); }
   }
 
-  .slide .num{position:absolute;right:24px;bottom:20px;color:var(--muted);font-size:13px;letter-spacing:.5px;font-weight:600}
-  .slide .kicker{color:var(--purple);font-size:13px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:12px;font-weight:600}
-  .slide h1{font-size:46px;line-height:1.05;margin:0 0 16px;letter-spacing:-.02em}
-  .slide h2{font-size:34px;line-height:1.1;margin:0 0 20px;letter-spacing:-.01em}
-  .slide p{font-size:16.5px;line-height:1.55;color:#cdd6ee;max-width:860px}
-  .slide ul{font-size:16.5px;line-height:1.6;color:#cdd6ee}
-  .slide ul li{margin-bottom:8px}
-  .eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(155,114,203,.12);color:#c8a8e8;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
+  .slide .num{position:absolute;right:24px;bottom:16px;color:var(--muted);font-size:12px;letter-spacing:.5px;font-weight:600}
+  .slide .kicker{color:var(--purple);font-size:12px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+  .slide h1{font-size:42px;line-height:1.05;margin:0 0 12px;letter-spacing:-.02em}
+  .slide h2{font-size:30px;line-height:1.1;margin:0 0 12px;letter-spacing:-.01em}
+  .slide p{font-size:15px;line-height:1.45;color:#cdd6ee;max-width:860px;margin:0 0 10px}
+  .slide ul{font-size:15px;line-height:1.5;color:#cdd6ee;margin-top:6px;margin-bottom:10px}
+  .slide ul li{margin-bottom:6px}
+  .eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(155,114,203,.12);color:#c8a8e8;padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
   .gradient-text{background:linear-gradient(90deg,var(--blue),var(--purple) 55%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
-  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
-  .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;margin-top:16px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
-  .card .ttl{font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--blue);margin-bottom:8px}
-  .card h3{margin:0 0 8px;font-size:19px;color:#fff}
-  .card p{margin:0;font-size:13.5px;line-height:1.5;color:#aab3cf}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(66,133,244,.12);color:#a4c2ff;border:1px solid rgba(66,133,244,.35);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600}
-  .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
-  .rung{border-radius:14px;padding:18px 16px;background:var(--panel);border:1px solid var(--line);position:relative}
-  .rung .rn{font-size:11px;letter-spacing:.2em;color:var(--muted);font-weight:700;margin-bottom:6px}
-  .rung h3{margin:0 0 6px;font-size:17.5px}
-  .rung p{margin:0;font-size:13px;line-height:1.5;color:#b9c1da}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+  .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;margin-top:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .card .ttl{font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--blue);margin-bottom:6px}
+  .card h3{margin:0 0 6px;font-size:17px;color:#fff}
+  .card p{margin:0;font-size:12.5px;line-height:1.45;color:#aab3cf}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(66,133,244,.12);color:#a4c2ff;border:1px solid rgba(66,133,244,.35);padding:5px 10px;border-radius:999px;font-size:11.5px;font-weight:600}
+  .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .rung{border-radius:14px;padding:14px 14px;background:var(--panel);border:1px solid var(--line);position:relative}
+  .rung .rn{font-size:10.5px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin-bottom:4px}
+  .rung h3{margin:0 0 4px;font-size:16px}
+  .rung p{margin:0;font-size:12px;line-height:1.45;color:#b9c1da}
   .rung.L1{border-top:3px solid #6a737d}
   .rung.L2{border-top:3px solid var(--blue)}
   .rung.L3{border-top:3px solid var(--yellow)}
@@ -89,47 +89,47 @@
     radial-gradient(700px 360px at 96% 80%, rgba(234,67,53,.18), transparent 60%),
     radial-gradient(600px 320px at 50% 100%, rgba(155,114,203,.18), transparent 60%);pointer-events:none}
   .title-stack{position:relative}
-  .title-stack h1{font-size:58px}
-  .title-stack .sub{margin-top:16px;font-size:19px;color:#cdd6ee;max-width:760px}
-  .divider{height:1px;background:var(--line);margin:24px 0 16px}
-  .stack-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
-  .stack-tiles .tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-height:120px;display:flex;flex-direction:column;justify-content:space-between}
-  .stack-tiles .tile .ico{width:32px;height:32px;border-radius:99px;display:grid;place-items:center;font-weight:800;font-size:13px}
+  .title-stack h1{font-size:52px}
+  .title-stack .sub{margin-top:12px;font-size:17.5px;color:#cdd6ee;max-width:760px}
+  .divider{height:1px;background:var(--line);margin:18px 0 12px}
+  .stack-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+  .stack-tiles .tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-height:98px;display:flex;flex-direction:column;justify-content:space-between}
+  .stack-tiles .tile .ico{width:28px;height:28px;border-radius:99px;display:grid;place-items:center;font-weight:800;font-size:12px}
   .stack-tiles .tile .blue{background:rgba(66,133,244,.18);color:#a4c2ff}
   .stack-tiles .tile .yellow{background:rgba(251,188,5,.16);color:#ffd96a}
   .stack-tiles .tile .red{background:rgba(234,67,53,.16);color:#ff9b8f}
   .stack-tiles .tile .green{background:rgba(52,168,83,.18);color:#7ce6a3}
   .stack-tiles .tile .purple{background:rgba(155,114,203,.20);color:#d6b3ee}
-  .stack-tiles .tile h3{margin:0;font-size:15px}
-  .stack-tiles .tile p{margin:0;font-size:12px;color:#aab3cf;line-height:1.45}
-  .before-after{display:grid;grid-template-columns:1fr 60px 1fr;gap:14px;margin-top:16px;align-items:stretch}
-  .ba-col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .stack-tiles .tile h3{margin:0;font-size:14px}
+  .stack-tiles .tile p{margin:0;font-size:11.5px;color:#aab3cf;line-height:1.4}
+  .before-after{display:grid;grid-template-columns:1fr 40px 1fr;gap:10px;margin-top:10px;align-items:stretch}
+  .ba-col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
   .ba-col.before{border-left:3px solid var(--red)}
   .ba-col.after{border-left:3px solid var(--green)}
-  .ba-col h3{margin:0 0 4px;font-size:17.5px}
-  .ba-col .when{color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
-  .ba-col ol{margin:0;padding-left:18px;color:#cdd6ee;font-size:13.5px;line-height:1.5}
-  .ba-col ol li{margin-bottom:5px}
-  .arrow{display:grid;place-items:center;font-size:28px;color:var(--purple);text-align:center}
-  .quads{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
-  .quad{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
-  .quad .qa{font-size:11px;letter-spacing:.2em;color:var(--muted);font-weight:700;margin-bottom:6px}
-  .quad h3{margin:0 0 6px;font-size:17px}
-  .quad p{margin:0;font-size:13px}
-  .quad .fix{margin-top:10px;padding:9px 12px;background:rgba(52,168,83,.10);border:1px solid rgba(52,168,83,.30);border-radius:8px;font-size:12.5px;color:#a5e3bf}
-  .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
-  .phase{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative}
-  .phase .pn{font-weight:800;color:var(--purple);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
-  .phase h3{margin:0 0 6px;font-size:16px}
-  .phase p{margin:0;font-size:13px}
+  .ba-col h3{margin:0 0 3px;font-size:16px}
+  .ba-col .when{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
+  .ba-col ol{margin:0;padding-left:16px;color:#cdd6ee;font-size:12px;line-height:1.45}
+  .ba-col ol li{margin-bottom:3px}
+  .arrow{display:grid;place-items:center;font-size:24px;color:var(--purple);text-align:center}
+  .quads{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .quad{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .quad .qa{font-size:10.5px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin-bottom:4px}
+  .quad h3{margin:0 0 4px;font-size:15.5px}
+  .quad p{margin:0;font-size:12px;line-height:1.4}
+  .quad .fix{margin-top:8px;padding:6px 10px;background:rgba(52,168,83,.10);border:1px solid rgba(52,168,83,.30);border-radius:8px;font-size:11.5px;color:#a5e3bf}
+  .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .phase{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;position:relative}
+  .phase .pn{font-weight:800;color:var(--purple);font-size:11px;letter-spacing:.1em;margin-bottom:4px}
+  .phase h3{margin:0 0 4px;font-size:15px}
+  .phase p{margin:0;font-size:12px;line-height:1.4}
   .closing{text-align:center}
-  .closing h1{font-size:54px}
-  .cta-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;text-align:left}
-  .cta{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
-  .cta .step{font-size:11px;letter-spacing:.2em;color:var(--muted);font-weight:700;margin-bottom:6px}
-  .cta h3{margin:0 0 6px;font-size:17px}
-  .cta p{margin:0;font-size:13px}
-  .src{color:var(--muted);font-size:11.5px;margin-top:12px}
+  .closing h1{font-size:48px}
+  .cta-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;text-align:left}
+  .cta{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .cta .step{font-size:10.5px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin-bottom:4px}
+  .cta h3{margin:0 0 4px;font-size:16px}
+  .cta p{margin:0;font-size:12.5px;line-height:1.4}
+  .src{color:var(--muted);font-size:11px;margin-top:8px}
   .src a{color:#8aa5d6;text-decoration:none}
   .src a:hover{text-decoration:underline}
 
@@ -650,7 +650,84 @@
       <span class="num">02</span>
     </section>
 
-    <!-- Slide 3 -->
+    <!-- Slide 3: Interactive Hands-On Scan & Follow Along -->
+    <section class="slide hero">
+      <span class="eyebrow"><i class="fas fa-qrcode"></i> Hands-On Interactive Session</span>
+      
+      <div style="margin-top:10px">
+        <h1 style="font-size:42px;line-height:1.1;margin:0 0 6px"><span class="gradient-text">Scan &amp; Follow Along</span> <span style="color:#fff">Live!</span></h1>
+        <p class="sub" style="margin:0 auto;font-size:15px;max-width:720px;color:#cdd6ee">Open this slide deck on your phone or laptop to run live multi-agent mission control simulators, maturity assessments, and ROI tools with me during today's session.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:auto 440px;gap:36px;align-items:center;justify-content:center;margin-top:16px">
+        <!-- Left: Glowing QR Code Card -->
+        <div style="position:relative;display:flex;flex-direction:column;align-items:center">
+          <div style="position:absolute;inset:-14px;background:radial-gradient(circle, rgba(155,114,203,.4) 0%, rgba(66,133,244,.25) 60%, transparent 75%);border-radius:28px;filter:blur(20px)"></div>
+          
+          <div style="position:relative;background:#fff;padding:14px;border-radius:22px;box-shadow:0 25px 50px rgba(0,0,0,.8);border:1.5px solid rgba(255,255,255,.3)">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://developeryatin.github.io/ai-in-workflow.html" alt="Scan QR Code to Follow Along" style="width:190px;height:190px;display:block">
+            
+            <div style="position:absolute;top:-10px;right:-10px;width:34px;height:34px;background:#11151c;border:1.5px solid var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--purple);font-size:13px;box-shadow:0 6px 16px rgba(0,0,0,.6)">
+              <i class="fas fa-camera"></i>
+            </div>
+          </div>
+          
+          <div style="margin-top:12px">
+            <a href="https://developeryatin.github.io/ai-in-workflow.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:7px 16px;background:var(--panel);border:1px solid var(--line);border-radius:999px;color:#a4c2ff;font-size:12px;font-weight:600;text-decoration:none;transition:all .2s ease">
+              <i class="fas fa-globe" style="color:var(--blue)"></i>
+              <span>developeryatin.github.io/ai-in-workflow.html</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: What You Can Try Live Cards -->
+        <div style="display:flex;flex-direction:column;gap:10px;text-align:left">
+          <div class="card" style="padding:12px 16px;background:rgba(17,21,28,0.9);border-color:rgba(155,114,203,0.3)">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(155,114,203,0.2);color:var(--purple);display:grid;place-items:center;font-size:14px;flex-shrink:0">
+                <i class="fas fa-terminal"></i>
+              </div>
+              <div>
+                <div style="font-size:13.5px;font-weight:700;color:#fff">Antigravity &amp; Jules Agent Simulators</div>
+                <div style="font-size:11.5px;color:#aab3cf">Run live streaming multi-agent terminal missions on your phone.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:12px 16px;background:rgba(17,21,28,0.9);border-color:rgba(66,133,244,0.3)">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(66,133,244,0.2);color:var(--blue);display:grid;place-items:center;font-size:14px;flex-shrink:0">
+                <i class="fas fa-calculator"></i>
+              </div>
+              <div>
+                <div style="font-size:13.5px;font-weight:700;color:#fff">Interactive AI Maturity &amp; ROI Calculators</div>
+                <div style="font-size:11.5px;color:#aab3cf">Calculate team hours and annual cost savings live with interactive sliders.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:12px 16px;background:rgba(17,21,28,0.9);border-color:rgba(52,168,83,0.3)">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(52,168,83,0.2);color:var(--green);display:grid;place-items:center;font-size:14px;flex-shrink:0">
+                <i class="fas fa-clipboard-check"></i>
+              </div>
+              <div>
+                <div style="font-size:13.5px;font-weight:700;color:#fff">Workflow IQ Quiz &amp; Custom Action Plan</div>
+                <div style="font-size:11.5px;color:#aab3cf">Take the quiz and export your personalized 30-Day AI Roadmap.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <span class="pill">Scan QR Code · Follow Along Live · Try Interactive Tools</span>
+      </div>
+
+      <span class="num">03</span>
+    </section>
+
+    <!-- Slide 4 -->
     <section class="slide">
       <div class="kicker">The "before" picture</div>
       <h2>The Manual Workflow Problem</h2>
@@ -713,10 +790,10 @@
           </div>
         </div>
       </div>
-      <span class="num">03</span>
+      <span class="num">04</span>
     </section>
 
-    <!-- Slide 3 -->
+    <!-- Slide 5 -->
     <section class="slide">
       <div class="kicker">A shared ladder</div>
       <h2>The Automation Maturity Ladder</h2>
@@ -811,10 +888,10 @@
       </div>
 
       <div class="src">Framework adapted from MIT Sloan AI maturity research and Google Cloud's agentic maturity framing. <a href="https://mitsloan.mit.edu/ideas-made-to-matter/whats-your-companys-ai-maturity-level" target="_blank" rel="noopener">MIT Sloan</a> · <a href="https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next26" target="_blank" rel="noopener">Google Cloud Next '26</a></div>
-      <span class="num">04</span>
+      <span class="num">05</span>
     </section>
 
-    <!-- Slide 5 -->
+    <!-- Slide 6 -->
     <section class="slide">
       <div class="kicker">The Google AI stack</div>
       <h2>Meet the Stack</h2>
@@ -883,10 +960,10 @@
           <span class="pill" style="background:rgba(234,67,53,0.2)">Opal (Deploy Mini-App)</span>
         </div>
       </div>
-      <span class="num">05</span>
+      <span class="num">06</span>
     </section>
 
-    <!-- Slide 6 -->
+    <!-- Slide 7 -->
     <section class="slide">
       <div class="kicker">Lowest-friction entry point</div>
       <h2>Gemini in Workspace</h2>
@@ -902,10 +979,10 @@
         <div class="card" style="background:linear-gradient(160deg,#11224b,#10141b)"><div class="ttl">ROLL-OUT</div><h3>Live in 2026</h3><p>Google rolled new Gemini features to Docs/Sheets/Slides/Drive for AI Ultra &amp; Pro in Mar 2026, expanding in July 2026.</p></div>
       </div>
       <div class="src"><a href="https://workspace.google.com/blog/product-announcements/july-2026-workspace-feature-drop" target="_blank" rel="noopener">July 2026 Workspace update</a> · <a href="https://blog.google/products-and-platforms/products/workspace/gemini-workspace-updates-march-2026/" target="_blank" rel="noopener">March 2026 Workspace update</a></div>
-      <span class="num">06</span>
+      <span class="num">07</span>
     </section>
 
-    <!-- Slide 7 -->
+    <!-- Slide 8 -->
     <section class="slide">
       <div class="kicker">Research → synthesis</div>
       <h2>NotebookLM (now Gemini Notebook)</h2>
@@ -986,14 +1063,14 @@
           </div>
         </div>
       </div>
-      <span class="num">07</span>
+      <span class="num">08</span>
     </section>
 
-    <!-- Slide 8 -->
+    <!-- Slide 9 -->
     <section class="slide">
       <div class="kicker">Engineering layer · L3→L4</div>
       <h2>Jules — The Async Coding Teammate</h2>
-      <p>You assign. Jules works the queue while you write the parts you actually want to write.</p>
+      <p>You assign. Jules works the queue asynchronously in GitHub while you write the creative code you actually want to write.</p>
       <div class="grid2">
         <div>
           <ul>
@@ -1001,21 +1078,51 @@
             <li><strong>Async by design</strong> — kick off, walk away, return to a PR.</li>
             <li><strong>Code review (critique)</strong> — review capability added mid-2025.</li>
             <li><strong>CLI &amp; API surface</strong> — pipe GitHub issues straight into Jules.</li>
-            <li><strong>Parallel tasks</strong> — multiple Jules instances, no conflict.</li>
+            <li><strong>Parallel tasks</strong> — multiple Jules instances, zero conflict.</li>
           </ul>
           <div class="src"><a href="https://jules.google/" target="_blank" rel="noopener">jules.google</a> · <a href="https://blog.google/innovation-and-ai/models-and-research/google-labs/jules/" target="_blank" rel="noopener">Google Labs announcement</a></div>
         </div>
-        <div class="card">
-          <div class="ttl">WHAT IT PICKS UP</div>
-          <h3>The boring 80%</h3>
-          <p>Dependency upgrades · migration patches · writing tests · fixing lint · porting to a new framework. The queue of work every engineer resents more than they dislike.</p>
-          <div style="margin-top:18px" class="pill">Set it going · sleep · return to PR</div>
+
+        <!-- Interactive Jules Async Task Dispatcher -->
+        <div class="card" style="background:linear-gradient(180deg,#11151c,#131924);border-color:rgba(66,133,244,.35)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div class="ttl" style="color:#a4c2ff">INTERACTIVE JULES DISPATCHER</div>
+            <button class="interactive-btn" style="padding:4px 10px;font-size:11px" id="dispatchJulesBtn" onclick="runJulesTaskSim()">
+              <i class="fas fa-paper-plane"></i> Dispatch Jules PR
+            </button>
+          </div>
+          
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:700">SELECT BACKLOG TASK TO ASSIGN JULES:</div>
+          <div style="display:flex;flex-direction:column;gap:5px" id="julesTaskSelector">
+            <div class="pill preset-btn active" style="justify-content:space-between;width:100%;cursor:pointer;padding:5px 10px" onclick="selectJulesTask(1, this)">
+              <span>📦 Upgrade React 18 ➔ React 19</span> <span style="font-size:10px;color:var(--yellow)">Queue #1</span>
+            </div>
+            <div class="pill preset-btn" style="justify-content:space-between;width:100%;cursor:pointer;padding:5px 10px" onclick="selectJulesTask(2, this)">
+              <span>🛡️ Patch CVE-2026 Security Flaw</span> <span style="font-size:10px;color:var(--red)">Queue #2</span>
+            </div>
+            <div class="pill preset-btn" style="justify-content:space-between;width:100%;cursor:pointer;padding:5px 10px" onclick="selectJulesTask(3, this)">
+              <span>🧪 Generate Jest Unit Tests</span> <span style="font-size:10px;color:var(--green)">Queue #3</span>
+            </div>
+          </div>
+
+          <!-- Live Output & Diff Inspector -->
+          <div id="julesStatusBox" style="margin-top:8px;padding:8px 10px;background:#090c10;border:1px solid var(--line);border-radius:8px;font-size:11px;font-family:monospace;color:#a4c2ff">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span>STATUS: <strong id="julesStateBadge" style="color:var(--yellow)">IDLE</strong></span>
+              <span id="julesPrBadge" style="color:var(--muted)">PR #--</span>
+            </div>
+            <div id="julesLogLine" style="color:#cdd6ee;margin-top:4px">Select task above &amp; click 'Dispatch Jules PR'...</div>
+            <div id="julesDiffPreview" style="display:none;margin-top:6px;padding:6px;background:rgba(0,0,0,0.5);border-radius:4px;font-size:10.5px;line-height:1.35">
+              <span style="color:#ea4335">- ReactDOM.render(&lt;App /&gt;, root);</span><br/>
+              <span style="color:#34a853">+ const root = createRoot(container);</span>
+            </div>
+          </div>
         </div>
       </div>
-      <span class="num">08</span>
+      <span class="num">09</span>
     </section>
 
-    <!-- Slide 9 -->
+    <!-- Slide 10 -->
     <section class="slide">
       <div class="kicker">Engineering layer · L4</div>
       <h2>Google Antigravity — Agent-First IDE</h2>
@@ -1100,10 +1207,10 @@
       </div>
 
       <div class="src">Announced at Google I/O 2026 · Antigravity 2.0 rolls in 2.0 release.<br/><a href="https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/" target="_blank" rel="noopener">I/O 2026 dev highlights</a> · <a href="https://antigravity.google/blog/google-io-2026" target="_blank" rel="noopener">Antigravity blog</a></div>
-      <span class="num">09</span>
+      <span class="num">10</span>
     </section>
 
-    <!-- Slide 10 -->
+    <!-- Slide 11 -->
     <section class="slide">
       <div class="kicker">Citizen-built tools</div>
       <h2>Opal — No-Code AI Mini-Apps</h2>
@@ -1146,10 +1253,10 @@
           </div>
         </div>
       </div>
-      <span class="num">10</span>
+      <span class="num">11</span>
     </section>
 
-    <!-- Slide 11 -->
+    <!-- Slide 12 -->
     <section class="slide">
       <div class="kicker">Production-grade agents</div>
       <h2>Vertex AI Agent Builder</h2>
@@ -1163,10 +1270,10 @@
         <div class="card"><div class="ttl">GOVERNANCE</div><h3>Audit &amp; IAM</h3><p>Per-agent IAM, audit logs, regional residency available.</p></div>
       </div>
       <div class="src"><a href="https://cloud.google.com/products/gemini-enterprise-agent-platform" target="_blank" rel="noopener">Product page</a> · <a href="https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next26" target="_blank" rel="noopener">Cloud Next '26</a> · <a href="https://docs.cloud.google.com/gemini/enterprise/docs/release-notes" target="_blank" rel="noopener">Release notes Aug 2026</a></div>
-      <span class="num">11</span>
+      <span class="num">12</span>
     </section>
 
-    <!-- Slide 12 -->
+    <!-- Slide 13 -->
     <section class="slide">
       <div class="kicker">Concrete, not abstract</div>
       <h2>Before / After: The Weekly Competitor Brief</h2>
@@ -1259,21 +1366,21 @@
           <div style="width:1px;height:26px;background:var(--line)"></div>
           <div>
             <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">ANNUAL COST SAVINGS</div>
-            <div style="font-size:20px;font-weight:800;color:var(--yellow)" id="roiAnnualSavings">$185,760</div>
+            <div style="font-size:20px;font-weight:800;color:#yellow" id="roiAnnualSavings">$185,760</div>
           </div>
           <div style="width:1px;height:26px;background:var(--line)"></div>
           <div>
             <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">EFFICIENCY GAIN</div>
-            <div style="font-size:20px;font-weight:800;color:var(--blue)" id="roiEfficiency">+75% Faster</div>
+            <div style="font-size:20px;font-weight:800;color:#blue" id="roiEfficiency">+75% Faster</div>
           </div>
         </div>
       </div>
 
       <p style="margin-top:14px;font-size:12.5px;color:#aab3cf">Numbers are representative; measure your own baseline against them — most teams see a 60–80% reduction in repetitive research-brief cycles once all three agents are wired.</p>
-      <span class="num">12</span>
+      <span class="num">13</span>
     </section>
 
-    <!-- Slide 13 -->
+    <!-- Slide 14 -->
     <section class="slide">
       <div class="kicker">Don't skip this slide</div>
       <h2>Adoption Risks &amp; Mitigations</h2>
@@ -1351,10 +1458,10 @@
           <div class="fix">Fix: Maintain an agent registry in Vertex; weekly Office-of-AI review of new agents.</div>
         </div>
       </div>
-      <span class="num">13</span>
+      <span class="num">14</span>
     </section>
 
-    <!-- Slide 14 -->
+    <!-- Slide 15 -->
     <section class="slide">
       <div class="kicker">The plan</div>
       <h2>Your 30-Day Adoption Path</h2>
@@ -1414,10 +1521,10 @@
           <span style="color:#7ce6a3;font-weight:700">✦ Phase 1 Deliverables:</span> Enable Gemini in Docs/Sheets/Slides. Collect 5 power-user case studies.
         </div>
       </div>
-      <span class="num">14</span>
+      <span class="num">15</span>
     </section>
 
-    <!-- Slide 15: Interactive Knowledge Check & Custom Action Plan Generator -->
+    <!-- Slide 16 -->
     <section class="slide">
       <div class="kicker">Interactive Quiz</div>
       <h2>Test Your AI Workflow IQ 🧠</h2>
@@ -1472,10 +1579,10 @@
           </div>
         </div>
       </div>
-      <span class="num">15</span>
+      <span class="num">16</span>
     </section>
 
-    <!-- Slide 16 -->
+    <!-- Slide 17 -->
     <section class="slide hero closing">
       <div class="kicker">Closing</div>
       <h1><span class="gradient-text">Stop typing. Start orchestrating.</span></h1>
@@ -1500,10 +1607,10 @@
       <div style="margin-top:32px">
         <span class="pill">Antigravity · Gemini 3 · NotebookLM · Jules · Opal · Vertex · Workspace AI</span>
       </div>
-      <span class="num">16</span>
+      <span class="num">17</span>
     </section>
 
-    <!-- Slide 16: Thank You & QR Code Connect -->
+    <!-- Slide 17: Thank You & QR Code Connect -->
     <section class="slide hero">
       <span class="eyebrow">Connect &amp; Resources · 2026</span>
       
@@ -1574,7 +1681,7 @@
         <span class="pill">Q&amp;A · Slides · Discussion · Connect</span>
       </div>
 
-      <span class="num">17</span>
+      <span class="num">18</span>
     </section>
 
   </div>
@@ -1646,14 +1753,14 @@
     }
   }
 
-  // Auto Screen Size Adaptation
+  // Auto Screen Size Adaptation - Scales deck to fit screen with ZERO scrolling
   function scaleDeck() {
     const scaler = document.getElementById('deckScaler');
     if (!scaler) return;
-    const paddingH = 130;
+    const paddingH = 120;
     const paddingW = 32;
     const targetW = 1140;
-    const targetH = 650;
+    const targetH = 700;
     
     const availableW = window.innerWidth - paddingW;
     const availableH = window.innerHeight - paddingH;
@@ -1847,6 +1954,88 @@
     };
 
     box.innerHTML = deliverables[phase] || deliverables[1];
+  }
+
+  // Slide 8 Jules Task Simulator
+  let currentJulesTask = 1;
+  const JULES_TASKS = {
+    1: {
+      name: "React 19 API Migration",
+      logs: [
+        "Cloning repo: DeveloperYatin/app...",
+        "Scanning breaking imports in 14 files...",
+        "Replacing ReactDOM.render() with createRoot()...",
+        "Running test suite: 18/18 passed."
+      ],
+      diff: `<span style="color:#ea4335">- ReactDOM.render(&lt;App /&gt;, root);</span><br/><span style="color:#34a853">+ const root = createRoot(container);<br/>+ root.render(&lt;App /&gt;);</span>`,
+      pr: "#204"
+    },
+    2: {
+      name: "CVE-2026 Security Patch",
+      logs: [
+        "Analyzing package.json dependencies...",
+        "Upgrading vuln-lib 2.1.0 ➔ 2.4.2 (patched)...",
+        "Validating peer dependencies...",
+        "Security audit check: 0 vulnerabilities."
+      ],
+      diff: `<span style="color:#ea4335">- "vuln-lib": "2.1.0"</span><br/><span style="color:#34a853">+ "vuln-lib": "^2.4.2"</span>`,
+      pr: "#205"
+    },
+    3: {
+      name: "Jest Unit Test Generator",
+      logs: [
+        "Inspecting src/services/Auth.ts...",
+        "Synthesizing 12 test cases for login & token refresh...",
+        "Writing Auth.test.ts fixture...",
+        "Jest coverage report: 100% statements covered."
+      ],
+      diff: `<span style="color:#34a853">+ describe('AuthService', () => {<br/>+   it('should refresh JWT token', async () => {...})<br/>+ });</span>`,
+      pr: "#206"
+    }
+  };
+
+  function selectJulesTask(taskId, el) {
+    currentJulesTask = taskId;
+    document.querySelectorAll('#julesTaskSelector .pill').forEach(p => p.classList.remove('active'));
+    if (el) el.classList.add('active');
+    const task = JULES_TASKS[taskId];
+    const logEl = document.getElementById('julesLogLine');
+    const badgeEl = document.getElementById('julesStateBadge');
+    const diffEl = document.getElementById('julesDiffPreview');
+    if (logEl) logEl.textContent = `Selected: ${task.name}. Ready to dispatch.`;
+    if (badgeEl) { badgeEl.textContent = 'READY'; badgeEl.style.color = 'var(--yellow)'; }
+    if (diffEl) diffEl.style.display = 'none';
+  }
+
+  function runJulesTaskSim() {
+    const task = JULES_TASKS[currentJulesTask];
+    const btn = document.getElementById('dispatchJulesBtn');
+    const stateBadge = document.getElementById('julesStateBadge');
+    const prBadge = document.getElementById('julesPrBadge');
+    const logLine = document.getElementById('julesLogLine');
+    const diffPreview = document.getElementById('julesDiffPreview');
+
+    if (btn) btn.disabled = true;
+    if (stateBadge) { stateBadge.textContent = 'WORKING...'; stateBadge.style.color = 'var(--blue)'; }
+    if (diffPreview) diffPreview.style.display = 'none';
+
+    let step = 0;
+    const interval = setInterval(() => {
+      if (step < task.logs.length) {
+        if (logLine) logLine.textContent = `⚡ [Jules]: ${task.logs[step]}`;
+        step++;
+      } else {
+        clearInterval(interval);
+        if (stateBadge) { stateBadge.textContent = 'PR OPENED 🟢'; stateBadge.style.color = '#7ce6a3'; }
+        if (prBadge) { prBadge.textContent = `PR ${task.pr}`; prBadge.style.color = '#a4c2ff'; }
+        if (logLine) logLine.innerHTML = `<span style="color:#7ce6a3;font-weight:700">✦ PR ${task.pr} Created on GitHub!</span> Automated diff ready for human review.`;
+        if (diffPreview) {
+          diffPreview.innerHTML = task.diff;
+          diffPreview.style.display = 'block';
+        }
+        if (btn) btn.disabled = false;
+      }
+    }, 700);
   }
 
   // Slide 5 Stack Preset Explorer
