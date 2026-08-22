@@ -75,11 +75,11 @@
   .card h3{margin:0 0 6px;font-size:17px;color:#fff}
   .card p{margin:0;font-size:12.5px;line-height:1.45;color:#aab3cf}
   .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(66,133,244,.12);color:#a4c2ff;border:1px solid rgba(66,133,244,.35);padding:5px 10px;border-radius:999px;font-size:11.5px;font-weight:600}
-  .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-  .rung{border-radius:14px;padding:14px 14px;background:var(--panel);border:1px solid var(--line);position:relative}
-  .rung .rn{font-size:10.5px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin-bottom:4px}
-  .rung h3{margin:0 0 4px;font-size:16px}
-  .rung p{margin:0;font-size:12px;line-height:1.45;color:#b9c1da}
+  .ladder{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:12px}
+  .rung{border-radius:14px;padding:15px 18px;background:var(--panel);border:1px solid var(--line);position:relative}
+  .rung .rn{font-size:11px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin-bottom:4px}
+  .rung h3{margin:0 0 5px;font-size:17.5px}
+  .rung p{margin:0;font-size:13px;line-height:1.45;color:#b9c1da}
   .rung.L1{border-top:3px solid #6a737d}
   .rung.L2{border-top:3px solid var(--blue)}
   .rung.L3{border-top:3px solid var(--yellow)}
@@ -445,6 +445,58 @@
     margin-right: 8px;
   }
 
+  /* Slide 4 Interactive Enhancements */
+  .interactive-card {
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .interactive-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(155, 114, 203, 0.5);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .interactive-card.active-card {
+    border-color: var(--purple);
+    background: rgba(155, 114, 203, 0.15);
+  }
+  .donut-seg {
+    cursor: pointer;
+    transition: stroke-width 0.2s ease, opacity 0.2s ease, filter 0.2s ease;
+  }
+  .donut-seg:hover, .donut-seg.active-seg {
+    stroke-width: 7.5px;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+  }
+  .detail-box {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 11.5px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .waste-calc-bar {
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: space-between;
+  }
+  .waste-slider {
+    accent-color: var(--purple);
+    cursor: pointer;
+    width: 120px;
+  }
+
   /* Knowledge Graph SVG Nodes */
   .kg-node {
     cursor: pointer;
@@ -732,64 +784,87 @@
       <div class="kicker">The "before" picture</div>
       <h2>The Manual Workflow Problem</h2>
       <p>Knowledge work is dominated by repeatable, low-judgment tasks that consume hours and create drag. Three failure modes show up everywhere.</p>
-      <div class="grid3">
-        <div class="card">
-          <div class="ttl">TIME SINK</div>
+      
+      <div class="grid3" id="slide4Cards">
+        <div class="card interactive-card active-card" data-type="copy" onclick="highlightTimeSink('copy')">
+          <div class="ttl" style="display:flex;justify-content:space-between;align-items:center">
+            <span>TIME SINK</span>
+            <span style="font-size:10px;opacity:0.7;color:var(--muted)">Click to inspect</span>
+          </div>
           <h3>Hours per day on repetition</h3>
-          <p>Industry benchmarks put the average knowledge worker at roughly a quarter of the day spent on tasks that follow a known pattern — copy, paste, reformat, sync.</p>
+          <p>Industry benchmarks put the average knowledge worker at roughly a quarter of the day spent on tasks following a known pattern — copy, paste, reformat, sync.</p>
         </div>
-        <div class="card">
-          <div class="ttl">ERROR PRONE</div>
+        <div class="card interactive-card" data-type="format" onclick="highlightTimeSink('format')">
+          <div class="ttl" style="display:flex;justify-content:space-between;align-items:center">
+            <span>ERROR PRONE</span>
+            <span style="font-size:10px;opacity:0.7;color:var(--muted)">Click to inspect</span>
+          </div>
           <h3>Humans in the loop… and in the way</h3>
           <p>Every copy-paste and hand-edit is another chance to introduce a typo, drop a row, or send the wrong file version downstream.</p>
         </div>
-        <div class="card">
-          <div class="ttl">CONTEXT SWITCH</div>
+        <div class="card interactive-card" data-type="toggle" onclick="highlightTimeSink('toggle')">
+          <div class="ttl" style="display:flex;justify-content:space-between;align-items:center">
+            <span>CONTEXT SWITCH</span>
+            <span style="font-size:10px;opacity:0.7;color:var(--muted)">Click to inspect</span>
+          </div>
           <h3>Constant app-hopping</h3>
           <p>The average worker toggles between many apps to complete one task, paying attention-switch cost on every handoff.</p>
         </div>
       </div>
 
-      <!-- Interactive Donut Breakdown Chart Visualizer -->
+      <!-- Interactive Donut Breakdown & Category Inspector -->
       <div class="donut-container">
+        <!-- Interactive Donut Chart SVG -->
         <div style="position:relative;width:120px;height:120px;flex-shrink:0;display:grid;place-items:center">
           <svg width="120" height="120" viewBox="0 0 42 42">
             <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#161b24" stroke-width="5"></circle>
             <!-- 2.5 hrs (31%) Red -->
-            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--red)" stroke-width="5" stroke-dasharray="31 69" stroke-dashoffset="25"></circle>
+            <circle id="seg_copy" class="donut-seg active-seg" onclick="highlightTimeSink('copy')" cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--red)" stroke-width="5" stroke-dasharray="31 69" stroke-dashoffset="25"></circle>
             <!-- 2.0 hrs (25%) Yellow -->
-            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--yellow)" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="94"></circle>
+            <circle id="seg_toggle" class="donut-seg" onclick="highlightTimeSink('toggle')" cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--yellow)" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="94"></circle>
             <!-- 1.5 hrs (19%) Purple -->
-            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--purple)" stroke-width="5" stroke-dasharray="19 81" stroke-dashoffset="69"></circle>
+            <circle id="seg_format" class="donut-seg" onclick="highlightTimeSink('format')" cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--purple)" stroke-width="5" stroke-dasharray="19 81" stroke-dashoffset="69"></circle>
             <!-- 2.0 hrs (25%) Green -->
-            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--green)" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="50"></circle>
+            <circle id="seg_deep" class="donut-seg" onclick="highlightTimeSink('deep')" cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--green)" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="50"></circle>
           </svg>
-          <div style="position:absolute;text-align:center">
-            <div style="font-size:16px;font-weight:800;color:#fff">8.0 hrs</div>
-            <div style="font-size:9.5px;color:var(--muted);font-weight:700">WORK DAY</div>
+          <div style="position:absolute;text-align:center;pointer-events:none">
+            <div id="donutCenterHours" style="font-size:15px;font-weight:800;color:var(--red)">2.5 hrs</div>
+            <div id="donutCenterLabel" style="font-size:9px;color:var(--muted);font-weight:700">COPY/PASTE</div>
           </div>
         </div>
 
-        <div class="donut-legend">
-          <div style="font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:2px">VISUAL BREAKDOWN · WHERE 8 HOURS GO</div>
-          <div class="legend-item active" onclick="highlightTimeSink('copy')">
+        <!-- Legend Items -->
+        <div class="donut-legend" id="slide4Legend" style="flex:1.2">
+          <div style="font-size:10.5px;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:2px">INTERACTIVE BREAKDOWN · CLICK TO INSPECT</div>
+          <div class="legend-item active" data-type="copy" onclick="highlightTimeSink('copy')">
             <span><span class="legend-color" style="background:var(--red)"></span>Repetitive Copy / Paste &amp; Re-entry</span>
             <span style="font-weight:700;color:var(--red)">2.5 hrs (31%)</span>
           </div>
-          <div class="legend-item" onclick="highlightTimeSink('toggle')">
+          <div class="legend-item" data-type="toggle" onclick="highlightTimeSink('toggle')">
             <span><span class="legend-color" style="background:var(--yellow)"></span>App Toggling &amp; Context Switch</span>
             <span style="font-weight:700;color:var(--yellow)">2.0 hrs (25%)</span>
           </div>
-          <div class="legend-item" onclick="highlightTimeSink('format')">
+          <div class="legend-item" data-type="format" onclick="highlightTimeSink('format')">
             <span><span class="legend-color" style="background:var(--purple)"></span>Document Formatting &amp; Email Sync</span>
             <span style="font-weight:700;color:var(--purple)">1.5 hrs (19%)</span>
           </div>
-          <div class="legend-item" onclick="highlightTimeSink('deep')">
+          <div class="legend-item" data-type="deep" onclick="highlightTimeSink('deep')">
             <span><span class="legend-color" style="background:var(--green)"></span>Actual Deep Work &amp; Innovation</span>
             <span style="font-weight:700;color:var(--green)">2.0 hrs (25%)</span>
           </div>
         </div>
+
+        <!-- Dynamic Category Inspector Card -->
+        <div class="detail-box" id="timeSinkDetailBox">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <span style="font-weight:700;color:var(--red)">Repetitive Copy / Paste &amp; Re-entry</span>
+            <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(234,67,53,0.15);color:var(--red);font-weight:600">31% of day</span>
+          </div>
+          <div style="color:#cdd6ee;margin-bottom:3px"><strong>Root Cause:</strong> Manual data extraction from PDFs, re-keying into CRM &amp; spreadsheets.</div>
+          <div style="color:#7ce6a3"><strong>AI Solution:</strong> Automate with Document Parsers + LLM Structured Extraction Agents.</div>
+        </div>
       </div>
+
       <span class="num">04</span>
     </section>
 
@@ -1366,12 +1441,12 @@
           <div style="width:1px;height:26px;background:var(--line)"></div>
           <div>
             <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">ANNUAL COST SAVINGS</div>
-            <div style="font-size:20px;font-weight:800;color:#yellow" id="roiAnnualSavings">$185,760</div>
+            <div style="font-size:20px;font-weight:800;color:var(--yellow)" id="roiAnnualSavings">$185,760</div>
           </div>
           <div style="width:1px;height:26px;background:var(--line)"></div>
           <div>
             <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">EFFICIENCY GAIN</div>
-            <div style="font-size:20px;font-weight:800;color:#blue" id="roiEfficiency">+75% Faster</div>
+            <div style="font-size:20px;font-weight:800;color:var(--blue)" id="roiEfficiency">+75% Faster</div>
           </div>
         </div>
       </div>
@@ -1831,12 +1906,84 @@
 
   /* --- Interactive & Visualization Handlers --- */
 
-  // Visualization 1: Slide 3 Time Sink Donut Highlight
-  function highlightTimeSink(type, evt) {
-    const items = document.querySelectorAll('.legend-item');
-    items.forEach(item => item.classList.remove('active'));
-    const target = evt ? evt.currentTarget : (typeof window !== 'undefined' && window.event ? window.event.currentTarget : null);
-    if (target) target.classList.add('active');
+  // Visualization 1: Slide 4 Time Sink Donut & Team Waste Calculator
+  const timeSinkData = {
+    copy: {
+      title: "Repetitive Copy / Paste & Re-entry",
+      hours: "2.5 hrs",
+      label: "COPY/PASTE",
+      percent: "31%",
+      color: "var(--red)",
+      cause: "Manual data extraction from PDFs, re-keying into CRM & spreadsheets.",
+      fix: "Automate with Document Parsers + LLM Structured Extraction Agents."
+    },
+    toggle: {
+      title: "App Toggling & Context Switching",
+      hours: "2.0 hrs",
+      label: "APP TOGGLE",
+      percent: "25%",
+      color: "var(--yellow)",
+      cause: "Jumping between Slack, Jira, Email, Notion & Salesforce for status checks.",
+      fix: "Deploy Unified AI Sidekick with cross-tool API connectors."
+    },
+    format: {
+      title: "Document Formatting & Email Sync",
+      hours: "1.5 hrs",
+      label: "DOC FORMAT",
+      percent: "19%",
+      color: "var(--purple)",
+      cause: "Reformatting decks, writing routine status reports & manual sync emails.",
+      fix: "Automated Report Generator + Slack Summary Bots."
+    },
+    deep: {
+      title: "Actual Deep Work & Innovation",
+      hours: "2.0 hrs",
+      label: "DEEP WORK",
+      percent: "25%",
+      color: "var(--green)",
+      cause: "High-value strategy, design, problem-solving & client relationship work.",
+      fix: "Eliminate low-judgment tasks to 3x deep work capacity."
+    }
+  };
+
+  function highlightTimeSink(type) {
+    const data = timeSinkData[type];
+    if (!data) return;
+
+    // Update legend items active state
+    document.querySelectorAll('#slide4Legend .legend-item').forEach(item => {
+      item.classList.toggle('active', item.dataset.type === type);
+    });
+
+    // Update top cards active state
+    document.querySelectorAll('#slide4Cards .interactive-card').forEach(card => {
+      card.classList.toggle('active-card', card.dataset.type === type);
+    });
+
+    // Update SVG donut segment highlights
+    ['copy', 'toggle', 'format', 'deep'].forEach(key => {
+      const seg = document.getElementById('seg_' + key);
+      if (seg) seg.classList.toggle('active-seg', key === type);
+    });
+
+    // Update Donut Center
+    const hEl = document.getElementById('donutCenterHours');
+    const lEl = document.getElementById('donutCenterLabel');
+    if (hEl) { hEl.textContent = data.hours; hEl.style.color = data.color; }
+    if (lEl) { lEl.textContent = data.label; }
+
+    // Update Detail Box
+    const detailBox = document.getElementById('timeSinkDetailBox');
+    if (detailBox) {
+      detailBox.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <span style="font-weight:700;color:${data.color}">${data.title}</span>
+          <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.08);color:#fff;font-weight:600">${data.percent} of day</span>
+        </div>
+        <div style="color:#cdd6ee;margin-bottom:3px"><strong>Root Cause:</strong> ${data.cause}</div>
+        <div style="color:#7ce6a3"><strong>AI Solution:</strong> ${data.fix}</div>
+      `;
+    }
   }
 
   // Visualization 2: Slide 4 Maturity Score & Gauge Meter Arc
