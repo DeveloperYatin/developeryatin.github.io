@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talk Title — Yatin Batra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght,ROND@6..144,25..151,1..1000,0..100&family=Google+Sans+Code:wght@300..800&display=swap" rel="stylesheet">
+<!-- This template lives in deck/. A real deck goes in the repo root: prefix these four with "deck/" and the photo with nothing (drop "../"). -->
+<link rel="stylesheet" href="theme.css">
+<script src="deck-stage.js"></script>
+<script src="shapes.js"></script>
+<script src="slides.js"></script>
+<!-- One string per slide, in order. Stage directions go in (brackets). -->
+<script type="application/json" id="speaker-notes">
+[
+ "Title. (Under 30 seconds.) Who you are, what the talk is.",
+ "The hook: name the status quo everyone in the room recognises.",
+ "The cost of the status quo. One line per card — don't read them out.",
+ "The question the whole talk answers. Say it slowly, then pause.",
+ "Section 01.",
+ "The big number. Step forward for this one.",
+ "Who needs it: what each one is, and why it can't just use the alternative.",
+ "Section 02.",
+ "The code. Point at the highlighted lines.",
+ "Demo. Talk over the clip.",
+ "Get started: the checklist people will photograph.",
+ "Resources. Leave this up long enough for people to scan.",
+ "The one sentence. Stand still, say it, don't add anything.",
+ "Thank you."
+]
+</script>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============ 1 · Title ============ -->
+<section data-label="Title">
+<div class="pad" style="padding-top:96px">
+  <div class="row" style="flex:1;align-items:center;gap:30px">
+    <div class="grow stack" style="justify-content:center">
+      <div class="r"><span class="chip"><span class="dot" style="background:var(--blue)"></span>Topic · Topic · Topic</span></div>
+      <h1 class="r d1s" style="font-size:112px;line-height:.98;font-weight:700;letter-spacing:-.028em;margin:48px 0 0;font-variation-settings:'ROND' 100">
+        The Main Title<br>Goes Across<br><span class="dim">with</span> Two Lines
+      </h1>
+      <div class="r d3s" style="margin-top:64px;display:flex;align-items:center;gap:28px">
+        <div class="g4-bar"></div>
+        <div>
+          <div style="font-size:46px;font-weight:600;letter-spacing:-.02em">Yatin Batra</div>
+          <div class="body" style="font-size:28px;margin-top:6px">Senior Android Engineer (SDE-2) · Valeo Health ME</div>
+          <div class="body dim" style="font-size:26px">Event name · City · Year</div>
+        </div>
+      </div>
+    </div>
+    <div class="p d2s" style="position:relative;width:560px;height:560px;flex-shrink:0">
+      <div class="field-shape spin" style="inset:-40px"><svg viewBox="0 0 100 100" style="fill:var(--blue-lo)"><use href="#sh-clover8"/></svg></div>
+      <div style="position:absolute;inset:36px"><img class="shape-photo" src="../1776350205316.png" alt="Yatin Batra" style="clip-path:url(#clip-cookie12)"></div>
+      <div class="field-shape" style="right:-6px;bottom:52px;width:120px;height:120px"><svg viewBox="0 0 100 100" style="fill:var(--yellow)"><use href="#sh-cookie9"/></svg></div>
+      <div class="field-shape" style="left:0;top:46px;width:64px;height:64px"><svg viewBox="0 0 100 100" style="fill:var(--green)"><use href="#sh-cookie4"/></svg></div>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 2 · Diagram: two cards + dashed round trip ============ -->
+<section data-label="How it works today">
+<div class="pad">
+  <p class="kicker r">How it works today</p>
+  <h2 class="h1 r d1s">Everyone does it<br>the <span class="c-blue">same way.</span></h2>
+  <div class="r d2s" style="flex:1;display:flex;align-items:center;justify-content:space-between;margin-top:40px">
+    <div class="card p" style="width:430px;height:360px;display:flex;flex-direction:column;justify-content:space-between">
+      <div class="icon-tile" style="color:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2" width="11" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+      <div><div class="h3">Your app</div><div class="small" style="margin-top:8px;font-size:26px">Sends the request</div></div>
+    </div>
+    <div style="flex:1;position:relative;height:360px">
+      <svg viewBox="0 0 600 360" style="position:absolute;inset:0;width:100%;height:100%" fill="none">
+        <defs><marker id="arrow" viewBox="0 0 24 24" refX="20" refY="12" markerWidth="36" markerHeight="36" markerUnits="userSpaceOnUse" orient="auto"><path d="M5 4 L20 12 L5 20" fill="none" stroke="var(--ink-3)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+        <path class="flow-path" d="M40 150 C 190 50, 410 50, 560 150" pathLength="100" marker-end="url(#arrow)"/>
+        <path class="flow-path" d="M560 210 C 410 310, 190 310, 40 210" pathLength="100" marker-end="url(#arrow)"/>
+      </svg>
+      <div class="body" style="position:absolute;left:0;right:0;top:0;text-align:center">the request →</div>
+      <div class="body" style="position:absolute;left:0;right:0;bottom:0;text-align:center">← the answer, after a round trip</div>
+    </div>
+    <div class="card p" style="width:430px;height:360px;display:flex;flex-direction:column;justify-content:space-between;background:var(--surface-2)">
+      <div class="icon-tile" style="color:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H7a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 11a4 4 0 0 1-1.5 8z"/></svg></div>
+      <div><div class="h3">The server</div><div class="small" style="margin-top:8px;font-size:26px">Does the work and replies</div></div>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 3 · Four cards ============ -->
+<section data-label="What it costs">
+<div class="pad">
+  <p class="kicker r">The trade-off</p>
+  <h2 class="h1 r d1s">That approach <span class="c-red">isn't free.</span></h2>
+  <div class="grid-4" style="margin-top:70px;flex:1">
+    <div class="r d2s"><div class="card stack" style="gap:30px;height:100%"><div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg></div><div class="h3">Latency</div><p class="body">One or two sentences, no more. The card is the point; the words support it.</p></div></div>
+    <div class="r d3s"><div class="card stack" style="gap:30px;height:100%"><div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18l-2.5-1.7L14 21l-2-1.7L10 21l-2.5-1.7L5 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div><div class="h3">Cost</div><p class="body">One or two sentences, no more.</p></div></div>
+    <div class="r d4s"><div class="card stack" style="gap:30px;height:100%"><div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div><div class="h3">Privacy</div><p class="body">One or two sentences, no more.</p></div></div>
+    <div class="r d5s"><div class="card stack" style="gap:30px;height:100%"><div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 9.3a15 15 0 0 1 21 0"/><path d="M5 12.9a10 10 0 0 1 14 0"/><path d="M8.5 16.4a5 5 0 0 1 7 0"/><path d="M12 20h.01"/></svg></div><div class="h3">Availability</div><p class="body">One or two sentences, no more.</p></div></div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 4 · The question (one huge sentence) ============ -->
+<section data-label="The question">
+<div class="pad center" style="align-items:flex-start">
+  <p class="kicker r">So here's the question</p>
+  <h2 class="r d1s" style="font-size:168px;line-height:.94;font-weight:700;letter-spacing:-.03em;margin:0;font-variation-settings:'ROND' 100">
+    What if it all<br>happened <span class="ring c-blue">right here</span><br>instead?
+  </h2>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 5 · Section divider (colour field) ============ -->
+<section data-label="Section · Part one" class="field yellow">
+<div class="field-shape spin" style="right:-180px;top:-120px;width:980px;height:980px"><svg viewBox="0 0 100 100" style="fill:rgba(32,33,36,.10)"><use href="#sh-cookie12"/></svg></div>
+<div class="field-shape p d2s" style="right:210px;bottom:150px;width:250px;height:250px"><svg viewBox="0 0 100 100" style="fill:#202124"><use href="#sh-clover4"/></svg></div>
+<div class="pad center">
+  <div class="r"><span class="num">01</span></div>
+  <h2 class="d1 r d1s" style="margin-top:40px">Part<br>one</h2>
+  <p class="lead r d2s" style="margin-top:34px">One sentence on what this section covers.</p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 6 · Big stat ============ -->
+<section data-label="The big number">
+<div class="field-shape spin" style="left:-170px;top:40px;width:740px;height:740px"><svg viewBox="0 0 100 100" style="fill:var(--blue-lo)"><use href="#sh-cookie9"/></svg></div>
+<div class="pad center">
+  <p class="kicker r">Context for the number</p>
+  <div class="row r d1s" style="align-items:center;gap:64px;margin-top:10px">
+    <div class="stat c-blue">2.3B</div>
+    <div class="stack" style="gap:22px">
+      <div class="chip tonal-blue" style="align-self:flex-start;font-size:30px"><span class="dot" style="background:var(--blue)"></span>What the number measures</div>
+      <div class="h2" style="line-height:1.08">what it means,<br>in plain words.</div>
+      <p class="lead" style="font-size:36px">One supporting fact, with <b class="c-blue">the key figure</b> called out.</p>
+    </div>
+  </div>
+  <div class="row r d3s" style="gap:24px;margin-top:60px">
+    <div class="card tight" style="flex:1"><div class="h3" style="font-size:40px">56.5 / s</div><div class="small" style="margin-top:4px">Device one</div></div>
+    <div class="card tight" style="flex:1"><div class="h3" style="font-size:40px">52.1 / s</div><div class="small" style="margin-top:4px">Device two</div></div>
+    <div class="card tight" style="flex:1"><div class="h3" style="font-size:40px">160.2 / s</div><div class="small" style="margin-top:4px">Device three</div></div>
+  </div>
+  <p class="small r d4s" style="margin-top:26px">Source: always cite where a number came from, in small type at the bottom.</p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 7 · Split cards (what | why) ============ -->
+<section data-label="Who needs it">
+<div class="pad">
+  <p class="kicker r">Who has no other option</p>
+  <h2 class="h1 r d1s">Some apps <span class="c-green">can't do it any other way.</span></h2>
+  <div class="stack" style="margin-top:52px;gap:22px;flex:1">
+    <div class="card split-card r d2s" style="--accent:var(--green)"><div><div class="h2" style="font-size:40px">Healthcare</div><p class="body" style="font-size:27px;margin-top:6px">What they'd use it for.</p></div><div class="why"><p class="body ink" style="font-size:28px">Why the alternative is ruled out.</p></div></div>
+    <div class="card split-card r d3s" style="--accent:var(--blue)"><div><div class="h2" style="font-size:40px">Field work</div><p class="body" style="font-size:27px;margin-top:6px">What they'd use it for.</p></div><div class="why"><p class="body ink" style="font-size:28px">Why the alternative is ruled out.</p></div></div>
+    <div class="card split-card r d4s" style="--accent:var(--yellow)"><div><div class="h2" style="font-size:40px">Banking</div><p class="body" style="font-size:27px;margin-top:6px">What they'd use it for.</p></div><div class="why"><p class="body ink" style="font-size:28px">Why the alternative is ruled out.</p></div></div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 8 · Section divider ============ -->
+<section data-label="Section · Build it" class="field blue">
+<div class="field-shape spin" style="right:-220px;top:-160px;width:1000px;height:1000px"><svg viewBox="0 0 100 100" style="fill:rgba(255,255,255,.10)"><use href="#sh-clover8"/></svg></div>
+<div class="field-shape p d2s" style="right:250px;bottom:160px;width:240px;height:240px"><svg viewBox="0 0 100 100" style="fill:#fff"><use href="#sh-cookie9"/></svg></div>
+<div class="pad center">
+  <div class="r"><span class="num">02</span></div>
+  <h2 class="d1 r d1s" style="margin-top:40px">Build it</h2>
+  <p class="lead r d2s" style="margin-top:34px">The code, exactly as it runs.</p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 9 · Code + explainer card ============ -->
+<section data-label="Code · Setup">
+<div class="pad">
+  <p class="kicker r">Step 1 · Setup</p>
+  <h2 class="h1 r d1s">Add the dependency, <span class="c-blue">then initialise it.</span></h2>
+  <div class="row" style="margin-top:52px;gap:36px;flex:1;align-items:flex-start">
+    <div class="stack r d2s" style="flex:1.1;gap:28px">
+<pre class="code"><div class="file">MainActivity.kt</div><span class="k">class</span> <span class="t">MainActivity</span> : <span class="t">ComponentActivity</span>() {
+  <span class="k">override fun</span> <span class="f">onCreate</span>(state: <span class="t">Bundle</span>?) {
+    <span class="k">super</span>.<span class="f">onCreate</span>(state)
+<span class="hl">    <span class="t">Sdk</span>.<span class="f">init</span>(<span class="k">this</span>, apiKey = <span class="s">"…"</span>)</span>
+<span class="hl-y">    <span class="cm">// forget this and it still compiles</span></span>
+    <span class="f">setContent</span> { <span class="t">App</span>() }
+  }
+}</pre>
+    </div>
+    <div class="stack r d3s" style="flex:.9;gap:28px">
+      <div class="card"><div class="h3" style="font-size:36px">What it does</div><p class="body" style="font-size:28px;margin-top:10px">Explain the <b class="ink">blue</b> highlight here.</p></div>
+      <div class="card tonal-red">
+        <div style="display:flex;gap:18px;align-items:center"><div style="width:44px;height:44px" class="c-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20z"/><path d="M12 10v4.5M12 17.5h.01"/></svg></div><div class="h3 c-red" style="font-size:36px">The catch</div></div>
+        <p class="body ink" style="font-size:27px;margin-top:14px">Explain the <b>yellow</b> highlight: the thing that breaks silently.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 10 · Demo (MacBook + recording) ============ -->
+<section data-label="Demo · One">
+<div class="demo-stage">
+  <div class="demo-head r">
+    <div class="icon-tile sm" style="background:var(--green);color:#0F1114"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+    <div class="demo-titles">
+      <span class="kicker c-green">Demo 1 · Capability</span>
+      <h2 class="demo-title">Short, active title.</h2>
+    </div>
+    <div class="demo-prompt tonal-green">
+      <div class="small c-green">The prompt</div>
+      <div class="demo-prompt-text">“What the audience should watch for.”</div>
+    </div>
+  </div>
+  <div class="demo-mac"><div class="mac p lg"><div class="mac-lid"><div class="mac-screen"><div class="mac-full">
+    <video data-src="assets/demo/demo-1.mp4" muted loop playsinline preload="auto"></video>
+    <div class="asset-needed"><b>Recording needed</b><code>assets/demo/demo-1.mp4</code><p>Describe exactly what to record and how long.</p></div>
+  </div><div class="mac-notch"></div></div></div><div class="mac-base"><div class="mac-lip"></div></div></div></div>
+</div>
+</section>
+
+<!-- ============ 11 · Numbered steps ============ -->
+<section data-label="Get started">
+<div class="pad">
+  <p class="kicker r">Your turn</p>
+  <h2 class="h1 r d1s">Get it running <span class="c-green">tonight.</span></h2>
+  <div class="grid-2" style="gap:24px;margin-top:52px">
+    <div class="r d2s"><div class="card" style="display:flex;gap:28px;padding:38px 42px"><div class="step-num" style="background:var(--blue)">1</div><div><div class="h3" style="font-size:36px">First step</div><p class="body" style="font-size:26px;margin-top:8px">One line of detail.</p></div></div></div>
+    <div class="r d2s"><div class="card" style="display:flex;gap:28px;padding:38px 42px"><div class="step-num" style="background:var(--red)">2</div><div><div class="h3" style="font-size:36px">Second step</div><p class="body" style="font-size:26px;margin-top:8px"><code class="code-inline">./gradlew build</code></p></div></div></div>
+    <div class="r d3s"><div class="card" style="display:flex;gap:28px;padding:38px 42px"><div class="step-num" style="background:var(--yellow)">3</div><div><div class="h3" style="font-size:36px">Third step</div><p class="body" style="font-size:26px;margin-top:8px">One line of detail.</p></div></div></div>
+    <div class="r d3s"><div class="card" style="display:flex;gap:28px;padding:38px 42px"><div class="step-num" style="background:var(--green)">4</div><div><div class="h3" style="font-size:36px">Fourth step</div><p class="body" style="font-size:26px;margin-top:8px">One line of detail.</p></div></div></div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 12 · Resources (QR grid) ============ -->
+<section data-label="Resources">
+<div class="pad">
+  <p class="kicker r">Scan to open</p>
+  <h2 class="h1 r d1s">Everything from this talk.</h2>
+  <div class="grid-4" style="margin-top:56px">
+    <div class="r d2s"><div class="card stack" style="align-items:center;gap:24px;padding:36px 22px;height:100%"><div class="qr" style="--ring:var(--blue)"><img src="assets/qr/repo.png" alt=""></div><div style="text-align:center"><div class="h3" style="font-size:31px">The repo</div><div class="small" style="font-size:19px;margin-top:8px">github.com/<wbr>DeveloperYatin</div></div></div></div>
+    <div class="r d3s"><div class="card stack" style="align-items:center;gap:24px;padding:36px 22px;height:100%"><div class="qr" style="--ring:var(--red)"><img src="assets/qr/docs.png" alt=""></div><div style="text-align:center"><div class="h3" style="font-size:31px">The docs</div><div class="small" style="font-size:19px;margin-top:8px">example.dev/docs</div></div></div></div>
+    <div class="r d4s"><div class="card stack" style="align-items:center;gap:24px;padding:36px 22px;height:100%"><div class="qr" style="--ring:var(--yellow)"><img src="assets/qr/slides.png" alt=""></div><div style="text-align:center"><div class="h3" style="font-size:31px">These slides</div><div class="small" style="font-size:19px;margin-top:8px">developeryatin.github.io</div></div></div></div>
+    <div class="r d5s"><div class="card stack" style="align-items:center;gap:24px;padding:36px 22px;height:100%"><div class="qr" style="--ring:var(--green)"><img src="assets/qr/linkedin.png" alt=""></div><div style="text-align:center"><div class="h3" style="font-size:31px">LinkedIn</div><div class="small" style="font-size:19px;margin-top:8px">in/<wbr>yatin-batraa</div></div></div></div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 13 · The one sentence ============ -->
+<section data-label="The one sentence">
+<div class="field-shape spin" style="right:-260px;bottom:-320px;width:1100px;height:1100px"><svg viewBox="0 0 100 100" style="fill:var(--surface)"><use href="#sh-cookie12"/></svg></div>
+<div class="pad center">
+  <p class="lead r" style="font-size:52px">The setup line people expect.</p>
+  <p class="r d1s" style="font-size:96px;line-height:1.06;font-weight:650;letter-spacing:-.03em;margin:34px 0 0;max-width:1560px">The takeaway — one that's <span class="c-red">first</span>, <span class="c-green">second</span>, and <span class="c-yellow">third</span>.</p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 14 · Thank you ============ -->
+<section data-label="Thank you">
+<div class="pad">
+  <div class="row" style="flex:1;align-items:center;gap:80px">
+    <div class="p" style="position:relative;width:560px;height:560px;flex-shrink:0">
+      <div class="field-shape spin" style="inset:-34px"><svg viewBox="0 0 100 100" style="fill:var(--surface-2)"><use href="#sh-clover8"/></svg></div>
+      <div style="position:absolute;inset:30px"><img class="shape-photo" src="../1776350205316.png" alt="Yatin Batra" style="clip-path:url(#clip-cookie12)"></div>
+    </div>
+    <div class="grow stack">
+      <h2 class="r" style="font-size:176px;line-height:.9;font-weight:700;letter-spacing:-.03em;margin:0;font-variation-settings:'ROND' 100">Thank you</h2>
+      <div class="r d1s" style="margin-top:44px">
+        <div style="font-size:52px;font-weight:600;letter-spacing:-.02em">Yatin Batra</div>
+        <div class="body" style="margin-top:6px">Senior Android Engineer (SDE-2) · Valeo Health ME</div>
+      </div>
+      <div class="row r d2s" style="margin-top:44px;gap:28px">
+        <div class="card tight" style="display:flex;align-items:center;gap:28px;padding:26px 34px 26px 26px">
+          <div style="background:#fff;padding:12px;border-radius:22px"><img src="assets/qr/website.png" alt="" style="width:170px;height:170px;display:block;image-rendering:pixelated"></div>
+          <div><div class="small" style="font-size:23px">Website</div><div class="h3" style="font-size:36px">developeryatin.github.io</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Talk Title</span><span class="pg"></span></div>
+</section>
+
+</deck-stage>
+</body>
+</html>
