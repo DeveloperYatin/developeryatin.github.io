@@ -283,6 +283,47 @@ section[data-deck-active] .toolcall.on .gear { display: inline-block; animation:
 @media print, (prefers-reduced-motion: reduce) {
   section .plane-ico, section .airplane-pill svg, section .gear { animation: none !important; }
 }
+/* Two kinds of brain: mirrored face-off. Rows share one height across all three columns. */
+.vs { display: grid; grid-template-columns: 1fr 300px 1fr; gap: 0 22px; margin-top: 30px; }
+.vs-side { border-radius: var(--r-lg); padding: 28px 34px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.vs-side.cloud { background: var(--blue-lo); }
+.vs-side.device { background: var(--green-lo); }
+.vs-head { height: 132px; display: flex; align-items: center; gap: 24px; }
+.vs-side.cloud .vs-head { flex-direction: row-reverse; text-align: right; }
+.vs-head .icon-tile { width: 96px; height: 96px; border-radius: 32px; color: #fff; flex-shrink: 0; }
+.vs-head .icon-tile svg { width: 52px; height: 52px; }
+.vs-name { font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+.vs-sub { font-size: 24px; color: var(--ink-2); margin-top: 8px; }
+.vs-cell { height: 74px; display: flex; align-items: center; font-size: 30px; color: var(--ink); border-radius: 22px; padding: 0 22px; margin: 0 -22px; }
+.vs-side.cloud .vs-cell { justify-content: flex-end; }
+.vs-best { margin-top: 18px; background: rgba(0,0,0,.28); border-radius: var(--r-md); padding: 18px 26px; }
+.vs-best b { font-size: 20px; letter-spacing: .12em; }
+.vs-best div { font-size: 24px; color: var(--ink); margin-top: 4px; }
+.vs-ghost { position: absolute; width: 300px; height: 300px; opacity: .06; color: #fff; top: -60px; pointer-events: none; }
+.vs-side.cloud .vs-ghost { left: -50px; } .vs-side.device .vs-ghost { right: -50px; }
+.vs-mid { display: flex; flex-direction: column; align-items: stretch; padding-top: 28px; }
+.vs-badge { height: 132px; display: flex; align-items: center; justify-content: center; }
+.vs-badge span { width: 110px; height: 110px; border-radius: 50%; display: grid; place-items: center; font-size: 40px; font-weight: 800;
+  background: var(--surface-3); color: var(--ink); box-shadow: 0 0 0 8px var(--bg), 0 0 0 10px rgba(255,255,255,.08); }
+.vs-label { height: 74px; display: flex; align-items: center; justify-content: flex-start; padding-left: 30px; gap: 14px; font-size: 26px; font-weight: 600; color: var(--ink-2); }
+.vs-label i { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 18px; background: var(--surface-2); color: var(--ink-2); }
+.vs-label svg { width: 28px; height: 28px; }
+.vs-rule { height: 1px; background: rgba(255,255,255,.08); margin: 0; }
+.vs-both { margin-top: 22px; display: flex; align-items: center; justify-content: center; gap: 18px; font-size: 27px; color: var(--ink-2); }
+.vs-both .split { padding: 10px 24px; border-radius: var(--r-pill); color: var(--ink); font-weight: 600;
+  background: linear-gradient(90deg, var(--blue-lo) 0 50%, var(--green-lo) 50% 100%); box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); }
+@media screen {
+  .vs-cell, .vs-label, .vs-label i { transition: background .35s ease, color .35s ease, opacity .35s ease, transform .35s var(--ease); }
+  .running .vs-cell:not(.on), .running .vs-label:not(.on) { opacity: .55; }
+  .vs-side.cloud .vs-cell.on { background: rgba(138,180,248,.16); }
+  .vs-side.device .vs-cell.on { background: rgba(129,201,149,.16); }
+  .vs-label.on { color: var(--ink); }
+  .vs-label.on i { background: var(--ink); color: var(--bg); transform: scale(1.1); }
+  section[data-deck-active] .vs-ghost { animation: spin 60s linear infinite; }
+  section[data-deck-active] .vs-badge span { animation: vsPulse 2.4s ease-in-out infinite; }
+}
+@keyframes vsPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@media print, (prefers-reduced-motion: reduce) { section .vs-ghost, section .vs-badge span { animation: none !important; } }
 /* Meme slide: audience cam frame */
 .meme-frame { width: 1000px; flex-shrink: 0; border-radius: var(--r-lg, 36px); overflow: hidden; background: var(--surface);
   border: 2px solid rgba(255,255,255,.08); box-shadow: 0 30px 80px rgba(0,0,0,.55); transform: rotate(-1.5deg); }
@@ -919,58 +960,60 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 </section>
 
 <!-- ============ 11 · Two Kinds of Brain ============ -->
-<section data-label="Two Kinds of Brain">
+<section data-label="Two Kinds of Brain" data-seq="4" data-seq-ms="1700">
 <div class="pad">
   <p class="kicker r">Two kinds of brain</p>
   <h2 class="h1 r d1s">Cloud or on device — <span class="c-yellow">what actually changes.</span></h2>
-  
-  <div class="grid-2 r d2s" style="margin-top:28px;gap:36px;flex:1">
-    
+
+  <div class="vs">
     <!-- Cloud -->
-    <div class="card stack tonal-blue" style="padding:34px 40px;justify-content:space-between">
-      <div>
-        <div class="chip" style="font-size:24px;background:rgba(255,255,255,0.15)"><span class="dot" style="background:var(--blue)"></span>Remote Compute</div>
-        <div class="h2 c-blue" style="font-size:52px;margin-top:16px">Cloud</div>
-        <div class="small ink" style="font-size:24px">Gemini, through Firebase AI</div>
-        
-        <div class="stack" style="margin-top:20px;gap:10px">
-          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Runs on</span><span class="body">Google's servers</span></div>
-          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Works offline</span><span class="body c-red">No — no network, no answer</span></div>
-          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Cost per turn</span><span class="body">Paid, every single turn</span></div>
-          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Your data</span><span class="body">Leaves the device</span></div>
-        </div>
+    <div class="vs-side cloud r d2s">
+      <svg class="vs-ghost" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17.5 19H7a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 11a4 4 0 0 1-1.5 8z"/></svg>
+      <div class="vs-head">
+        <div class="icon-tile" style="background:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H7a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 11a4 4 0 0 1-1.5 8z"/></svg></div>
+        <div><div class="vs-name c-blue">Cloud</div><div class="vs-sub">Gemini, through Firebase AI</div></div>
       </div>
-      <div class="card tight" style="background:var(--surface);margin-top:14px;padding:22px 32px">
-        <span class="small c-blue" style="font-weight:700">BEST AT</span>
-        <div class="body ink" style="font-size:24px;margin-top:4px">Multi-step reasoning, fresh world knowledge, long context</div>
-      </div>
+      <div class="vs-cell" data-on="0">Google's servers</div>
+      <div class="vs-rule"></div>
+      <div class="vs-cell" data-on="1"><span class="c-red">No — no network, no answer</span></div>
+      <div class="vs-rule"></div>
+      <div class="vs-cell" data-on="2">Paid, every single turn</div>
+      <div class="vs-rule"></div>
+      <div class="vs-cell" data-on="3">Leaves the device</div>
+      <div class="vs-best"><b class="c-blue">BEST AT</b><div>Multi-step reasoning, fresh world knowledge, long context</div></div>
     </div>
 
-    <!-- On Device -->
-    <div class="card stack tonal-green" style="padding:34px 40px;justify-content:space-between">
-      <div>
-        <div class="chip" style="font-size:24px;background:rgba(255,255,255,0.15)"><span class="dot" style="background:var(--green)"></span>Local Compute</div>
-        <div class="h2 c-green" style="font-size:52px;margin-top:16px">On-Device</div>
-        <div class="small ink" style="font-size:24px">Gemma or Gemini Nano, on the phone</div>
-        
-        <div class="stack" style="margin-top:20px;gap:10px">
-          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Runs on</span><span class="body">The user's own phone</span></div>
-          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Works offline</span><span class="body c-green">Yes — lift, basement, plane</span></div>
-          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Cost per turn</span><span class="body">Zero, once the model is there</span></div>
-          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Your data</span><span class="body c-green">Never leaves</span></div>
-        </div>
-      </div>
-      <div class="card tight" style="background:var(--surface);margin-top:14px;padding:22px 32px">
-        <span class="small c-green" style="font-weight:700">BEST AT</span>
-        <div class="body ink" style="font-size:24px;margin-top:4px">One narrow job: extract, classify, summarise, rewrite</div>
-      </div>
+    <!-- Shared row labels -->
+    <div class="vs-mid p d3s">
+      <div class="vs-badge"><span>VS</span></div>
+      <div class="vs-label" data-on="0"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></i>Runs on</div>
+      <div class="vs-rule"></div>
+      <div class="vs-label" data-on="1"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M5 12.9a10 10 0 0 1 5.2-2.8M19 12.9a10 10 0 0 0-2-1.5M2 8.8a15 15 0 0 1 4.2-2.7M22 8.8A15 15 0 0 0 11 5M12 20h.01"/></svg></i>Works offline</div>
+      <div class="vs-rule"></div>
+      <div class="vs-label" data-on="2"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 7.5h6M9 10.5h6M12.5 7.5c2.5 0 2.5 6-2.5 6l4 3.5"/></svg></i>Cost per turn</div>
+      <div class="vs-rule"></div>
+      <div class="vs-label" data-on="3"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></i>Your data</div>
     </div>
 
+    <!-- On device -->
+    <div class="vs-side device r d2s">
+      <svg class="vs-ghost" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+      <div class="vs-head">
+        <div class="icon-tile" style="background:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+        <div><div class="vs-name c-green">On-Device</div><div class="vs-sub">Gemma or Gemini Nano, on the phone</div></div>
+      </div>
+      <div class="vs-cell" data-on="0">The user's own phone</div>
+      <div class="vs-rule"></div>
+      <div class="vs-cell" data-on="1"><span class="c-green">Yes — lift, basement, plane</span></div>
+      <div class="vs-rule"></div>
+      <div class="vs-cell" data-on="2">Zero, once the model is there</div>
+      <div class="vs-rule"></div>
+      <div class="vs-cell" data-on="3"><span class="c-green">Never leaves</span></div>
+      <div class="vs-best"><b class="c-green">BEST AT</b><div>One narrow job: extract, classify, summarise, rewrite</div></div>
+    </div>
   </div>
 
-  <p class="body dim r d3s" style="margin-top:18px;text-align:center;font-size:26px">
-    Almost every real app ends up using both. The question is never which one — it is which turn goes where.
-  </p>
+  <div class="vs-both r d4s">Almost every real app ends up using both. The question is never which one — it is <span class="split">which turn goes where.</span></div>
 </div>
 <div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
 </section>
