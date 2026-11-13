@@ -300,12 +300,12 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
  "Title slide. Beyond Apps: Building Autonomous AI Agents for Android. Introduce both speakers: Anand Gaur and Yatin Batra. Set the theme: an app does what you tap; an agent does what you mean.",
  "Audience reaction. (Let the GIF play a beat and let them laugh.) Right now half of you are thinking: ab ye kaun hai be? Fair question. Let us fix that.",
  "Speaker bios. Introduce Anand Gaur (Mobile Tech Lead at TCS, author of 8 programming books, founder of AI Mobile Coders) and Yatin Batra (SDE 2 @ Valeo Health ME, hackathon mentor and speaker). Scan QR codes to connect.",
- "Agenda. Five core milestones: what an agent actually is, tools via KSP annotations, ADK for Kotlin 1.0.0, production shipping tradeoffs, and app ideas followed by live KharchaAI demo.",
+ "Agenda. Five core milestones: what an agent actually is, tools via KSP annotations, ADK for Kotlin 1.5.0, production shipping tradeoffs, and app ideas followed by live KharchaAI demo.",
  "The shift. 'Apps wait. Agents act.' The mental model shift from building reactive screens to designing tools an agent can orchestrate. (Point at the pair: the app is fuming, stuck waiting for a tap, while the agent is laughing because it's already doing the work.)",
  "Definition of an agent. Three moving parts: Brain, Tools, Loop. Remove any one and you have a chatbot with extra steps.",
- "The agent loop in 7 lines. Walk through Think, Act, Observe. Emphasize why repeat(MAX_STEPS) is used instead of while to prevent runaway token bills. (Let the counter run: Think, Act, Observe light up six times, then MAX_STEPS stops it.)",
+ "The agent loop in 7 lines. Walk through Think, Act, Observe. Emphasize why repeat(MAX_STEPS) is used instead of while to prevent runaway token bills. In ADK you don't hand-write this: LlmAgent has maxSteps, RunConfig has maxLlmCalls, and a capped run ends with FinishReason.TOO_MANY_TOOL_CALLS. (Let the counter run: Think, Act, Observe light up six times, then MAX_STEPS stops it.)",
  "How tools work in Kotlin. @Tool and @Param annotations. Show how KSP turns your ordinary Kotlin method into a JSON schema for LLM function calling.",
- "ADK for Kotlin 1.0.0 modules. Walk through the modular ecosystem: core, processor, firebase, mlkit, litertlm, webserver, a2a, and integrations.",
+ "ADK for Kotlin modules, current release 1.5.0 (28 Oct 2026). Walk through: core, processor, firebase, mlkit, litertlm, webserver, a2a, and integrations. (Integrations is now split: Claude, OpenAI-compatible endpoints, Spring AI, BigQuery analytics. The OpenAI one also runs on Android.) Every module shares one version, so bump them together.",
  "Your first agent code snippet. KharchaAgent.kt in 11 lines. Name, model, instruction contract, and KSP-generated tools.",
  "Running an agent with Kotlin Coroutines Flow and ViewModel. Async event streaming and UI updates. Built-in cancellation saves money.",
  "Cloud vs On-Device comparison. The trade-offs in offline support, per-turn cost, data privacy, latency, and reasoning capabilities.",
@@ -343,7 +343,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
       </p>
       <div class="row r d3s" style="gap:16px;margin-top:32px">
         <span class="chip"><span class="dot" style="background:var(--blue)"></span>Think · Act · Observe</span>
-        <span class="chip tonal-green"><span class="dot" style="background:var(--green)"></span>ADK for Kotlin 1.0.0</span>
+        <span class="chip tonal-green"><span class="dot" style="background:var(--green)"></span>ADK for Kotlin 1.5.0</span>
         <span class="chip tonal-yellow"><span class="dot" style="background:var(--yellow)"></span>Live on a real phone</span>
       </div>
       <div class="r d4s" style="margin-top:48px;padding-top:28px;border-top:2px solid var(--outline);display:flex;align-items:center;justify-content:space-between">
@@ -476,7 +476,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
       <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
         <div class="agenda-num" style="background:var(--yellow)">3</div>
         <div>
-          <div class="h3" style="font-size:30px">ADK for Kotlin 1.0.0 on Android</div>
+          <div class="h3" style="font-size:30px">ADK for Kotlin 1.5 on Android</div>
           <div class="small" style="font-size:22px;margin-top:4px">Three backends, and what each one can and cannot do today.</div>
         </div>
       </div>
@@ -744,7 +744,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 <section data-label="The Toolkit">
 <div class="pad">
   <p class="kicker r">The Toolkit</p>
-  <h2 class="h1 r d1s">ADK for Kotlin 1.0.0 — <span class="c-blue">what is in the box.</span></h2>
+  <h2 class="h1 r d1s">ADK for Kotlin 1.5 — <span class="c-blue">what is in the box.</span></h2>
   <p class="lead r d2s" style="font-size:28px;margin-top:8px">
     Open source, Apache 2.0, same shape as the Python ADK. <code>github.com/google/adk-kotlin</code>
   </p>
@@ -810,7 +810,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
     <div class="card tight tonal-red" style="display:flex;flex-direction:column;justify-content:space-between">
       <div>
         <div class="h3 c-red" style="font-size:32px">integrations</div>
-        <p class="body ink" style="font-size:23px;margin-top:10px">Plugins for external services and analytics.</p>
+        <p class="body ink" style="font-size:23px;margin-top:10px">Claude, OpenAI-compatible, Spring AI, BigQuery analytics.</p>
       </div>
       <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">Ecosystem</span>
     </div>
@@ -819,7 +819,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 
   <div class="card tight r d4s" style="margin-top:24px;background:#0A0B0D">
     <code style="font-size:22px;color:var(--ink-2)">
-      <span class="f">implementation</span>(<span class="s">"com.google.adk:google-adk-kotlin-core:1.0.0"</span>) — plus <span class="f">ksp</span>(<span class="s">"...-processor:1.0.0"</span>) for @Tool
+      <span class="f">implementation</span>(<span class="s">"com.google.adk:google-adk-kotlin-core:1.5.0"</span>) — plus <span class="f">ksp</span>(<span class="s">"...-processor:1.5.0"</span>) for @Tool
     </code>
   </div>
 </div>
@@ -1036,7 +1036,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 
   <div class="row" style="margin-top:32px;gap:48px;flex:1;align-items:stretch">
     <div class="stack grow" style="gap:18px;min-width:0">
-<pre class="code r d2s" style="font-size:21px;line-height:1.4;padding:26px 44px"><div class="file">offline agent — LiteRT-LM</div><span class="f">implementation</span>(<span class="s">"com.google.adk:google-adk-kotlin-litertlm:1.0.0"</span>)
+<pre class="code r d2s" style="font-size:21px;line-height:1.4;padding:26px 44px"><div class="file">offline agent — LiteRT-LM</div><span class="f">implementation</span>(<span class="s">"com.google.adk:google-adk-kotlin-litertlm:1.5.0"</span>)
 
 <span class="k">val</span> agent = <span class="t">LlmAgent</span>(
   name = <span class="s">"offline_agent"</span>,
