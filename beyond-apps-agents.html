@@ -324,6 +324,13 @@ section[data-deck-active] .toolcall.on .gear { display: inline-block; animation:
 }
 @keyframes vsPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
 @media print, (prefers-reduced-motion: reduce) { section .vs-ghost, section .vs-badge span { animation: none !important; } }
+/* Thank-you slide: big namaste mascot after the headline */
+.ty-mascot { position: absolute; left: 790px; top: 18px; width: 360px; height: 360px; z-index: 2; pointer-events: none; }
+.ty-mascot::before { content: ""; position: absolute; inset: 70px 80px 50px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(61,220,132,.28), rgba(61,220,132,0) 70%); }
+.ty-mascot img { position: relative; width: 100%; height: 100%; display: block; }
+/* Footer sits lower than the theme default (44px) so it never crowds slide content */
+.foot { bottom: 20px; font-size: 20px; }
 /* Meme slide: audience cam frame */
 .meme-frame { width: 1000px; flex-shrink: 0; border-radius: var(--r-lg, 36px); overflow: hidden; background: var(--surface);
   border: 2px solid rgba(255,255,255,.08); box-shadow: 0 30px 80px rgba(0,0,0,.55); transform: rotate(-1.5deg); }
@@ -1621,6 +1628,8 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 
 <!-- ============ 22 · Thank You ============ -->
 <section data-label="Thank You">
+<!-- Big namaste mascot right after "Thank you." (the SVG animates itself) -->
+<div class="ty-mascot p d2s" aria-hidden="true"><img src="assets/droidcon/brand/droidcon-namaste-agent.svg" alt=""></div>
 <div class="brand-title brand-lockup r d1s"><img src="assets/droidcon/brand/droidcon-wordmark.svg" alt="droidcon"><span>Bengaluru<b>2026</b></span></div>
 <div class="pad">
   <div class="row" style="flex:1;gap:60px;align-items:center">
@@ -1672,8 +1681,6 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
     <div class="card stack tonal-blue r d3s" style="width:580px;height:640px;align-self:center;align-items:center;justify-content:center;text-align:center;padding:48px 44px;gap:0">
       <div style="position:relative">
         <div class="qr" style="--ring:var(--blue);padding:16px;border-radius:30px"><img src="assets/droidcon/qr/feedback.png" alt="Session feedback QR" style="width:310px;height:310px"></div>
-        <!-- Namaste mascot beside the QR; kept clear of the code so it still scans -->
-        <img src="assets/droidcon/brand/droidcon-namaste-agent.svg" alt="" style="position:absolute;right:-116px;bottom:-24px;width:140px;height:140px">
       </div>
       <div class="h2" style="font-size:54px;margin-top:44px">How did <span class="c-blue">we do?</span></div>
       <p class="body ink" style="font-size:27px;margin-top:16px;line-height:1.4">

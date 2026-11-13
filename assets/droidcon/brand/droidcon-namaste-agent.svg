@@ -1,6 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600" fill="none">
   <!-- Namaste Android: droidcon India mascot, redrawn as vector. Transparent background;
        the slide supplies the backdrop. -->
+  <style>
+    /* 5s loop: hands come together, hold, bow with eyes closed, rise, open again.
+       With motion off, the drawing rests in the namaste pose. */
+    .armL, .armR, .palmL, .palmR, .torso, .head, .eyes, .spark { animation: 5s cubic-bezier(.3,.7,.2,1) infinite; }
+    .armL { animation-name: armL; } .armR { animation-name: armR; }
+    .palmL { animation-name: palmL; } .palmR { animation-name: palmR; }
+    .torso { animation-name: torso; } .head { animation-name: head; } .eyes { animation-name: eyes; }
+    .spark { animation-name: spark; transform-box: fill-box; transform-origin: center; }
+    .spark.s2 { animation-delay: .12s; }
+    @keyframes armL { 0%, 8% { transform: rotate(92deg); } 26%, 88% { transform: rotate(0); } 100% { transform: rotate(92deg); } }
+    @keyframes armR { 0%, 8% { transform: rotate(-92deg); } 26%, 88% { transform: rotate(0); } 100% { transform: rotate(-92deg); } }
+    @keyframes palmL { 0%, 8% { transform: rotate(80deg); } 26%, 88% { transform: rotate(0); } 100% { transform: rotate(80deg); } }
+    @keyframes palmR { 0%, 8% { transform: rotate(-80deg); } 26%, 88% { transform: rotate(0); } 100% { transform: rotate(-80deg); } }
+    @keyframes torso { 0%, 32% { transform: translateY(0); } 44%, 64% { transform: translateY(9px); } 76%, 100% { transform: translateY(0); } }
+    @keyframes head { 0%, 32% { transform: translateY(0) scaleY(1); } 44%, 64% { transform: translateY(12px) scaleY(.96); } 76%, 100% { transform: translateY(0) scaleY(1); } }
+    @keyframes eyes { 0%, 38% { transform: scaleY(1); } 44%, 64% { transform: scaleY(.12); } 70%, 100% { transform: scaleY(1); } }
+    @keyframes spark { 0%, 24% { transform: scale(.3); opacity: .3; } 30% { transform: scale(1.35) rotate(20deg); opacity: 1; } 38%, 86% { transform: scale(1); opacity: 1; } 100% { transform: scale(.3); opacity: .3; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
   <defs>
     <linearGradient id="g-body" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#5BE89C"/>
@@ -38,6 +57,7 @@
   <path d="M206 380 C210 430 228 470 256 490" stroke="#C9D3E0" stroke-width="4" stroke-linecap="round"/>
   <path d="M394 380 C390 430 372 470 344 490" stroke="#C9D3E0" stroke-width="4" stroke-linecap="round"/>
 
+  <g class="torso">
   <!-- body -->
   <path d="M190 214 H410 V352 H190 Z" fill="url(#g-body)"/>
   <!-- waistband -->
@@ -54,32 +74,38 @@
   <!-- upper arms -->
   <rect x="140" y="218" width="44" height="118" rx="22" fill="url(#g-body)"/>
   <rect x="416" y="218" width="44" height="118" rx="22" fill="url(#g-body)"/>
-  <!-- forearms reaching in to the chest -->
-  <g stroke-linecap="round">
-    <path d="M162 314 L284 270" stroke="#22A85C" stroke-width="48"/>
-    <path d="M438 314 L316 270" stroke="#22A85C" stroke-width="48"/>
-    <path d="M162 314 L284 270" stroke="url(#g-body)" stroke-width="42"/>
-    <path d="M438 314 L316 270" stroke="url(#g-body)" stroke-width="42"/>
-  </g>
-  <!-- joined palms -->
-  <path d="M300 196 C322 214 326 262 322 300 Q300 314 278 300 C274 262 278 214 300 196 Z" fill="#6CEFA8" stroke="#22A85C" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M300 204 V304" stroke="#22A85C" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- forearms: each rotates about its elbow; at rest the palms meet at the chest -->
+  <g transform="translate(162 314)"><g class="armL"><g transform="translate(-162 -314)">
+    <path d="M162 314 L284 270" stroke="#22A85C" stroke-width="48" stroke-linecap="round"/>
+    <path d="M162 314 L284 270" stroke="url(#g-body)" stroke-width="42" stroke-linecap="round"/>
+    <g transform="translate(284 270)"><g class="palmL"><g transform="translate(-284 -270)"><path d="M300 196 C278 214 274 262 278 300 Q289 308 300 308 Z" fill="#6CEFA8" stroke="#22A85C" stroke-width="4" stroke-linejoin="round"/></g></g></g>
+  </g></g></g>
+  <g transform="translate(438 314)"><g class="armR"><g transform="translate(-438 -314)">
+    <path d="M438 314 L316 270" stroke="#22A85C" stroke-width="48" stroke-linecap="round"/>
+    <path d="M438 314 L316 270" stroke="url(#g-body)" stroke-width="42" stroke-linecap="round"/>
+    <g transform="translate(316 270)"><g class="palmR"><g transform="translate(-316 -270)"><path d="M300 196 C322 214 326 262 322 300 Q311 308 300 308 Z" fill="#6CEFA8" stroke="#22A85C" stroke-width="4" stroke-linejoin="round"/></g></g></g>
+  </g></g></g>
 
+  <g class="head">
   <!-- head -->
   <g stroke="#3DDC84" stroke-width="12" stroke-linecap="round">
     <line x1="246" y1="110" x2="220" y2="66"/>
     <line x1="354" y1="110" x2="380" y2="66"/>
   </g>
   <path d="M190 202 A110 110 0 0 1 410 202 Z" fill="url(#g-body)"/>
+  <g transform="translate(0 152)"><g class="eyes"><g transform="translate(0 -152)">
   <circle cx="252" cy="152" r="12" fill="#0B1220"/>
   <circle cx="348" cy="152" r="12" fill="#0B1220"/>
   <circle cx="256" cy="148" r="4" fill="#FFF"/>
   <circle cx="352" cy="148" r="4" fill="#FFF"/>
+  </g></g></g>
   <!-- tilak -->
   <path d="M300 116 C306 126 306 134 300 140 C294 134 294 126 300 116 Z" fill="#FF5A36"/>
 
+  </g>
+  </g>
   <!-- sparkles -->
-  <path d="M478 120 Q480 140 500 142 Q480 144 478 164 Q476 144 456 142 Q476 140 478 120 Z" fill="#FDD663"/>
-  <path d="M112 196 Q113 210 127 211 Q113 212 112 226 Q111 212 97 211 Q111 210 112 196 Z" fill="#FFFFFF"/>
+  <path class="spark" d="M478 120 Q480 140 500 142 Q480 144 478 164 Q476 144 456 142 Q476 140 478 120 Z" fill="#FDD663"/>
+  <path class="spark s2" d="M112 196 Q113 210 127 211 Q113 212 112 226 Q111 212 97 211 Q111 210 112 196 Z" fill="#FFFFFF"/>
   </g>
 </svg>
