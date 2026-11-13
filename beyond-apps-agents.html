@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Apps: Building Autonomous AI Agents for Android — Anand Gaur &amp; Yatin Batra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght,ROND@6..144,25..151,1..1000,0..100&family=Google+Sans+Code:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="deck/theme.css">
+<script src="deck/deck-stage.js"></script>
+<script src="deck/shapes.js"></script>
+<script src="deck/slides.js"></script>
+
+<style>
+/* Event lockup, after the DevFest mark in the reference deck: wordmark straight on the
+   dark slide, then an outlined city pill ending in a filled year pill (droidcon blue). */
+.brand-title.brand-lockup { top: 48px; height: 128px; }
+.brand-lockup { display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 12px; opacity: 1; }
+.brand-lockup img { height: 72px; }
+.brand-lockup span { display: flex; align-items: center; height: 44px; padding-left: 22px; gap: 16px;
+  border: 2.5px solid rgba(255,255,255,.85); border-radius: 22px;
+  font-size: 28px; font-weight: 400; letter-spacing: .01em; color: #fff; }
+.brand-lockup b { align-self: stretch; display: flex; align-items: center; margin: -2.5px -2.5px -2.5px 0; padding: 0 18px;
+  border-radius: 22px; background: #0A6CFF; color: #fff; font-weight: 500; }
+/* Blocks in the content frame keep their height; only flex:1 regions give way. */
+.pad > * { flex-shrink: 0; }
+/* Mascot backdrop in droidcon blue so the green bugdroid reads on the dark slide */
+.mascot-bg { background: radial-gradient(circle at 50% 38%, #29C8F2 0%, #0A80FB 45%, #0046E0 100%); }
+/* Custom extensions for the Beyond Apps deck */
+.talk-foot-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+/* Speaker block, after the reference title slide: headshot in a cookie cut-out on a slow-spinning
+   tonal clover (with two accent shapes) on the left, sitting high; four-colour bar + name and
+   lines on the right, sitting low, so the pair reads as a diagonal. */
+.spk { display: flex; align-items: center; gap: 36px; }
+.spk-photo { order: -1; margin-bottom: 120px; }
+.spk-text { margin-top: 160px; }
+.spk-text { flex: 1; min-width: 0; display: flex; gap: 24px; }
+.spk-text .g4-bar { flex-shrink: 0; }
+.spk-name { font-size: 52px; font-weight: 600; letter-spacing: -.02em; line-height: 1.05; }
+.spk-role { font-size: 28px; color: var(--ink-2); margin-top: 10px; }
+.spk-line { font-size: 24px; color: var(--ink-3); margin-top: 8px; line-height: 1.3; }
+.spk-photo { position: relative; width: 400px; height: 400px; flex-shrink: 0; }
+.spk-photo > .field-shape:first-child { inset: -22px; }
+.spk-photo .shot { position: absolute; inset: 32px; }
+.agenda-num {
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0F1114;
+  flex-shrink: 0;
+}
+.tool-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 22px;
+  color: var(--blue-hi);
+  background: var(--surface-3);
+  padding: 4px 14px;
+  border-radius: 8px;
+  margin: 3px;
+}
+.phone-mockup {
+  width: 420px;
+  height: 640px;
+  border-radius: 46px;
+  background: #0d0f12;
+  border: 4px solid #2d3139;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.65), inset 0 0 0 2px rgba(255,255,255,0.06);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.phone-top-bar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 26px;
+  font-size: 16px;
+  color: var(--ink-2);
+  font-family: var(--font);
+  font-weight: 600;
+}
+.phone-camera {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1b1e24;
+  margin: 0 auto;
+}
+.phone-screen {
+  flex: 1;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: linear-gradient(180deg, #13171e 0%, #0d0f12 100%);
+}
+.phone-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.table-custom {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 14px;
+}
+.table-custom th {
+  text-align: left;
+  font-size: 24px;
+  color: var(--ink-3);
+  font-weight: 600;
+  padding: 0 28px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.table-custom td {
+  padding: 24px 28px;
+  background: var(--surface);
+  font-size: 27px;
+}
+.table-custom tr td:first-child {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  font-weight: 600;
+}
+.table-custom tr td:last-child {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+/* Slide 4: angry app vs laughing agent */
+.shift-stage { position: absolute; right: 70px; top: 120px; width: 840px; height: 800px; }
+.shift-stage .agent-bob { position: absolute; right: 0; top: 0; width: 680px; height: 680px; }
+.shift-stage .agent-bob svg { width: 100%; height: 100%; overflow: visible; transform-origin: 52% 80%; }
+.shift-stage .droid-wrap { position: absolute; left: 0; bottom: 70px; width: 240px; }
+.shift-stage .droid-wrap svg { width: 240px; height: 264px; overflow: visible; transform-origin: 50% 100%; display: block; }
+.flush { opacity: .35; }
+.steam circle { opacity: 0; }
+.shift-stage .grr, .shift-stage .ha {
+  position: absolute; font-weight: 700; border-radius: 999px; padding: 8px 22px; white-space: nowrap;
+  font-variation-settings: 'ROND' 100; }
+.shift-stage .grr { left: 120px; top: -70px; font-size: 36px; background: var(--red-lo); color: var(--red-hi); }
+.shift-stage .ha { font-size: 32px; background: var(--blue-lo); color: var(--blue-hi); }
+.shift-stage .ha1 { left: 300px; top: 130px; }
+.shift-stage .ha2 { left: 690px; top: 430px; }
+.shift-stage .ha3 { left: 630px; top: 590px; background: var(--green-lo); color: var(--green-hi); }
+.shift-stage .stage-chip { position: absolute; font-size: 24px; }
+.shift-stage .chip-app { left: 0; bottom: 0; }
+.shift-stage .chip-agent { right: 40px; bottom: 0; }
+
+section[data-deck-active] .agent-bob { animation: agentBob 1.8s ease-in-out infinite alternate; }
+section[data-deck-active] .agent-chuckle { animation: chuckle 2.4s ease-in-out infinite; }
+section[data-deck-active] .ha { animation: haPop 2.4s ease-out infinite both; }
+section[data-deck-active] .ha2 { animation-delay: .5s; }
+section[data-deck-active] .ha3 { animation-delay: 1.1s; }
+section[data-deck-active] .droid-shake { animation: fume 2.4s ease-in-out infinite; }
+section[data-deck-active] .flush { animation: flush 2.4s ease-in-out infinite; }
+section[data-deck-active] .grr { animation: grr 2.4s ease-in-out infinite; }
+section[data-deck-active] .steam circle { animation: steam 1.2s ease-out infinite; }
+section[data-deck-active] .steam .s2 { animation-delay: .4s; }
+section[data-deck-active] .steam .s3 { animation-delay: .8s; }
+@keyframes agentBob { from { transform: translateY(0); } to { transform: translateY(-14px); } }
+@keyframes chuckle {
+  0%, 50%, 86%, 100% { transform: rotate(0); }
+  56% { transform: rotate(-2.5deg) translateY(-4px); } 62% { transform: rotate(2.5deg); }
+  68% { transform: rotate(-2.5deg) translateY(-4px); } 74% { transform: rotate(2.5deg); } 80% { transform: rotate(-1deg); } }
+@keyframes haPop {
+  0% { opacity: 0; transform: translateY(16px) scale(.6); }
+  12% { opacity: 1; transform: translateY(0) scale(1.08); }
+  20% { transform: translateY(0) scale(1); }
+  60% { opacity: 1; transform: translateY(-26px) scale(1); }
+  75%, 100% { opacity: 0; transform: translateY(-40px) scale(.95); } }
+@keyframes fume {
+  0%, 40%, 80%, 100% { transform: translateX(0) rotate(0); }
+  44% { transform: translateX(-9px) rotate(-3deg); } 50% { transform: translateX(9px) rotate(3deg); }
+  56% { transform: translateX(-9px) rotate(-3deg); } 62% { transform: translateX(9px) rotate(3deg); }
+  68% { transform: translateX(-5px) rotate(-1deg); } 74% { transform: translateX(0) rotate(0); } }
+@keyframes flush { 0%, 30%, 100% { opacity: .15; } 50%, 70% { opacity: .6; } }
+@keyframes grr {
+  0%, 36% { transform: scale(1) rotate(-4deg); } 46% { transform: scale(1.18) rotate(4deg); }
+  56% { transform: scale(1.1) rotate(-4deg); } 66%, 100% { transform: scale(1) rotate(-4deg); } }
+@keyframes steam {
+  0% { opacity: 0; transform: translateY(10px) scale(.5); }
+  30% { opacity: .9; } 100% { opacity: 0; transform: translateY(-46px) scale(1.4); } }
+.steam circle { transform-box: fill-box; transform-origin: center; }
+@media print, (prefers-reduced-motion: reduce) {
+  section .agent-bob, section .agent-chuckle, section .ha, section .droid-shake,
+  section .flush, section .grr, section .steam circle { animation: none !important; }
+}
+
+/* Step sequencer (slides 6, 7, 15, 16, 18). The script below adds .running to the
+   active slide and .on to whatever belongs to the current step. Screen only, so
+   print/PDF shows every step at full strength. */
+@media screen {
+  .seq-card, .seq-arrow, .seq-row, .seq-wire { transition: transform .35s var(--ease), box-shadow .35s ease, opacity .35s ease, filter .35s ease, background .35s ease, color .35s ease; }
+  .running .seq-card:not(.on) { opacity: .5; filter: saturate(.6); }
+  .seq-card.on { transform: translateY(-4px) scale(1.02); box-shadow: 0 0 0 3px var(--glow, var(--blue)), 0 18px 54px -14px var(--glow, var(--blue)); }
+  .code .seq-line { transition: background .3s ease, box-shadow .3s ease; }
+  .code .seq-line.hl.on { background: rgba(138,180,248,.38); box-shadow: inset 12px 0 0 #8AB4F8; }
+  .code .seq-line.hl-y.on { background: rgba(253,214,99,.36); box-shadow: inset 12px 0 0 #FDD663; }
+  .seq-arrow.on { color: var(--ink) !important; transform: translateX(8px) scale(1.3); }
+  .seq-wire.on { background: var(--blue) !important; box-shadow: 0 0 14px var(--blue); }
+  .running .seq-row:not(.on) { opacity: .45; }
+  .seq-row.on .tick { background: var(--red); color: #fff; }
+  .seq-row.on .body { text-decoration: line-through; text-decoration-color: var(--red-hi); color: var(--ink-3); }
+}
+.loop-ctr { float: right; font-weight: 600; padding: 2px 14px; border-radius: 999px; background: var(--blue-lo); color: var(--blue-hi); }
+.loop-ctr.capped { background: var(--red-lo); color: var(--red-hi); }
+.lock-badge { white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 8px;
+  border-radius: 999px; font-size: 18px; font-weight: 600; background: rgba(0,0,0,.28); color: var(--green-hi); }
+.lock-badge.cloud { color: var(--blue-hi); }
+.lock-badge svg { width: 20px; height: 20px; }
+.coin { float: right; display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--yellow); color: #202124; font-weight: 700; font-size: 20px; }
+.route-ok { float: right; font-weight: 600; color: var(--green-hi); }
+.mini-droid { position: absolute; top: 24px; right: 36px; width: 120px; }
+.mini-droid svg { width: 120px; height: 132px; display: block; overflow: visible; transform-origin: 50% 100%; }
+.mini-agent { position: absolute; top: 30px; right: 36px; width: 190px; }
+.mini-agent svg { width: 190px; height: 135px; display: block; transform-origin: 50% 90%; }
+section[data-deck-active] .lock-badge { animation: lockPulse 2.4s ease-in-out infinite; }
+section[data-deck-active] .coin { animation: coinFlip 1.1s ease-in-out infinite; }
+section[data-deck-active] .sweat { animation: sweat 1.6s ease-in infinite; }
+@keyframes lockPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); box-shadow: 0 0 0 6px rgba(129,201,149,.18); } }
+@keyframes coinFlip { 0% { transform: rotateY(0); } 50% { transform: rotateY(180deg) translateY(-6px); } 100% { transform: rotateY(360deg); } }
+@keyframes sweat { 0% { opacity: 0; transform: translateY(-6px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(26px); } }
+.sweat { transform-box: fill-box; }
+@media print, (prefers-reduced-motion: reduce) {
+  section .lock-badge, section .coin, section .sweat { animation: none !important; }
+}
+
+/* Slide 13: offline trade-off ledger + airplane-mode phone */
+.trade { padding: 18px 28px 22px; }
+.trade-head { font-size: 24px; font-weight: 600; letter-spacing: -.01em; }
+.trade-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 12px; }
+.trade-item { display: flex; align-items: center; gap: 14px; }
+.trade-item.cost { flex-direction: column; align-items: flex-start; gap: 6px; }
+.trade-item .body { font-size: 20px; line-height: 1.3; }
+.trade-item .icon-tile.sm { width: 46px; height: 46px; border-radius: 15px; flex-shrink: 0; }
+.trade-item .icon-tile.sm svg { width: 26px; height: 26px; }
+.trade-val { font-size: 36px; font-weight: 700; letter-spacing: -.02em; line-height: 1; font-variation-settings: 'ROND' 100; }
+.offline-phone { width: 400px; height: 580px; }
+.offline-phone .phone-screen { gap: 14px; }
+.status-icons { display: flex; gap: 8px; align-items: center; }
+.status-icons svg { width: 18px; height: 18px; }
+.plane-ico { color: var(--yellow-hi); display: flex; }
+.airplane-pill { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 8px 14px; border-radius: 999px;
+  background: var(--yellow-lo); color: var(--yellow-hi); font-size: 17px; font-weight: 600; }
+.airplane-pill svg { width: 20px; height: 20px; }
+.ondevice-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--green-hi);
+  background: var(--green-lo); padding: 4px 12px; border-radius: 999px; }
+.ondevice-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+.bubble { font-size: 19px; line-height: 1.4; padding: 12px 16px; border-radius: 20px; max-width: 88%; }
+.bubble.user { align-self: flex-end; background: var(--blue-lo); color: var(--ink); border-bottom-right-radius: 6px; }
+.bubble.agent { align-self: flex-start; background: var(--surface-3, #2a2e35); color: var(--ink); border-bottom-left-radius: 6px; }
+.toolcall { font-family: var(--mono); font-size: 16px; color: var(--green-hi); background: rgba(129,201,149,.08);
+  border: 1px dashed rgba(129,201,149,.45); border-radius: 14px; padding: 9px 14px; }
+.toolcall.result { color: var(--ink); border-style: solid; border-color: rgba(255,255,255,.1); background: rgba(255,255,255,.03); }
+.toolcall .dim { color: var(--ink-3); }
+.bytes-card { margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 16px;
+  background: var(--green-lo); color: var(--green-hi); font-size: 18px; }
+.bytes-card svg { width: 24px; height: 24px; flex-shrink: 0; }
+.bytes-card b { color: #fff; }
+@media screen {
+  .seq-pop { transition: opacity .4s ease, transform .4s var(--ease); }
+  .running .seq-pop:not(.on) { opacity: 0; transform: translateY(14px) scale(.96); }
+}
+section[data-deck-active] .plane-ico, section[data-deck-active] .airplane-pill svg { animation: planeBob 2.6s ease-in-out infinite; }
+section[data-deck-active] .toolcall.on .gear { display: inline-block; animation: gearSpin 1.2s linear infinite; }
+@keyframes planeBob { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(2px, -2px) rotate(-8deg); } }
+@keyframes gearSpin { to { transform: rotate(360deg); } }
+@media print, (prefers-reduced-motion: reduce) {
+  section .plane-ico, section .airplane-pill svg, section .gear { animation: none !important; }
+}
+/* Meme slide: audience cam frame */
+.meme-frame { width: 1000px; flex-shrink: 0; border-radius: var(--r-lg, 36px); overflow: hidden; background: var(--surface);
+  border: 2px solid rgba(255,255,255,.08); box-shadow: 0 30px 80px rgba(0,0,0,.55); transform: rotate(-1.5deg); }
+.meme-frame img { display: block; width: 100%; height: auto; }
+.meme-bar { display: flex; align-items: center; gap: 16px; height: 56px; padding: 0 22px; font-size: 21px; color: var(--ink-2); background: var(--surface-2); }
+.live-chip { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 999px; background: var(--red); color: #fff; font-weight: 700; font-size: 17px; letter-spacing: .06em; }
+.live-chip i { width: 9px; height: 9px; border-radius: 50%; background: #fff; }
+section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out infinite; }
+@keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+@media print, (prefers-reduced-motion: reduce) { section .live-chip i { animation: none !important; } }
+</style>
+
+<script type="application/json" id="speaker-notes">
+[
+ "Title slide. Beyond Apps: Building Autonomous AI Agents for Android. Introduce both speakers: Anand Gaur and Yatin Batra. Set the theme: an app does what you tap; an agent does what you mean.",
+ "Audience reaction. (Let the GIF play a beat and let them laugh.) Right now half of you are thinking: ab ye kaun hai be? Fair question. Let us fix that.",
+ "Speaker bios. Introduce Anand Gaur (Mobile Tech Lead at TCS, author of 8 programming books, founder of AI Mobile Coders) and Yatin Batra (SDE 2 @ Valeo Health ME, hackathon mentor and speaker). Scan QR codes to connect.",
+ "Agenda. Five core milestones: what an agent actually is, tools via KSP annotations, ADK for Kotlin 1.0.0, production shipping tradeoffs, and app ideas followed by live KharchaAI demo.",
+ "The shift. 'Apps wait. Agents act.' The mental model shift from building reactive screens to designing tools an agent can orchestrate. (Point at the pair: the app is fuming, stuck waiting for a tap, while the agent is laughing because it's already doing the work.)",
+ "Definition of an agent. Three moving parts: Brain, Tools, Loop. Remove any one and you have a chatbot with extra steps.",
+ "The agent loop in 7 lines. Walk through Think, Act, Observe. Emphasize why repeat(MAX_STEPS) is used instead of while to prevent runaway token bills. (Let the counter run: Think, Act, Observe light up six times, then MAX_STEPS stops it.)",
+ "How tools work in Kotlin. @Tool and @Param annotations. Show how KSP turns your ordinary Kotlin method into a JSON schema for LLM function calling.",
+ "ADK for Kotlin 1.0.0 modules. Walk through the modular ecosystem: core, processor, firebase, mlkit, litertlm, webserver, a2a, and integrations.",
+ "Your first agent code snippet. KharchaAgent.kt in 11 lines. Name, model, instruction contract, and KSP-generated tools.",
+ "Running an agent with Kotlin Coroutines Flow and ViewModel. Async event streaming and UI updates. Built-in cancellation saves money.",
+ "Cloud vs On-Device comparison. The trade-offs in offline support, per-turn cost, data privacy, latency, and reasoning capabilities.",
+ "Three Android backends. LiteRT-LM vs ML Kit vs Firebase AI. Crucial gotchas: plain Gemini SDK needs Firebase AI on Android; Gemini Nano in ML Kit doesn't support tools yet.",
+ "Fully offline agent with LiteRT-LM. Gemma on-device execution. (Point at the phone: airplane mode is on, and the agent still calls getSpend and answers. Zero bytes leave.) Then the trade: what you get vs what it costs you, RAM and model size.",
+ "The model delivery dilemma. How to ship a 2.5 GB model without blowing up APK size: On-demand download, Google Play for On-device AI, or picking a specialized smaller model.",
+ "Hybrid multi-agent architecture. Cloud orchestrator delegates tasks while local on-device agents touch private user data (SMS, Room DB) without it ever leaving the phone.",
+ "Tool naming and descriptions. The biggest cause of agent failure is ambiguous naming. Write descriptions like documentation for a new teammate. (Watch the left side: the vague tools get picked at random. The right side routes the same way every time.)",
+ "Six real-world agent use cases Android devs can build on Monday: expense tracking, e-commerce concierge, flight rebooking, fitness coach, field inspection, and support.",
+ "KharchaAI showcase: The Old App Way (5 manual navigation steps) vs The Agent Way (one conversational prompt). (The old-way steps cross off one by one while the app fumes; then the agent answers in one go.)",
+ "Under the hood of KharchaAI. Five tools: four read operations, one write with user confirmation. Zero database rows leave the phone.",
+ "Live demonstration of KharchaAI running on a physical Android device. Observe the real-time tool calling execution log.",
+ "Three key takeaways to take home: The loop is the product; Your tools are your moat; Check backend capabilities before coding.",
+ "Closing & Thank you. GitHub repo, AI Mobile Coders community link and the books. (Point at the QR and pause for it.) Please scan and leave feedback — it takes a minute and shapes our next talk. Open floor for questions."
+]
+</script>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============ 1 · Title ============ -->
+<section data-label="Title">
+<div class="brand-title brand-lockup r d1s"><img src="assets/droidcon/brand/droidcon-wordmark.svg" alt="droidcon"><span>Bengaluru<b>2026</b></span></div>
+<div class="pad" style="padding-top:84px">
+  <div class="row" style="flex:1;align-items:center;gap:40px">
+    <div class="grow stack" style="justify-content:center">
+      <div class="r">
+        <span class="chip"><span class="dot" style="background:var(--blue)"></span>Android · Kotlin · AI Agents</span>
+      </div>
+      <h1 class="r d1s" style="font-size:104px;line-height:0.98;font-weight:700;letter-spacing:-0.03em;margin:36px 0 0;font-variation-settings:'ROND' 100">
+        Beyond Apps: Building<br>Autonomous AI Agents<br><span class="c-blue">for Android</span>
+      </h1>
+      <p class="lead r d2s" style="font-size:36px;margin:28px 0 0;color:var(--ink-2)">
+        The loop, the tools and the routing in Kotlin, on a real device.
+      </p>
+      <div class="row r d3s" style="gap:16px;margin-top:32px">
+        <span class="chip"><span class="dot" style="background:var(--blue)"></span>Think · Act · Observe</span>
+        <span class="chip tonal-green"><span class="dot" style="background:var(--green)"></span>ADK for Kotlin 1.0.0</span>
+        <span class="chip tonal-yellow"><span class="dot" style="background:var(--yellow)"></span>Live on a real phone</span>
+      </div>
+      <div class="r d4s" style="margin-top:48px;padding-top:28px;border-top:2px solid var(--outline);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:28px;font-weight:500;color:var(--ink)"><span class="c-blue" style="font-weight:700">“</span>An app does what you tap. <span class="c-blue">An agent does what you mean.</span><span class="c-blue" style="font-weight:700">”</span></div>
+        <div style="font-size:24px;color:var(--ink-3)">Anand Gaur · Yatin Batra</div>
+      </div>
+    </div>
+    <div class="p d2s" style="position:relative;width:520px;height:520px;flex-shrink:0">
+      <div style="position:absolute;inset:32px"><img class="shape-photo mascot-bg" src="assets/droidcon/brand/droidcon-namaste-agent.svg" alt="Namaste Android, the droidcon India mascot" style="clip-path:url(#clip-cookie12)"></div>
+      <div class="field-shape" style="right:-10px;bottom:40px;width:120px;height:120px"><svg viewBox="0 0 100 100" style="fill:var(--yellow)"><use href="#sh-cookie9"/></svg></div>
+      <div class="field-shape" style="left:-10px;top:40px;width:72px;height:72px"><svg viewBox="0 0 100 100" style="fill:var(--green)"><use href="#sh-cookie4"/></svg></div>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 2 · Audience reaction (meme) ============ -->
+<section data-label="Who Are These Two">
+<div class="pad">
+  <p class="kicker r">Right now, at droidcon</p>
+  <h2 class="h1 r d1s">What the audience is <span class="c-yellow">thinking.</span></h2>
+
+  <div class="row" style="flex:1;gap:64px;align-items:center;margin-top:12px">
+    <!-- the meme, framed like a live audience cam -->
+    <div class="meme-frame p d2s">
+      <div class="meme-bar">
+        <span class="live-chip"><i></i>LIVE</span>
+        <span>Audience cam · droidcon Bengaluru</span>
+      </div>
+      <img src="assets/droidcon/images/ab-ye-kaun-hai-be.gif" alt="Meme: two men looking puzzled, caption 'ab ye kaun hai be?'">
+    </div>
+
+    <div class="h2 r d3s" style="flex:1;min-width:0;font-size:88px;line-height:1.05">Fair question.<br><span class="c-blue">Let us fix that.</span></div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 2 · Your Speakers ============ -->
+<section data-label="Your Speakers">
+<div class="pad">
+  <p class="kicker r">About us</p>
+  <h2 class="h1 r d1s">Your <span class="c-blue">speakers today.</span></h2>
+  <div class="grid-2" style="margin-top:24px;gap:56px;flex:1;align-items:center">
+
+    <!-- Speaker 1: Anand Gaur -->
+    <div class="spk r d2s">
+      <div class="spk-text">
+        <div class="g4-bar"></div>
+        <div>
+          <div class="spk-name">Anand Gaur</div>
+          <div class="spk-role">Mobile Tech Lead · TCS</div>
+          <div class="spk-line">Author · 8 programming books</div>
+          <div class="spk-line">Founder · AI Mobile Coders</div>
+          <div class="spk-line">Ex Samsung · Tech Mahindra</div>
+        </div>
+      </div>
+      <div class="spk-photo">
+        <div class="field-shape spin"><svg viewBox="0 0 100 100" style="fill:var(--blue-lo)"><use href="#sh-clover8"/></svg></div>
+        <div class="shot"><img class="shape-photo" src="assets/droidcon/speakers/anand-gaur.png" alt="Anand Gaur" style="clip-path:url(#clip-cookie12)"></div>
+        <div class="field-shape" style="right:-8px;bottom:34px;width:84px;height:84px"><svg viewBox="0 0 100 100" style="fill:var(--yellow)"><use href="#sh-cookie9"/></svg></div>
+        <div class="field-shape" style="left:0;top:30px;width:46px;height:46px"><svg viewBox="0 0 100 100" style="fill:var(--green)"><use href="#sh-cookie4"/></svg></div>
+      </div>
+    </div>
+
+    <!-- Speaker 2: Yatin Batra -->
+    <div class="spk r d3s">
+      <div class="spk-text">
+        <div class="g4-bar"></div>
+        <div>
+          <div class="spk-name">Yatin Batra</div>
+          <div class="spk-role">SDE 2 · Valeo Health ME</div>
+          <div class="spk-line">10+ speaker sessions</div>
+          <div class="spk-line">Mentor &amp; judge · 6+ hackathons</div>
+          <div class="spk-line">Better engineering solutions</div>
+        </div>
+      </div>
+      <div class="spk-photo">
+        <div class="field-shape spin"><svg viewBox="0 0 100 100" style="fill:var(--green-lo)"><use href="#sh-clover8"/></svg></div>
+        <div class="shot"><img class="shape-photo" src="1776350205316.png" alt="Yatin Batra" style="clip-path:url(#clip-cookie12)"></div>
+        <div class="field-shape" style="right:-8px;bottom:34px;width:84px;height:84px"><svg viewBox="0 0 100 100" style="fill:var(--blue)"><use href="#sh-cookie9"/></svg></div>
+        <div class="field-shape" style="left:0;top:30px;width:46px;height:46px"><svg viewBox="0 0 100 100" style="fill:var(--red)"><use href="#sh-cookie4"/></svg></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 3 · The Plan ============ -->
+<section data-label="The Plan">
+<div class="pad">
+  <p class="kicker r">The Plan</p>
+  <h2 class="h1 r d1s">What we <span class="c-blue">will cover.</span></h2>
+  <div class="row" style="margin-top:40px;gap:36px;flex:1;align-items:stretch">
+    
+    <!-- Left: You will leave with -->
+    <div class="card stack r d2s" style="width:480px;background:var(--surface-2);justify-content:space-between;padding:44px">
+      <div>
+        <span class="chip tonal-blue" style="font-size:22px;height:46px"><span class="dot" style="background:var(--blue)"></span>YOU WILL LEAVE WITH</span>
+        <div class="stack" style="gap:28px;margin-top:40px">
+          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--blue);display:block"></span><div class="h3" style="font-size:32px">A working agent in Kotlin</div></div>
+          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--green);display:block"></span><div class="h3" style="font-size:32px">A clear cloud vs on-device call</div></div>
+          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--yellow);display:block"></span><div class="h3" style="font-size:32px">Six ideas to build next</div></div>
+        </div>
+      </div>
+      <div class="body dim" style="font-size:24px">Session roadmap · 5 core milestones</div>
+    </div>
+
+    <!-- Right: 5 Agenda Steps -->
+    <div class="stack grow r d3s" style="gap:16px;justify-content:space-between">
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--blue)">1</div>
+        <div>
+          <div class="h3" style="font-size:30px">What an agent actually is</div>
+          <div class="small" style="font-size:22px;margin-top:4px">Past the buzzword. Brain, tools, loop—and the loop written out in seven lines.</div>
+        </div>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--green)">2</div>
+        <div>
+          <div class="h3" style="font-size:30px">Tools, in one annotation</div>
+          <div class="small" style="font-size:22px;margin-top:4px">@Tool, @Param, and the schema KSP generates for you.</div>
+        </div>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--yellow)">3</div>
+        <div>
+          <div class="h3" style="font-size:30px">ADK for Kotlin 1.0.0 on Android</div>
+          <div class="small" style="font-size:22px;margin-top:4px">Three backends, and what each one can and cannot do today.</div>
+        </div>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--red)">4</div>
+        <div>
+          <div class="h3" style="font-size:30px">Shipping it for real</div>
+          <div class="small" style="font-size:22px;margin-top:4px">Cloud or on device, routing between them, and getting the model onto a phone.</div>
+        </div>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--blue)">5</div>
+        <div>
+          <div class="h3" style="font-size:30px">Where to point it, then a live demo</div>
+          <div class="small" style="font-size:22px;margin-top:4px">Six app ideas you could build this month, then KharchaAI running on my phone.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 4 · The Shift ============ -->
+<section data-label="The Shift">
+<div class="field-shape spin" style="right:-180px;bottom:-120px;width:940px;height:940px"><svg viewBox="0 0 100 100" style="fill:var(--surface-2)"><use href="#sh-cookie12"/></svg></div>
+<div class="pad center" style="align-items:flex-start">
+  <p class="kicker r">The Shift</p>
+  <h2 class="r d1s" style="font-size:150px;line-height:0.94;font-weight:700;letter-spacing:-0.035em;margin:0;font-variation-settings:'ROND' 100">
+    Apps wait.<br><span class="c-blue">Agents act.</span>
+  </h2>
+  <p class="lead r d2s" style="font-size:40px;margin-top:48px;max-width:900px;line-height:1.38;color:var(--ink)">
+    You stop designing screens for every question a user might have,
+    and start designing the tools an agent can reach for.
+  </p>
+</div>
+<!-- The app (angry, stuck waiting for a tap) vs the ADK agent (laughing, doing the work) -->
+<div class="shift-stage p d3s">
+  <!-- ADK agent: the PNG plus a laughing face drawn over its eyes -->
+  <div class="agent-bob">
+    <svg class="agent-chuckle" viewBox="0 0 700 700" aria-label="ADK agent laughing while it works">
+      <image href="assets/droidcon/images/adk-agent-android.png" width="700" height="700"/>
+      <g class="agent-face">
+        <circle cx="325" cy="290" r="15" fill="#52C443"/>
+        <circle cx="409" cy="285" r="14" fill="#52C443"/>
+        <g stroke="#20272D" stroke-width="6.5" stroke-linecap="round" fill="none">
+          <path d="M312 294 Q325 278 338 294"/>
+          <path d="M396 289 Q409 273 422 289"/>
+        </g>
+        <path d="M350 303 Q367 300 384 301 Q382 326 367 327 Q352 326 350 303 Z" fill="#20272D"/>
+        <path d="M357 318 Q367 312 377 318 Q372 326 367 326 Q362 326 357 318 Z" fill="#F2716A"/>
+      </g>
+    </svg>
+  </div>
+  <span class="ha ha1">Ha!</span>
+  <span class="ha ha2">ha ha</span>
+  <span class="ha ha3">done ✓</span>
+
+  <!-- Classic Android app: angry, shaking, steaming -->
+  <div class="droid-wrap">
+    <span class="grr">#@%!</span>
+    <svg class="droid-shake" viewBox="0 0 300 330" aria-label="Android app, angry and waiting">
+      <g class="steam" fill="#E8EAED">
+        <circle class="s1" cx="66" cy="34" r="12"/><circle class="s2" cx="234" cy="34" r="12"/><circle class="s3" cx="150" cy="18" r="10"/>
+      </g>
+      <g stroke="#3DDC84" stroke-width="10" stroke-linecap="round">
+        <line x1="108" y1="56" x2="84" y2="20"/><line x1="192" y1="56" x2="216" y2="20"/>
+      </g>
+      <path d="M50 132 A100 100 0 0 1 250 132 Z" fill="#3DDC84"/>
+      <path class="flush" d="M50 132 A100 100 0 0 1 250 132 Z" fill="#FF5A4E"/>
+      <g fill="#0F1114"><circle cx="112" cy="98" r="9"/><circle cx="188" cy="98" r="9"/></g>
+      <g stroke="#0F1114" stroke-width="9" stroke-linecap="round" fill="none">
+        <line x1="88" y1="72" x2="128" y2="86"/><line x1="212" y1="72" x2="172" y2="86"/>
+        <path d="M128 124 Q150 110 172 124" stroke-width="6"/>
+      </g>
+      <rect x="50" y="142" width="200" height="124" rx="22" fill="#3DDC84"/>
+      <g fill="#3DDC84">
+        <rect x="12" y="148" width="30" height="96" rx="15"/><rect x="258" y="148" width="30" height="96" rx="15"/>
+        <rect x="96" y="256" width="34" height="58" rx="17"/><rect x="170" y="256" width="34" height="58" rx="17"/>
+      </g>
+      <rect x="92" y="178" width="116" height="62" rx="14" fill="#0F1114" opacity=".85"/>
+      <text x="150" y="220" text-anchor="middle" fill="#E8EAED" font-family="Google Sans Code, monospace" font-size="26">idle…</text>
+    </svg>
+  </div>
+
+  <span class="chip stage-chip chip-app"><span class="dot" style="background:var(--red)"></span>The app · waiting for a tap</span>
+  <span class="chip stage-chip chip-agent"><span class="dot" style="background:var(--blue)"></span>The agent · already on it</span>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 5 · Definition ============ -->
+<section data-label="Definition">
+<div class="pad">
+  <p class="kicker r">Definition</p>
+  <h2 class="h1 r d1s">Three moving parts. <span class="c-green">That is the whole thing.</span></h2>
+  <p class="lead r d2s" style="font-size:32px;margin-top:16px;max-width:1600px">
+    An agent takes a goal, decides for itself what to do, and calls your functions to act—looping until the goal is met. You give it the goal. It works out the steps.
+  </p>
+  <div class="grid-3 r d3s" style="margin-top:44px;flex:1">
+    
+    <div class="card stack" style="gap:20px;border-top:6px solid var(--blue);justify-content:space-between">
+      <div>
+        <div class="chip tonal-blue" style="align-self:flex-start;font-size:24px"><span class="dot" style="background:var(--blue)"></span>Component 1</div>
+        <div class="h2 c-blue" style="font-size:52px;margin-top:20px">Brain</div>
+        <p class="body" style="font-size:28px;margin-top:16px">
+          A model that plans the next step.
+        </p>
+      </div>
+      <div class="card tight" style="background:var(--surface-2)">
+        <p class="small ink" style="font-size:23px">Replaceable — you will swap it twice this year.</p>
+      </div>
+    </div>
+
+    <div class="card stack" style="gap:20px;border-top:6px solid var(--green);justify-content:space-between">
+      <div>
+        <div class="chip tonal-green" style="align-self:flex-start;font-size:24px"><span class="dot" style="background:var(--green)"></span>Component 2</div>
+        <div class="h2 c-green" style="font-size:52px;margin-top:20px">Tools</div>
+        <p class="body" style="font-size:28px;margin-top:16px">
+          Your Kotlin functions.
+        </p>
+      </div>
+      <div class="card tight" style="background:var(--surface-2)">
+        <p class="small ink" style="font-size:23px">This part is yours, and nobody can copy it.</p>
+      </div>
+    </div>
+
+    <div class="card stack" style="gap:20px;border-top:6px solid var(--yellow);justify-content:space-between">
+      <div>
+        <div class="chip tonal-yellow" style="align-self:flex-start;font-size:24px"><span class="dot" style="background:var(--yellow)"></span>Component 3</div>
+        <div class="h2 c-yellow" style="font-size:52px;margin-top:20px">Loop</div>
+        <p class="body" style="font-size:28px;margin-top:16px">
+          Feed each result back and decide again.
+        </p>
+      </div>
+      <div class="card tight" style="background:var(--surface-2)">
+        <p class="small ink" style="font-size:23px">This is the part that finishes the job.</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="r d4s" style="margin-top:28px">
+    <div class="card tight tonal-red" style="padding:20px 32px">
+      <p class="body c-red" style="font-size:26px;font-weight:500;margin:0">
+        Remove any one of the three and you do not have an agent. You have a chatbot with extra steps.
+      </p>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 6 · How It Thinks ============ -->
+<section data-label="How It Thinks" data-seq="19" data-seq-ms="1000" data-seq-fn="loop">
+<div class="pad">
+  <p class="kicker r">How it thinks</p>
+  <h2 class="h1 r d1s">The whole idea, <span class="c-blue">in seven lines.</span></h2>
+  <p class="lead r d2s" style="font-size:30px;margin-top:10px">
+    Forget frameworks for a minute. This is all an agent runtime does.
+  </p>
+  <div class="row" style="margin-top:36px;gap:36px;flex:1;align-items:flex-start">
+    <div class="stack grow r d2s">
+<pre class="code" style="font-size:25px;line-height:1.5"><div class="file">the agent loop <span class="loop-ctr">step 1 of 6</span></div><span class="k">var</span> chat = <span class="f">listOf</span>(<span class="f">userSaid</span>(goal))
+
+<span class="hl seq-line" data-on="3"><span class="k">repeat</span>(MAX_STEPS) {</span>
+<span class="hl seq-line" data-on="0">  <span class="k">val</span> reply = model.<span class="f">ask</span>(chat, myTools)        <span class="cm">// THINK</span></span>
+  <span class="k">if</span> (reply.toolCall == <span class="k">null</span>) <span class="k">return</span> reply.text
+
+<span class="hl seq-line" data-on="1">  <span class="k">val</span> result = <span class="f">runTool</span>(reply.toolCall)        <span class="cm">// ACT</span></span>
+<span class="hl seq-line" data-on="2">  chat = chat + reply + result                <span class="cm">// OBSERVE</span></span>
+}
+</pre>
+      <p class="small r d4s" style="margin-top:18px;font-size:24px">
+        That repetition is the entire difference between an agent and a single API call.
+      </p>
+    </div>
+    
+    <div class="stack r d3s" style="width:620px;gap:18px">
+      <div class="card tight tonal-green seq-card" data-on="0" style="padding:22px 28px;--glow:var(--green)">
+        <div class="h3 c-green" style="font-size:30px">THINK</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">The model looks at the chat so far and picks one tool to call.</p>
+      </div>
+
+      <div class="card tight tonal-blue seq-card" data-on="1" style="padding:22px 28px;--glow:var(--blue)">
+        <div class="h3 c-blue" style="font-size:30px">ACT</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">Your Kotlin function runs. The model never executes anything itself.</p>
+      </div>
+
+      <div class="card tight tonal-yellow seq-card" data-on="2" style="padding:22px 28px;--glow:var(--yellow)">
+        <div class="h3 c-yellow" style="font-size:30px">OBSERVE</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">The result is appended, and the model decides again.</p>
+      </div>
+
+      <div class="card tight tonal-red seq-card" data-on="3" style="padding:22px 28px;--glow:var(--red)">
+        <div class="h3 c-red" style="font-size:28px">Why repeat, not while</div>
+        <p class="body ink" style="font-size:23px;margin-top:8px">A wrong result can convince a model to retry forever. Always cap it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 7 · How It Acts ============ -->
+<section data-label="How It Acts" data-seq="5" data-seq-ms="1300">
+<div class="pad">
+  <p class="kicker r">How it acts</p>
+  <h2 class="h1 r d1s">A tool is just your function, <span class="c-green">with a label.</span></h2>
+  <div class="grid-2 r d2s" style="margin-top:36px;gap:32px">
+    
+    <!-- Left: Kotlin code -->
+    <pre class="code" style="font-size:23px;line-height:1.45"><div class="file">you write this</div><span class="k">class</span> <span class="t">SpendTools</span>(<span class="k">val</span> db: <span class="t">TxDao</span>) {
+<span class="hl seq-line" data-on="1">  <span class="k">@Tool</span></span>
+  <span class="k">fun</span> <span class="f">getSpend</span>(
+<span class="hl seq-line" data-on="1">    <span class="k">@Param</span>(<span class="s">"food, travel, rent, bills"</span>)</span>
+    category: <span class="t">String</span>
+  ): <span class="t">Int</span> = db.<span class="f">totalFor</span>(category)
+}</pre>
+
+    <!-- Right: JSON Schema -->
+    <pre class="code" style="font-size:23px;line-height:1.45"><div class="file">KSP generates this</div>{
+<span class="hl seq-line" data-on="1">  <span class="s">"name"</span>: <span class="s">"getSpend"</span>,</span>
+  <span class="s">"category"</span>: {
+    <span class="s">"type"</span>: <span class="s">"string"</span>,
+    <span class="s">"description"</span>: <span class="s">"food, travel, rent, bills"</span>
+  }
+}</pre>
+
+  </div>
+
+  <!-- Flow bar -->
+  <div class="r d3s" style="margin-top:32px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <div class="card tight seq-card" data-on="0" style="flex:1;background:var(--surface-2);text-align:center;--glow:var(--ink-3)">
+      <div class="small dim" style="font-size:20px">User asks</div>
+      <div class="h3" style="font-size:24px;margin-top:6px">“How much on food?”</div>
+    </div>
+    <div class="seq-arrow" data-on="1" style="font-size:32px;color:var(--ink-3)">›</div>
+    <div class="card tight tonal-green seq-card" data-on="1" style="flex:1;text-align:center;--glow:var(--green)">
+      <div class="small c-green" style="font-size:20px">Model decides</div>
+      <div class="h3 c-green" style="font-size:24px;margin-top:6px"><code>getSpend("food")</code></div>
+    </div>
+    <div class="seq-arrow" data-on="2" style="font-size:32px;color:var(--ink-3)">›</div>
+    <div class="card tight tonal-yellow seq-card" data-on="2" style="flex:1;text-align:center;--glow:var(--yellow)">
+      <div class="small c-yellow" style="font-size:20px">Your app answers</div>
+      <div class="h3 c-yellow" style="font-size:24px;margin-top:6px"><code>4250</code></div>
+    </div>
+    <div class="seq-arrow" data-on="3" style="font-size:32px;color:var(--ink-3)">›</div>
+    <div class="card tight tonal-blue seq-card" data-on="3 4" style="flex:1.2;text-align:center;--glow:var(--blue)">
+      <div class="small c-blue" style="font-size:20px">Model explains</div>
+      <div class="h3 c-blue" style="font-size:24px;margin-top:6px">“Food is your biggest category.”</div>
+    </div>
+  </div>
+
+  <p class="body dim r d4s" style="margin-top:28px;font-size:24px;text-align:center">
+    You describe your functions once. The model decides when to call them. That is function calling.
+  </p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 8 · The Toolkit ============ -->
+<section data-label="The Toolkit">
+<div class="pad">
+  <p class="kicker r">The Toolkit</p>
+  <h2 class="h1 r d1s">ADK for Kotlin 1.0.0 — <span class="c-blue">what is in the box.</span></h2>
+  <p class="lead r d2s" style="font-size:28px;margin-top:8px">
+    Open source, Apache 2.0, same shape as the Python ADK. <code>github.com/google/adk-kotlin</code>
+  </p>
+  
+  <div class="grid-4 r d3s" style="margin-top:34px;gap:20px;flex:1">
+    
+    <div class="card tight tonal-blue" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-blue" style="font-size:32px">core</div>
+        <p class="body ink" style="font-size:23px;margin-top:10px">Agents, models, tools, sessions, memory, runners. The only one most apps need.</p>
+      </div>
+      <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">Core Runtime</span>
+    </div>
+
+    <div class="card tight tonal-green" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-green" style="font-size:32px">processor</div>
+        <p class="body ink" style="font-size:23px;margin-top:10px">KSP. Turns your @Tool functions into schemas at build time.</p>
+      </div>
+      <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">Build Generator</span>
+    </div>
+
+    <div class="card tight tonal-yellow" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-yellow" style="font-size:32px">firebase</div>
+        <p class="body ink" style="font-size:23px;margin-top:10px">Android-only cloud model through Firebase AI Logic.</p>
+      </div>
+      <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">Cloud Gemini</span>
+    </div>
+
+    <div class="card tight tonal-red" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-red" style="font-size:32px">mlkit</div>
+        <p class="body ink" style="font-size:23px;margin-top:10px">Android-only Gemini Nano through ML Kit. Beta.</p>
+      </div>
+      <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">OS Model</span>
+    </div>
+
+    <div class="card tight tonal-blue" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-blue" style="font-size:32px">litertlm</div>
+        <p class="body ink" style="font-size:23px;margin-top:10px">On-device open models such as Gemma, with tool calling.</p>
+      </div>
+      <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">On-Device Tools</span>
+    </div>
+
+    <div class="card tight tonal-green" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-green" style="font-size:32px">webserver</div>
+        <p class="body ink" style="font-size:23px;margin-top:10px">TheDevUI—test and debug your agent in a browser.</p>
+      </div>
+      <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">Inspection UI</span>
+    </div>
+
+    <div class="card tight tonal-yellow" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-yellow" style="font-size:32px">a2a</div>
+        <p class="body ink" style="font-size:23px;margin-top:10px">Agent2Agent. Your agent talks to remote agents.</p>
+      </div>
+      <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">Multi-Agent</span>
+    </div>
+
+    <div class="card tight tonal-red" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-red" style="font-size:32px">integrations</div>
+        <p class="body ink" style="font-size:23px;margin-top:10px">Plugins for external services and analytics.</p>
+      </div>
+      <span class="chip" style="font-size:18px;height:38px;align-self:flex-start">Ecosystem</span>
+    </div>
+
+  </div>
+
+  <div class="card tight r d4s" style="margin-top:24px;background:#0A0B0D">
+    <code style="font-size:22px;color:var(--ink-2)">
+      <span class="f">implementation</span>(<span class="s">"com.google.adk:google-adk-kotlin-core:1.0.0"</span>) — plus <span class="f">ksp</span>(<span class="s">"...-processor:1.0.0"</span>) for @Tool
+    </code>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 9 · Code: Your First Agent ============ -->
+<section data-label="Code · Your First Agent">
+<div class="pad">
+  <p class="kicker r">Code</p>
+  <h2 class="h1 r d1s">Your first agent in <span class="c-blue">eleven lines.</span></h2>
+  <div class="row" style="margin-top:40px;gap:36px;flex:1;align-items:flex-start">
+    
+    <div class="stack grow r d2s">
+<pre class="code" style="font-size:24px;line-height:1.45"><div class="file">KharchaAgent.kt</div><span class="k">val</span> agent = <span class="t">LlmAgent</span>(
+<span class="hl">  name = <span class="s">"kharcha_agent"</span>,</span>
+<span class="hl">  model = firebaseModel,   <span class="cm">// cloud Gemini, no API key</span></span>
+<span class="hl">  instruction = <span class="t">Instruction</span>(</span>
+<span class="s">    "You help the user understand their spending. " +</span>
+<span class="s">    "Always call a tool before you state a number."</span>
+  ),
+<span class="hl">  tools = <span class="t">SpendTools</span>(db).<span class="f">generatedTools</span>(),</span>
+)</pre>
+      <p class="small dim r d4s" style="margin-top:20px;font-size:25px">
+        Eleven lines. This agent can already answer questions your Reports screen needed five taps for.
+      </p>
+    </div>
+
+    <div class="stack r d3s" style="width:640px;gap:18px">
+      <div class="card tight">
+        <div class="h3 c-green" style="font-size:28px">name</div>
+        <p class="body" style="font-size:24px;margin-top:6px">How other agents refer to it. Keep it <code>snake_case</code>.</p>
+      </div>
+
+      <div class="card tight">
+        <div class="h3 c-blue" style="font-size:28px">model</div>
+        <p class="body" style="font-size:24px;margin-top:6px">Swap this one line to go cloud, on-device, or hybrid.</p>
+      </div>
+
+      <div class="card tight">
+        <div class="h3 c-yellow" style="font-size:28px">instruction</div>
+        <p class="body" style="font-size:24px;margin-top:6px">A contract, not a personality. Say what must always happen.</p>
+      </div>
+
+      <div class="card tight">
+        <div class="h3 c-red" style="font-size:28px">tools</div>
+        <p class="body" style="font-size:24px;margin-top:6px">Generated from your @Tool functions by KSP. No JSON by hand.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 10 · Code: Running it is just a Flow ============ -->
+<section data-label="Code · Running Flow">
+<div class="pad">
+  <p class="kicker r">Code</p>
+  <h2 class="h1 r d1s">Running it is <span class="c-green">just a Flow.</span></h2>
+  <div class="row" style="margin-top:40px;gap:36px;flex:1;align-items:flex-start">
+    
+    <div class="stack grow r d2s">
+<pre class="code" style="font-size:24px;line-height:1.45"><div class="file">KharchaViewModel.kt</div><span class="k">val</span> runner = <span class="t">InMemoryRunner</span>(agent, sessionService)
+
+<span class="k">fun</span> <span class="f">ask</span>(text: <span class="t">String</span>) = viewModelScope.<span class="f">launch</span> {
+<span class="hl">  runner.<span class="f">runAsync</span>(userId, sessionId, <span class="f">message</span>(text))</span>
+<span class="hl">    .<span class="f">collect</span> { event -&gt;</span>
+      <span class="f">showOnScreen</span>(event.text)
+    }
+}</pre>
+      <p class="small dim r d4s" style="margin-top:20px;font-size:25px">
+        If you know Flow and ViewModel, you already know how to run an agent.
+      </p>
+    </div>
+
+    <div class="stack r d3s" style="width:640px;gap:22px">
+      <div class="card tight tonal-green">
+        <div class="h3 c-green" style="font-size:28px">Every step is an event</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">Tool calls, partial text, errors. Show them — a visible plan beats a spinner.</p>
+      </div>
+
+      <div class="card tight tonal-blue">
+        <div class="h3 c-blue" style="font-size:28px">Sessions can persist</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">Swap InMemory for the Room-backed session service and the chat survives a restart.</p>
+      </div>
+
+      <div class="card tight tonal-yellow">
+        <div class="h3 c-yellow" style="font-size:28px">Cancellation is free</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">viewModelScope stops the flow when the user leaves. No tokens billed for nothing.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 11 · Two Kinds of Brain ============ -->
+<section data-label="Two Kinds of Brain">
+<div class="pad">
+  <p class="kicker r">Two kinds of brain</p>
+  <h2 class="h1 r d1s">Cloud or on device — <span class="c-yellow">what actually changes.</span></h2>
+  
+  <div class="grid-2 r d2s" style="margin-top:28px;gap:36px;flex:1">
+    
+    <!-- Cloud -->
+    <div class="card stack tonal-blue" style="padding:34px 40px;justify-content:space-between">
+      <div>
+        <div class="chip" style="font-size:24px;background:rgba(255,255,255,0.15)"><span class="dot" style="background:var(--blue)"></span>Remote Compute</div>
+        <div class="h2 c-blue" style="font-size:52px;margin-top:16px">Cloud</div>
+        <div class="small ink" style="font-size:24px">Gemini, through Firebase AI</div>
+        
+        <div class="stack" style="margin-top:20px;gap:10px">
+          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Runs on</span><span class="body">Google's servers</span></div>
+          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Works offline</span><span class="body c-red">No — no network, no answer</span></div>
+          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Cost per turn</span><span class="body">Paid, every single turn</span></div>
+          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Your data</span><span class="body">Leaves the device</span></div>
+        </div>
+      </div>
+      <div class="card tight" style="background:var(--surface);margin-top:14px;padding:22px 32px">
+        <span class="small c-blue" style="font-weight:700">BEST AT</span>
+        <div class="body ink" style="font-size:24px;margin-top:4px">Multi-step reasoning, fresh world knowledge, long context</div>
+      </div>
+    </div>
+
+    <!-- On Device -->
+    <div class="card stack tonal-green" style="padding:34px 40px;justify-content:space-between">
+      <div>
+        <div class="chip" style="font-size:24px;background:rgba(255,255,255,0.15)"><span class="dot" style="background:var(--green)"></span>Local Compute</div>
+        <div class="h2 c-green" style="font-size:52px;margin-top:16px">On-Device</div>
+        <div class="small ink" style="font-size:24px">Gemma or Gemini Nano, on the phone</div>
+        
+        <div class="stack" style="margin-top:20px;gap:10px">
+          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Runs on</span><span class="body">The user's own phone</span></div>
+          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Works offline</span><span class="body c-green">Yes — lift, basement, plane</span></div>
+          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Cost per turn</span><span class="body">Zero, once the model is there</span></div>
+          <div class="row" style="justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px"><span class="body ink" style="font-weight:600">Your data</span><span class="body c-green">Never leaves</span></div>
+        </div>
+      </div>
+      <div class="card tight" style="background:var(--surface);margin-top:14px;padding:22px 32px">
+        <span class="small c-green" style="font-weight:700">BEST AT</span>
+        <div class="body ink" style="font-size:24px;margin-top:4px">One narrow job: extract, classify, summarise, rewrite</div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="body dim r d3s" style="margin-top:18px;text-align:center;font-size:26px">
+    Almost every real app ends up using both. The question is never which one — it is which turn goes where.
+  </p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 12 · Read This Before You Pick ============ -->
+<section data-label="Read This Before You Pick">
+<div class="pad">
+  <p class="kicker r">Read this before you pick</p>
+  <h2 class="h1 r d1s">Three backends. <span class="c-red">Not interchangeable.</span></h2>
+  
+  <div class="r d2s" style="margin-top:36px">
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th>Backend</th>
+          <th>Runs</th>
+          <th>Tool Calling</th>
+          <th>Reach for it when</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="c-green" style="font-size:30px">LiteRT-LM (Gemma)</span></td>
+          <td>On device</td>
+          <td><span class="chip tonal-green" style="height:42px;font-size:22px">Yes</span></td>
+          <td>You need a real agent that works offline</td>
+        </tr>
+        <tr>
+          <td><span class="c-red" style="font-size:30px">ML Kit (Gemini Nano)</span></td>
+          <td>On device</td>
+          <td><span class="chip tonal-red" style="height:42px;font-size:22px">Not yet</span></td>
+          <td>Summarise, rewrite, chat — no tools, still beta</td>
+        </tr>
+        <tr>
+          <td><span class="c-blue" style="font-size:30px">Firebase AI (Gemini)</span></td>
+          <td>Cloud</td>
+          <td><span class="chip tonal-blue" style="height:42px;font-size:22px">Yes</span></td>
+          <td>Best reasoning, and no secret key in your APK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card tight tonal-red r d3s" style="margin-top:32px;border-left:8px solid var(--red)">
+    <div class="h3 c-red" style="font-size:28px">Two traps worth writing down:</div>
+    <p class="body ink" style="font-size:26px;margin-top:8px;line-height:1.4">
+      Plain Gemini can’t use an API key on Android — use <b>Firebase AI</b>. And <b>Gemini Nano via ML Kit silently drops tool calls</b>, so on-device tools means <b>LiteRT-LM</b>.
+    </p>
+  </div>
+
+  <p class="body dim r d4s" style="margin-top:24px;text-align:center;font-size:26px">
+    Every backend is the same LlmAgent. Switching is a one-line change — the capabilities are not.
+  </p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 13 · Fully Offline ============ -->
+<section data-label="Fully Offline" data-seq="8" data-seq-ms="900">
+<div class="pad">
+  <p class="kicker r">Fully offline</p>
+  <h2 class="h1 r d1s">Fully offline, and <span class="c-green">still calling your code.</span></h2>
+
+  <div class="row" style="margin-top:32px;gap:48px;flex:1;align-items:stretch">
+    <div class="stack grow" style="gap:18px;min-width:0">
+<pre class="code r d2s" style="font-size:21px;line-height:1.4;padding:26px 44px"><div class="file">offline agent — LiteRT-LM</div><span class="f">implementation</span>(<span class="s">"com.google.adk:google-adk-kotlin-litertlm:1.0.0"</span>)
+
+<span class="k">val</span> agent = <span class="t">LlmAgent</span>(
+  name = <span class="s">"offline_agent"</span>,
+<span class="hl">  model = <span class="t">LiteRtLmModel</span>(modelFile),   <span class="cm">// Gemma, on device</span></span>
+  tools = <span class="t">SpendTools</span>(db).<span class="f">generatedTools</span>(),
+)</pre>
+
+      <div class="card tight tonal-green trade r d3s">
+        <div class="trade-head c-green">What you get</div>
+        <div class="trade-grid">
+          <div class="trade-item"><div class="icon-tile sm" style="background:var(--green);color:#0F1114"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.4-1.7"/><path d="M2 8.8a15 15 0 0 1 4.2-2.7"/><path d="M22 8.8A15 15 0 0 0 10.7 5"/><path d="M12 20h.01"/></svg></div><div class="body ink">No network at inference time</div></div>
+          <div class="trade-item"><div class="icon-tile sm" style="background:var(--green);color:#0F1114"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2"/><path d="m16 7 3 3"/><path d="m19 4 2 2"/></svg></div><div class="body ink">No API key at all</div></div>
+          <div class="trade-item"><div class="icon-tile sm" style="background:var(--green);color:#0F1114"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div><div class="body ink">Private data never leaves</div></div>
+          <div class="trade-item"><div class="icon-tile sm" style="background:var(--green);color:#0F1114"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><div class="body ink">Works in a lift, a basement, a plane</div></div>
+        </div>
+      </div>
+
+      <div class="card tight tonal-red trade r d4s">
+        <div class="trade-head c-red">What it costs you</div>
+        <div class="trade-grid">
+          <div class="trade-item cost"><div class="trade-val c-red">~2.5 GB</div><div class="body ink">The model file is large: Gemma 4 E2B</div></div>
+          <div class="trade-item cost"><div class="trade-val c-red">8 GB</div><div class="body ink">of device RAM it wants</div></div>
+          <div class="trade-item cost"><div class="trade-val c-red">CPU</div><div class="body ink">Slower than cloud, it runs on the CPU</div></div>
+          <div class="trade-item cost"><div class="trade-val c-red">Tool-trained</div><div class="body ink">Tool calling needs a tool-trained model</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone in airplane mode: the agent still answers by calling your Kotlin tool -->
+    <div class="stack p d3s" style="width:420px;flex-shrink:0;align-items:center;gap:22px">
+      <div class="phone-mockup offline-phone">
+        <div class="phone-top-bar">
+          <span>9:41</span>
+          <div class="phone-camera"></div>
+          <span class="status-icons"><span class="plane-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.4-1.7"/><path d="M2 8.8a15 15 0 0 1 4.2-2.7"/><path d="M22 8.8A15 15 0 0 0 10.7 5"/><path d="M12 20h.01"/></svg></span>
+        </div>
+        <div class="phone-screen">
+          <div class="airplane-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>Airplane mode · no network</div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-weight:700;font-size:24px;color:var(--ink)">KharchaAI</span>
+            <span class="ondevice-pill"><span class="dot"></span>Gemma · on device</span>
+          </div>
+          <div class="bubble user seq-pop" data-from="0">How much on food this month?</div>
+          <div class="toolcall seq-pop" data-from="1"><span class="gear">⚙</span> getSpend(<span class="c-yellow">"food"</span>)</div>
+          <div class="toolcall result seq-pop" data-from="2">→ 4250 <span class="dim">· from Room, on device</span></div>
+          <div class="bubble agent seq-pop" data-from="3">₹4,250 on food. That is your biggest category this month.</div>
+          <div class="bytes-card seq-pop" data-from="4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M5.8 5.8A7 7 0 0 0 9 19h8.5c.6 0 1.2-.1 1.7-.3"/><path d="M22 15.5a4.5 4.5 0 0 0-4.5-4.5h-1.8A7 7 0 0 0 9.6 5.3"/></svg><span><b>0 bytes</b> sent to the cloud</span></div>
+        </div>
+      </div>
+      <p class="small dim r d5s" style="font-size:22px;text-align:center;line-height:1.4;margin:0">
+        Offline is not free. It is a trade you make on purpose, for one feature, not for the whole app.
+      </p>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 14 · The Part Nobody Blogs About ============ -->
+<section data-label="The Part Nobody Blogs About">
+<div class="pad">
+  <p class="kicker r">The part nobody blogs about</p>
+  <h2 class="h1 r d1s">So how do you ship a <span class="c-yellow">2.5 GB model?</span></h2>
+  <p class="lead r d2s" style="font-size:32px;margin-top:12px">
+    You cannot put it in the APK. These are your three real options.
+  </p>
+  
+  <div class="grid-3 r d3s" style="margin-top:36px;gap:28px;flex:1">
+    
+    <div class="card stack" style="gap:24px;justify-content:space-between">
+      <div>
+        <div class="step-num" style="background:var(--blue)">1</div>
+        <div class="h2" style="font-size:42px;margin-top:24px">Download on first use</div>
+        <p class="body" style="font-size:26px;margin-top:16px;line-height:1.45">
+          What the ADK sample does, and the AI Edge Gallery too. Simple — but you now own the hosting, the retries, the storage and the updates.
+        </p>
+      </div>
+      <div class="chip tonal-blue" style="font-size:20px;height:44px;align-self:flex-start">Custom CDN Delivery</div>
+    </div>
+
+    <div class="card stack" style="gap:24px;justify-content:space-between">
+      <div>
+        <div class="step-num" style="background:var(--green)">2</div>
+        <div class="h2" style="font-size:42px;margin-top:24px">Play for On-device AI</div>
+        <p class="body" style="font-size:26px;margin-top:16px;line-height:1.45">
+          The model becomes an AI pack that Play hosts, delivers and updates. Beta. Watch the caps: 1.5 GB per pack, 4 GB per app version.
+        </p>
+      </div>
+      <div class="chip tonal-green" style="font-size:20px;height:44px;align-self:flex-start">Google Play Delivery</div>
+    </div>
+
+    <div class="card stack" style="gap:24px;justify-content:space-between">
+      <div>
+        <div class="step-num" style="background:var(--yellow)">3</div>
+        <div class="h2" style="font-size:42px;margin-top:24px">Pick a smaller model</div>
+        <p class="body" style="font-size:26px;margin-top:16px;line-height:1.45">
+          Often the honest answer. A tighter model that fits the cap and does one narrow job beats a big one you cannot deliver.
+        </p>
+      </div>
+      <div class="chip tonal-yellow" style="font-size:20px;height:44px;align-self:flex-start">Targeted Slim LLMs</div>
+    </div>
+
+  </div>
+
+  <div class="card tight r d4s" style="margin-top:28px;background:var(--surface-2);border-left:6px solid var(--yellow)">
+    <p class="body ink" style="font-size:26px;margin:0">
+      <b class="c-yellow">Rule of thumb:</b> if the feature must work offline, budget the model delivery in the same sprint as the agent. Teams forget, and the feature slips a release.
+    </p>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 15 · Architecture ============ -->
+<section data-label="Architecture" data-seq="6" data-seq-ms="1200">
+<div class="pad">
+  <p class="kicker r">Architecture</p>
+  <h2 class="h1 r d1s">Cloud plans. <span class="c-blue">The device keeps the data.</span></h2>
+  <p class="lead r d2s" style="font-size:30px;margin-top:10px">
+    Because every backend is the same LlmAgent, you can compose them into one tree.
+  </p>
+
+  <div class="stack r d3s" style="margin-top:32px;align-items:center;flex:1">
+    
+    <!-- Root Orchestrator -->
+    <div class="card tight tonal-blue seq-card" data-on="0 5" style="width:680px;text-align:center;border:2px solid var(--blue);--glow:var(--blue)">
+      <div class="h2 c-blue" style="font-size:44px">Orchestrator</div>
+      <div class="body ink" style="font-size:24px;margin-top:6px">Firebase AI · plans, decides, delegates</div>
+    </div>
+
+    <!-- Tree connector line -->
+    <div class="seq-wire" data-from="1" style="width:2px;height:32px;background:var(--outline-2)"></div>
+    <div class="seq-wire" data-from="1" style="width:1120px;height:2px;background:var(--outline-2)"></div>
+    <div style="display:flex;width:1120px;justify-content:space-between">
+      <div class="seq-wire" data-from="1" style="width:2px;height:36px;background:var(--outline-2)"></div>
+      <div class="seq-wire" data-from="2" style="width:2px;height:36px;background:var(--outline-2)"></div>
+      <div class="seq-wire" data-from="3" style="width:2px;height:36px;background:var(--outline-2)"></div>
+    </div>
+
+    <!-- 3 Sub-agents -->
+    <div class="row" style="width:1260px;justify-content:space-between;gap:28px">
+      <div class="card tight tonal-green seq-card" data-on="1" style="flex:1;position:relative;--glow:var(--green)">        <div class="h3 c-green" style="font-size:32px">SMS reader</div>
+        <div class="small ink" style="font-size:21px;margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;white-space:nowrap">On device · LiteRT-LM<span class="lock-badge" title="Stays on the phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>on phone</span></div>
+        <p class="body ink" style="font-size:23px;margin-top:12px">Parses bank messages. Never online.</p>
+      </div>
+
+      <div class="card tight tonal-green seq-card" data-on="2" style="flex:1;position:relative;--glow:var(--green)">        <div class="h3 c-green" style="font-size:32px">Spend analyst</div>
+        <div class="small ink" style="font-size:21px;margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;white-space:nowrap">On device · LiteRT-LM<span class="lock-badge" title="Stays on the phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>on phone</span></div>
+        <p class="body ink" style="font-size:23px;margin-top:12px">Sums local Room data with your tools.</p>
+      </div>
+
+      <div class="card tight tonal-blue seq-card" data-on="3" style="flex:1;position:relative;--glow:var(--blue)">        <div class="h3 c-blue" style="font-size:32px">Advice agent</div>
+        <div class="small ink" style="font-size:21px;margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;white-space:nowrap">Cloud · FirebaseAI<span class="lock-badge cloud" title="Sees totals only"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H8a5 5 0 1 1 1.2-9.86A6 6 0 0 1 20.5 12a3.5 3.5 0 0 1-3 7z"/></svg>totals only</span></div>
+        <p class="body ink" style="font-size:23px;margin-top:12px">Explains and compares. Sees totals, not rows.</p>
+      </div>
+    </div>
+
+    <!-- Bottom tools shelf -->
+    <div class="card tight r d4s seq-card" data-on="4" style="margin-top:28px;width:1260px;background:var(--surface-2);text-align:center;--glow:var(--yellow)">
+      <span class="body ink" style="font-size:24px">
+        <b class="c-yellow">Your tools:</b> TxRepository (Room) &nbsp;·&nbsp; SmsReader &nbsp;·&nbsp; BudgetStore &nbsp;·&nbsp; Notifier
+      </span>
+    </div>
+
+  </div>
+
+  <p class="small dim r d5s" style="margin-top:16px;text-align:center;font-size:24px">
+    The cloud model can be very capable and still never see a single transaction. That is a design decision.
+  </p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 16 · Where Agents Actually Fail ============ -->
+<section data-label="Where Agents Fail" data-seq="3" data-seq-ms="1100" data-seq-fn="coin">
+<div class="pad">
+  <p class="kicker r">Where agents actually fail</p>
+  <h2 class="h1 r d1s">Accuracy is a <span class="c-red">naming problem.</span></h2>
+  <p class="lead r d2s" style="font-size:30px;margin-top:8px">
+    The model picks a tool from your description and nothing else. It cannot read the body.
+  </p>
+
+  <div class="grid-2 r d3s" style="margin-top:36px;gap:36px">
+    
+    <!-- Left: Ambiguous -->
+    <div class="stack">
+<pre class="code" style="font-size:22px;line-height:1.45"><div class="file">a coin flip on every turn <span class="coin" aria-hidden="true">?</span></div><span class="hl-y seq-line coin-line"><span class="k">@Tool</span> <span class="k">fun</span> <span class="f">get</span>(id: <span class="t">String</span>): <span class="t">String</span></span>
+<span class="hl-y seq-line coin-line"><span class="k">@Tool</span> <span class="k">fun</span> <span class="f">getData</span>(type: <span class="t">String</span>): <span class="t">String</span></span>
+<span class="hl-y seq-line coin-line"><span class="k">@Tool</span> <span class="k">fun</span> <span class="f">fetchInfo</span>(q: <span class="t">String</span>): <span class="t">String</span></span>
+
+<span class="cm">// No categories. No units.</span>
+<span class="cm">// No date format. The model guesses.</span></pre>
+    </div>
+
+    <!-- Right: Explicit -->
+    <div class="stack">
+<pre class="code" style="font-size:22px;line-height:1.45"><div class="file">something it can actually route <span class="route-ok" aria-hidden="true">✓ routed</span></div><span class="hl seq-line" data-on="0"><span class="k">@Tool</span></span>
+<span class="k">fun</span> <span class="f">getSpendByCategory</span>(
+<span class="hl seq-line" data-on="1">  <span class="k">@Param</span>(<span class="s">"One of: food, travel, rent, bills"</span>)</span>
+  category: <span class="t">String</span>,
+<span class="hl seq-line" data-on="2">  <span class="k">@Param</span>(<span class="s">"Start date, YYYY-MM-DD"</span>)</span>
+  from: <span class="t">String</span>,
+): <span class="t">SpendTotal</span></pre>
+    </div>
+
+  </div>
+
+  <div class="card tight r d4s" style="margin-top:28px;background:var(--surface-2);border-left:6px solid var(--blue)">
+    <p class="body ink" style="font-size:26px;margin:0">
+      Write every tool description for a new teammate who joined this morning: list the allowed values, state the units, say what comes back. Two vague tools are worse than one good one.
+    </p>
+  </div>
+
+  <p class="body dim r d5s" style="margin-top:20px;text-align:center;font-size:25px">
+    Delete tools before you describe them. Five sharp tools beat twenty fuzzy ones.
+  </p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 17 · Your Turn ============ -->
+<section data-label="Your Turn">
+<div class="pad">
+  <p class="kicker r">Your turn</p>
+  <h2 class="h1 r d1s">Six apps you could point this at <span class="c-green">on Monday.</span></h2>
+  
+  <div class="grid-3 r d2s" style="margin-top:36px;gap:24px;flex:1">
+    
+    <div class="card tight" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-blue" style="font-size:32px">Money &amp; expenses</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">“How am I doing this month?”</p>
+      </div>
+      <div>
+        <span class="tool-tag">getSpend</span><span class="tool-tag">getBudget</span><span class="tool-tag">forecast</span>
+      </div>
+    </div>
+
+    <div class="card tight" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-green" style="font-size:32px">E-commerce</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">“A gift under ₹2,000 that arrives by Friday”</p>
+      </div>
+      <div>
+        <span class="tool-tag">search</span><span class="tool-tag">checkStock</span><span class="tool-tag">deliveryEta</span>
+      </div>
+    </div>
+
+    <div class="card tight" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-yellow" style="font-size:32px">Travel &amp; booking</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">“My flight is cancelled, sort it out”</p>
+      </div>
+      <div>
+        <span class="tool-tag">getBooking</span><span class="tool-tag">findAlternates</span><span class="tool-tag">rebook</span>
+      </div>
+    </div>
+
+    <div class="card tight" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-red" style="font-size:32px">Health &amp; fitness</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">“Plan my week around Sunday's 10K”</p>
+      </div>
+      <div>
+        <span class="tool-tag">getWorkouts</span><span class="tool-tag">getCalendar</span>
+      </div>
+    </div>
+
+    <div class="card tight" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-blue" style="font-size:32px">Field &amp; enterprise</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">Dictate a site report, offline, on device</p>
+      </div>
+      <div>
+        <span class="tool-tag">readForm</span><span class="tool-tag">fillField</span><span class="tool-tag">attachPhoto</span>
+      </div>
+    </div>
+
+    <div class="card tight" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="h3 c-green" style="font-size:32px">In-app support</div>
+        <p class="body ink" style="font-size:24px;margin-top:8px">“Why was I charged twice?”</p>
+      </div>
+      <div>
+        <span class="tool-tag">getOrders</span><span class="tool-tag">getCharges</span><span class="tool-tag">raiseRefund</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card tight r d3s" style="margin-top:24px;background:var(--surface-2)">
+    <p class="body" style="font-size:24px;margin:0">
+      <b class="c-green">Is your idea a good first agent?</b> The user can ask it in one sentence. &nbsp;·&nbsp; The answer needs two or more lookups your app already has. &nbsp;·&nbsp; Getting it wrong is annoying, not dangerous.
+    </p>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 18 · Meet KharchaAI ============ -->
+<section data-label="Meet KharchaAI" data-seq="10" data-seq-ms="850">
+<div class="pad">
+  <p class="kicker r">Meet KharchaAI</p>
+  <h2 class="h1 r d1s">“How am I doing <span class="c-blue">this month?”</span></h2>
+  
+  <div class="grid-2 r d2s" style="margin-top:32px;gap:40px;flex:1">
+    
+    <!-- Old way -->
+    <div class="card stack" style="gap:16px;background:var(--surface);padding:36px 44px;position:relative">
+      <div class="mini-droid" aria-label="Android app, fuming"><svg class="droid-shake" viewBox="0 0 300 330">
+        <g class="steam" fill="#E8EAED"><circle class="s1" cx="66" cy="34" r="12"/><circle class="s2" cx="234" cy="34" r="12"/><circle class="s3" cx="150" cy="18" r="10"/></g>
+        <g stroke="#3DDC84" stroke-width="10" stroke-linecap="round"><line x1="108" y1="56" x2="84" y2="20"/><line x1="192" y1="56" x2="216" y2="20"/></g>
+        <path d="M50 132 A100 100 0 0 1 250 132 Z" fill="#3DDC84"/><path class="flush" d="M50 132 A100 100 0 0 1 250 132 Z" fill="#FF5A4E"/>
+        <g fill="#0F1114"><circle cx="112" cy="98" r="9"/><circle cx="188" cy="98" r="9"/></g>
+        <g stroke="#0F1114" stroke-width="9" stroke-linecap="round" fill="none"><line x1="88" y1="72" x2="128" y2="86"/><line x1="212" y1="72" x2="172" y2="86"/><path d="M128 124 Q150 110 172 124" stroke-width="6"/></g>
+        <rect x="50" y="142" width="200" height="124" rx="22" fill="#3DDC84"/>
+        <g fill="#3DDC84"><rect x="12" y="148" width="30" height="96" rx="15"/><rect x="258" y="148" width="30" height="96" rx="15"/><rect x="96" y="256" width="34" height="58" rx="17"/><rect x="170" y="256" width="34" height="58" rx="17"/></g>
+        <path class="sweat" d="M246 70 Q256 88 246 96 Q236 88 246 70 Z" fill="#8AB4F8"/>
+      </svg></div>
+      <span class="chip" style="font-size:22px;align-self:flex-start">THE OLD APP WAY</span>
+      <div class="stack" style="gap:0;margin-top:4px">
+        <div class="list-row seq-row" data-from="0" style="padding:13px 0"><div class="tick tonal-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg></div><div class="body" style="font-size:28px">Open the app</div></div>
+        <div class="list-row seq-row" data-from="1" style="padding:13px 0"><div class="tick tonal-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg></div><div class="body" style="font-size:28px">Tap into Reports</div></div>
+        <div class="list-row seq-row" data-from="2" style="padding:13px 0"><div class="tick tonal-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg></div><div class="body" style="font-size:28px">Choose the month</div></div>
+        <div class="list-row seq-row" data-from="3" style="padding:13px 0"><div class="tick tonal-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg></div><div class="body" style="font-size:28px">Read the charts</div></div>
+        <div class="list-row seq-row" data-from="4" style="padding:13px 0"><div class="tick tonal-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg></div><div class="body" style="font-size:28px">Do the maths in your head</div></div>
+        <div class="list-row seq-row" data-from="5" style="padding:13px 0"><div class="tick tonal-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg></div><div class="body" style="font-size:28px">Give up and guess</div></div>
+      </div>
+    </div>
+
+    <!-- Agent way -->
+    <div class="card stack tonal-yellow seq-card" data-from="6" style="gap:24px;padding:36px 44px;justify-content:space-between;position:relative;--glow:var(--yellow)">
+      <div class="mini-agent" aria-label="ADK agent, laughing"><svg class="agent-chuckle" viewBox="232 196 236 168">
+          <image href="assets/droidcon/images/adk-agent-android.png" width="700" height="700"/>
+          <circle cx="325" cy="290" r="15" fill="#52C443"/><circle cx="409" cy="285" r="14" fill="#52C443"/>
+          <g stroke="#20272D" stroke-width="6.5" stroke-linecap="round" fill="none"><path d="M312 294 Q325 278 338 294"/><path d="M396 289 Q409 273 422 289"/></g>
+          <path d="M350 303 Q367 300 384 301 Q382 326 367 327 Q352 326 350 303 Z" fill="#20272D"/>
+          <path d="M357 318 Q367 312 377 318 Q372 326 367 326 Q362 326 357 318 Z" fill="#F2716A"/>
+        </svg></div>
+      <div>
+        <span class="chip tonal-yellow" style="font-size:22px;align-self:flex-start">THE AGENT WAY</span>
+        <div class="d2 c-yellow" style="font-size:80px;margin-top:20px">Just ask.</div>
+        
+        <div class="card tight" style="margin-top:24px;background:var(--surface);border-left:8px solid var(--yellow)">
+          <p class="body ink" style="font-size:30px;line-height:1.45">
+            “You have spent <b>₹18,400</b> of your <b>₹25,000</b> budget, which is <b>74 percent</b>. Food is your biggest category. At this pace you will finish near <b>₹26,200</b> — slightly over. Want two ways to cut back?”
+          </p>
+        </div>
+      </div>
+
+      <div class="chip" style="font-size:22px;height:48px;align-self:flex-start;background:rgba(0,0,0,0.25)">
+        Zero menus · Zero filters · Real synthesis
+      </div>
+    </div>
+
+  </div>
+
+  <p class="body dim r d3s" style="margin-top:20px;text-align:center;font-size:26px">
+    Same data. Same app. The only thing that changed is who does the work of connecting it.
+  </p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 19 · Under The Hood ============ -->
+<section data-label="Under The Hood">
+<div class="pad">
+  <p class="kicker r">Under the hood</p>
+  <h2 class="h1 r d1s">Five tools. Four read. <span class="c-red">One writes.</span></h2>
+  
+  <div class="stack r d2s" style="margin-top:36px">
+<pre class="code" style="font-size:23px;line-height:1.5"><div class="file">SpendTools.kt — the entire agent surface</div><span class="k">@Tool</span> <span class="k">fun</span> <span class="f">getSpendByCategory</span>(category: <span class="t">String</span>, from: <span class="t">String</span>, to: <span class="t">String</span>): <span class="t">Int</span>
+<span class="k">@Tool</span> <span class="k">fun</span> <span class="f">getBudgetStatus</span>(month: <span class="t">String</span>): <span class="t">Budget</span>
+<span class="k">@Tool</span> <span class="k">fun</span> <span class="f">getTopMerchants</span>(month: <span class="t">String</span>, limit: <span class="t">Int</span>): <span class="t">List</span>&lt;<span class="t">Merchant</span>&gt;
+<span class="k">@Tool</span> <span class="k">fun</span> <span class="f">projectMonthEnd</span>(month: <span class="t">String</span>): <span class="t">Forecast</span>
+
+<span class="hl-y"><span class="k">@Tool</span> <span class="k">fun</span> <span class="f">addExpense</span>(amount: <span class="t">Int</span>, merchant: <span class="t">String</span>, category: <span class="t">String</span>): <span class="t">Txn</span></span>
+<span class="cm">// ^ the only one that changes anything, and the only one that asks first</span></pre>
+  </div>
+
+  <div class="grid-4 r d3s" style="margin-top:36px;gap:24px">
+    <div class="card tight tonal-blue" style="text-align:center">
+      <div class="stat c-blue" style="font-size:110px">5</div>
+      <div class="h3 ink" style="font-size:30px;margin-top:4px">tools total</div>
+    </div>
+    
+    <div class="card tight tonal-red" style="text-align:center">
+      <div class="stat c-red" style="font-size:110px">1</div>
+      <div class="h3 ink" style="font-size:30px;margin-top:4px">asks before acting</div>
+    </div>
+
+    <div class="card tight tonal-yellow" style="text-align:center">
+      <div class="stat c-yellow" style="font-size:110px">6</div>
+      <div class="h3 ink" style="font-size:30px;margin-top:4px">max loop steps</div>
+    </div>
+
+    <div class="card tight tonal-green" style="text-align:center">
+      <div class="stat c-green" style="font-size:110px">0</div>
+      <div class="h3 ink" style="font-size:30px;margin-top:4px">rows leaving phone</div>
+    </div>
+  </div>
+
+  <p class="body dim r d4s" style="margin-top:28px;text-align:center;font-size:26px">
+    Start with the smallest tool set that answers one real sentence. Add the sixth only when a user asks.
+  </p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 20 · Live: KharchaAI, on my phone ============ -->
+<section data-label="Live Demo">
+<div class="pad">
+  <p class="kicker r">Live</p>
+  <h2 class="h1 r d1s">KharchaAI, <span class="c-green">on my phone.</span></h2>
+  <p class="lead r d2s" style="font-size:30px;margin-top:10px">
+    Three questions, no menus, no filters—with the tool calls printed as they happen.
+  </p>
+  
+  <div class="row" style="margin-top:32px;gap:56px;flex:1;align-items:center">
+    
+    <!-- Left: Interaction flows -->
+    <div class="stack grow r d3s" style="gap:24px">
+      
+      <div class="card tight" style="display:flex;align-items:center;justify-content:space-between;padding:32px 40px;background:var(--surface-2)">
+        <div>
+          <div class="h3" style="font-size:34px">“How am I doing this month?”</div>
+          <div class="small dim" style="font-size:22px;margin-top:6px">User queries spending state</div>
+        </div>
+        <span class="chip tonal-blue" style="font-size:22px">reads two tools</span>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;justify-content:space-between;padding:32px 40px;background:var(--surface-2)">
+        <div>
+          <div class="h3" style="font-size:34px">“Where did the food money go?”</div>
+          <div class="small dim" style="font-size:22px;margin-top:6px">Category drill-down with merchant breakdown</div>
+        </div>
+        <span class="chip tonal-yellow" style="font-size:22px">chains three</span>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;justify-content:space-between;padding:32px 40px;background:var(--surface-2)">
+        <div>
+          <div class="h3" style="font-size:34px">“Add ₹480, Blue Tokai, food.”</div>
+          <div class="small dim" style="font-size:22px;margin-top:6px">Write operation modifying local ledger</div>
+        </div>
+        <span class="chip tonal-red" style="font-size:22px">stops and asks first</span>
+      </div>
+
+    </div>
+
+    <!-- Right: Android Phone Mockup -->
+    <div class="p d3s" style="flex-shrink:0">
+      <div class="phone-mockup">
+        <div class="phone-top-bar">
+          <span>08:50</span>
+          <div class="phone-camera"></div>
+          <span>41% 🔋</span>
+        </div>
+        <div class="phone-screen">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-weight:700;font-size:24px;color:var(--ink)">KharchaAI</span>
+            <span style="font-size:16px;color:var(--green);background:rgba(52,168,83,0.15);padding:2px 10px;border-radius:12px">● On-Device</span>
+          </div>
+
+          <div class="phone-card" style="background:#1b2438;border-color:var(--blue)">
+            <div style="font-size:15px;color:var(--blue-hi);font-weight:600">QUERY</div>
+            <div style="font-size:20px;color:#fff;margin-top:4px">“How am I doing this month?”</div>
+          </div>
+
+          <div class="phone-card" style="background:rgba(255,255,255,0.03);font-family:var(--mono);font-size:15px;color:var(--yellow-hi)">
+            ⚙ calling getBudgetStatus("current")<br>
+            ⚙ calling getSpendByCategory("all")
+          </div>
+
+          <div class="phone-card" style="background:#17221d;border-color:var(--green)">
+            <div style="font-size:15px;color:var(--green-hi);font-weight:600">AGENT RESPONSE</div>
+            <div style="font-size:19px;color:#fff;margin-top:6px;line-height:1.4">
+              You've spent ₹18,400 of ₹25,000 budget (74%). Food is top category. Projected month end: ₹26,200.
+            </div>
+          </div>
+
+          <div class="phone-card" style="margin-top:auto;border-color:rgba(255,255,255,0.15)">
+            <div style="font-size:16px;color:var(--ink-3)">Type or speak a message...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 21 · Take This Home ============ -->
+<section data-label="Take This Home">
+<div class="pad">
+  <p class="kicker r">Take this home</p>
+  <h2 class="h1 r d1s">Three things to <span class="c-yellow">remember.</span></h2>
+  
+  <div class="stack r d2s" style="margin-top:48px;gap:24px;flex:1">
+    
+    <div class="card tight tonal-blue" style="display:flex;align-items:center;gap:36px;padding:36px 44px">
+      <div class="step-num" style="background:var(--blue)">1</div>
+      <div>
+        <div class="h2 c-blue" style="font-size:42px">The loop is the product, not the model</div>
+        <p class="body ink" style="font-size:27px;margin-top:8px">
+          Cap it, trace it, test it. Everything that makes an agent trustworthy lives in the loop you own.
+        </p>
+      </div>
+    </div>
+
+    <div class="card tight tonal-green" style="display:flex;align-items:center;gap:36px;padding:36px 44px">
+      <div class="step-num" style="background:var(--green)">2</div>
+      <div>
+        <div class="h2 c-green" style="font-size:42px">Your tools are your moat</div>
+        <p class="body ink" style="font-size:27px;margin-top:8px">
+          Models change every few months. What they can reach is the part nobody can copy.
+        </p>
+      </div>
+    </div>
+
+    <div class="card tight tonal-yellow" style="display:flex;align-items:center;gap:36px;padding:36px 44px">
+      <div class="step-num" style="background:var(--yellow)">3</div>
+      <div>
+        <div class="h2 c-yellow" style="font-size:42px">Check what the backend can actually do</div>
+        <p class="body ink" style="font-size:27px;margin-top:8px">
+          On-device with tools means LiteRT-LM today. Read the table, not the blog post.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="body dim r d3s" style="margin-top:32px;text-align:center;font-size:28px">
+    Ship one tool this week. <span class="ink" style="font-weight:600">One.</span> The loop around it is the easy part.
+  </p>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 22 · Thank You ============ -->
+<section data-label="Thank You">
+<div class="brand-title brand-lockup r d1s"><img src="assets/droidcon/brand/droidcon-wordmark.svg" alt="droidcon"><span>Bengaluru<b>2026</b></span></div>
+<div class="pad">
+  <div class="row" style="flex:1;gap:60px;align-items:center">
+    
+    <!-- Left: Links & questions -->
+    <div class="stack grow">
+      <h2 class="r" style="font-size:150px;line-height:0.9;font-weight:700;letter-spacing:-0.035em;margin:0;font-variation-settings:'ROND' 100">
+        Thank <span class="c-blue">you.</span>
+      </h2>
+      <p class="lead r d1s" style="font-size:34px;margin-top:28px">
+        Build one small agent this week and tag either of us on LinkedIn.<br>
+        We share the good ones.
+      </p>
+
+      <div class="stack r d2s" style="gap:16px;margin-top:40px">
+        <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:20px 28px">
+          <span style="width:16px;height:16px;border-radius:50%;background:var(--blue);display:block"></span>
+          <div>
+            <div class="h3" style="font-size:28px">github.com/google/adk-kotlin</div>
+            <div class="small dim" style="font-size:20px">The toolkit and its Android examples</div>
+          </div>
+        </div>
+
+        <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:20px 28px">
+          <span style="width:16px;height:16px;border-radius:50%;background:var(--green);display:block"></span>
+          <div>
+            <div class="h3" style="font-size:28px">aimobilecoders.com</div>
+            <div class="small dim" style="font-size:20px">The community — 3,500+ mobile devs</div>
+          </div>
+        </div>
+
+        <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:20px 28px">
+          <span style="width:16px;height:16px;border-radius:50%;background:var(--yellow);display:block"></span>
+          <div>
+            <div class="h3" style="font-size:28px">dreamprogramming.in</div>
+            <div class="small dim" style="font-size:20px">The books</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card tight tonal-red r d3s" style="margin-top:24px">
+        <p class="body ink" style="font-size:24px;margin:0">
+          Questions are welcome — especially the ones that start with <i class="c-red">“but in production...”</i>
+        </p>
+      </div>
+    </div>
+
+    <!-- Right: Session feedback QR -->
+    <div class="card stack tonal-blue r d3s" style="width:580px;height:640px;align-self:center;align-items:center;justify-content:center;text-align:center;padding:48px 44px;gap:0">
+      <div style="position:relative">
+        <div class="qr" style="--ring:var(--blue);padding:16px;border-radius:30px"><img src="assets/droidcon/qr/feedback.png" alt="Session feedback QR" style="width:310px;height:310px"></div>
+        <!-- Namaste mascot beside the QR; kept clear of the code so it still scans -->
+        <img src="assets/droidcon/brand/droidcon-namaste-agent.svg" alt="" style="position:absolute;right:-116px;bottom:-24px;width:140px;height:140px">
+      </div>
+      <div class="h2" style="font-size:54px;margin-top:44px">How did <span class="c-blue">we do?</span></div>
+      <p class="body ink" style="font-size:27px;margin-top:16px;line-height:1.4">
+        Scan and rate the session. Your one minute shapes our next talk.
+      </p>
+    </div>
+
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+</deck-stage>
+<script>
+/* Step sequencer: a <section data-seq="N" data-seq-ms="T"> cycles a step 0…N-1
+   while it is the active slide. Children with data-on="a b" get .on at those
+   steps; data-from="k" keeps .on from step k to the end of the cycle.
+   Off under reduced motion; print shows the static slide. */
+(() => {
+  const deck = document.querySelector('deck-stage');
+  if (!deck || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const paint = (root, step) => root.querySelectorAll('[data-on],[data-from]').forEach((el) => {
+    const on = (el.dataset.on || '').split(' ').includes(String(step)) ||
+      (el.dataset.from !== undefined && step >= +el.dataset.from);
+    el.classList.toggle('on', on);
+  });
+  const custom = {
+    // Slide 6: six THINK → ACT → OBSERVE turns, then MAX_STEPS stops it.
+    loop(root, step) {
+      const ctr = root.querySelector('.loop-ctr');
+      const capped = step >= 18;
+      paint(root, capped ? 3 : step % 3);
+      ctr.textContent = capped ? 'MAX_STEPS hit · stop' : `step ${Math.floor(step / 3) + 1} of 6`;
+      ctr.classList.toggle('capped', capped);
+    },
+    // Slide 16: vague tools get picked at random; the clear one routes in order.
+    coin(root, step) {
+      paint(root, step);
+      const lines = [...root.querySelectorAll('.coin-line')];
+      const prev = lines.findIndex((l) => l.classList.contains('on'));
+      let pick = Math.floor(Math.random() * lines.length);
+      if (pick === prev) pick = (pick + 1) % lines.length;
+      lines.forEach((l, i) => l.classList.toggle('on', i === pick));
+    },
+  };
+  let stop = () => {};
+  const start = (slide) => {
+    stop();
+    if (!slide || !slide.dataset.seq) return;
+    const n = +slide.dataset.seq, fn = custom[slide.dataset.seqFn] || paint;
+    let step = 0;
+    slide.classList.add('running');
+    fn(slide, step);
+    const id = setInterval(() => { step = (step + 1) % n; fn(slide, step); }, +(slide.dataset.seqMs || 1100));
+    stop = () => {
+      clearInterval(id);
+      slide.classList.remove('running');
+      slide.querySelectorAll('.on').forEach((el) => el.classList.remove('on'));
+    };
+  };
+  deck.addEventListener('slidechange', (e) => start(e.detail.slide));
+  window.addEventListener('load', () => start(document.querySelector('section[data-deck-active]')));
+  window.addEventListener('beforeprint', () => stop());
+})();
+</script>
+</body>
+</html>
+

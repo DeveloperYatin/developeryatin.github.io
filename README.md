@@ -25,7 +25,16 @@ An interactive, high-fidelity slide deck presenting **"Build Smarter, Ship Faste
 An interactive slide deck presenting advanced automation workflows using Gemini CLI to scan git commits, catch vulnerabilities, and automate code feedback.
 * **Direct Link:** [developeryatin.github.io/gemini-cli.html](https://developeryatin.github.io/gemini-cli.html)
 
-### 4. 🧠 Building Autonomous AI Agents with ADK (`data_analyst_agent.html`)
+### 4. 🤖 Beyond Apps: Building Autonomous AI Agents for Android (`beyond-apps-agents.html`)
+An interactive, high-fidelity slide deck presenting **"Beyond Apps: Building Autonomous AI Agents for Android"** for **Droidcon India 2026**, co-authored by **Anand Gaur** and **Yatin Batra**.
+* **Direct Link:** [developeryatin.github.io/beyond-apps-agents.html](https://developeryatin.github.io/beyond-apps-agents.html)
+* **Highlights:**
+  * **Built on Google Material 3 Expressive:** Pure 1920×1080 canvas using `deck/deck-stage.js`, semantic Google palette, entrance animations, and speaker notes.
+  * **Core Agent Runtime:** Deep dive into Think-Act-Observe loops in 7 lines of Kotlin, `@Tool` annotations with KSP build-time schema generation.
+  * **ADK for Kotlin 1.0.0:** Comparing LiteRT-LM (Gemma on-device) vs ML Kit (Gemini Nano) vs Firebase AI Logic (cloud Gemini).
+  * **Production Architecture & Live Demo:** Cloud orchestrators delegating to private local agents, shipping 2.5 GB models, and the live KharchaAI showcase.
+
+### 5. 🧠 Building Autonomous AI Agents with ADK (`data_analyst_agent.html`)
 An interactive, high-fidelity slide deck introducing Google's **Agent Development Kit (ADK)** for building autonomous developer agents.
 * **Direct Link:** [developeryatin.github.io/data_analyst_agent.html](https://developeryatin.github.io/data_analyst_agent.html)
 * **Highlights:**
@@ -61,6 +70,7 @@ npx live-server
 ├── comingsoon.html       # Placeholder for upcoming talks/pages
 ├── styles.css            # Base stylesheet containing grid styling and themes
 ├── main.js               # Common script for interactive navigation and features
+├── deck/                 # Shared slide-deck design system (theme, engine, shapes, template)
 └── README.md             # Project documentation
 ```
 
@@ -68,7 +78,7 @@ npx live-server
 
 ## 👤 About Yatin Batra
 I am a **Senior Android Engineer (SDE-2)** with 5+ years of experience crafting high-performance, native and cross-platform mobile experiences. 
-* **Current Role:** SDE-2 @ Adda247
+* **Current Role:** SDE-2 @ Valeo Health ME
 * **Focus Areas:** Kotlin Multiplatform Mobile (KMM), Jetpack Compose, Flutter, and building AI-augmented developer automation tools.
 * **LinkedIn:** [yatin-batraa](https://www.linkedin.com/in/yatin-batraa)
 * **GitHub:** [@DeveloperYatin](https://github.com/DeveloperYatin)
