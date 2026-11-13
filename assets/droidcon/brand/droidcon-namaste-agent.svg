@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600" fill="none">
+  <!-- Namaste Android: droidcon India mascot, redrawn as vector. Transparent background;
+       the slide supplies the backdrop. -->
+  <defs>
+    <linearGradient id="g-body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5BE89C"/>
+      <stop offset="1" stop-color="#2FC873"/>
+    </linearGradient>
+    <linearGradient id="g-saffron" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF8A1F"/>
+      <stop offset="1" stop-color="#F26A0C"/>
+    </linearGradient>
+    <linearGradient id="g-dhoti" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E9EEF5"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(69 62) scale(.77)">
+  <!-- ground shadow -->
+  <ellipse cx="300" cy="540" rx="120" ry="14" fill="#000" opacity=".22"/>
+
+  <!-- feet -->
+  <g fill="#2FC873">
+    <rect x="238" y="486" width="46" height="50" rx="23"/>
+    <rect x="316" y="486" width="46" height="50" rx="23"/>
+  </g>
+
+  <!-- dhoti -->
+  <path d="M184 352 H416 C424 410 424 466 404 500 Q374 522 344 500 L300 446 L256 500 Q226 522 196 500 C176 466 176 410 184 352 Z" fill="url(#g-dhoti)"/>
+  <!-- saffron border along the hem -->
+  <path d="M190 478 C192 488 194 494 196 500 Q226 522 256 500 L265 489 Q228 506 190 478 Z" fill="#FF8A1F"/>
+  <path d="M410 478 C408 488 406 494 404 500 Q374 522 344 500 L335 489 Q372 506 410 478 Z" fill="#FF8A1F"/>
+  <!-- centre pleats -->
+  <path d="M284 360 H316 L326 470 Q300 486 274 470 Z" fill="#FFB547"/>
+  <path d="M292 360 V472 M300 360 V478 M308 360 V472" stroke="#F26A0C" stroke-width="3" stroke-linecap="round"/>
+  <!-- side drape folds -->
+  <path d="M206 380 C210 430 228 470 256 490" stroke="#C9D3E0" stroke-width="4" stroke-linecap="round"/>
+  <path d="M394 380 C390 430 372 470 344 490" stroke="#C9D3E0" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- body -->
+  <path d="M190 214 H410 V352 H190 Z" fill="url(#g-body)"/>
+  <!-- waistband -->
+  <rect x="184" y="344" width="232" height="18" rx="6" fill="#FF8A1F"/>
+  <rect x="184" y="350" width="232" height="4" fill="#FFD166"/>
+
+  <!-- angavastram (shawl over the right shoulder) -->
+  <path d="M340 214 H382 V344 H340 Z" fill="url(#g-saffron)"/>
+  <rect x="340" y="312" width="42" height="26" fill="#FFD166"/>
+  <g fill="#F26A0C">
+    <circle cx="349" cy="325" r="3"/><circle cx="361" cy="325" r="3"/><circle cx="373" cy="325" r="3"/>
+  </g>
+
+  <!-- upper arms -->
+  <rect x="140" y="218" width="44" height="118" rx="22" fill="url(#g-body)"/>
+  <rect x="416" y="218" width="44" height="118" rx="22" fill="url(#g-body)"/>
+  <!-- forearms reaching in to the chest -->
+  <g stroke-linecap="round">
+    <path d="M162 314 L284 270" stroke="#22A85C" stroke-width="48"/>
+    <path d="M438 314 L316 270" stroke="#22A85C" stroke-width="48"/>
+    <path d="M162 314 L284 270" stroke="url(#g-body)" stroke-width="42"/>
+    <path d="M438 314 L316 270" stroke="url(#g-body)" stroke-width="42"/>
+  </g>
+  <!-- joined palms -->
+  <path d="M300 196 C322 214 326 262 322 300 Q300 314 278 300 C274 262 278 214 300 196 Z" fill="#6CEFA8" stroke="#22A85C" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M300 204 V304" stroke="#22A85C" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- head -->
+  <g stroke="#3DDC84" stroke-width="12" stroke-linecap="round">
+    <line x1="246" y1="110" x2="220" y2="66"/>
+    <line x1="354" y1="110" x2="380" y2="66"/>
+  </g>
+  <path d="M190 202 A110 110 0 0 1 410 202 Z" fill="url(#g-body)"/>
+  <circle cx="252" cy="152" r="12" fill="#0B1220"/>
+  <circle cx="348" cy="152" r="12" fill="#0B1220"/>
+  <circle cx="256" cy="148" r="4" fill="#FFF"/>
+  <circle cx="352" cy="148" r="4" fill="#FFF"/>
+  <!-- tilak -->
+  <path d="M300 116 C306 126 306 134 300 140 C294 134 294 126 300 116 Z" fill="#FF5A36"/>
+
+  <!-- sparkles -->
+  <path d="M478 120 Q480 140 500 142 Q480 144 478 164 Q476 144 456 142 Q476 140 478 120 Z" fill="#FDD663"/>
+  <path d="M112 196 Q113 210 127 211 Q113 212 112 226 Q111 212 97 211 Q111 210 112 196 Z" fill="#FFFFFF"/>
+  </g>
+</svg>

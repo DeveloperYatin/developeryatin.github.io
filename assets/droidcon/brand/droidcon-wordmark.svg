@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="58 108 614 128" width="614" height="128" fill="none">
+  <!-- droidcon horizontal wordmark, redrawn as vector from the official event banners.
+       White "droid" for dark slides, transparent background. -->
+  <!-- droid -->
+  <g stroke="#FFF" stroke-width="13.5">
+    <ellipse cx="99" cy="185" rx="28.2" ry="29"/>
+    <line x1="127.5" y1="117" x2="127.5" y2="220"/>
+    <line x1="154.5" y1="152" x2="154.5" y2="220"/>
+    <path d="M154.5 190 A35 35 0 0 1 189.5 155.5"/>
+    <circle cx="236" cy="185" r="29.5"/>
+    <line x1="288" y1="152" x2="288" y2="220"/>
+    <ellipse cx="339" cy="185" rx="28.2" ry="29"/>
+    <line x1="367" y1="117" x2="367" y2="220"/>
+  </g>
+  <circle cx="288.5" cy="132" r="9.5" fill="#FFF"/>
+
+  <!-- con -->
+  <g stroke="#02FD4E" stroke-width="17">
+    <path d="M440 131.5 A44.5 44.5 0 0 0 440 220.5"/>
+    <circle cx="495.5" cy="176" r="44.5"/>
+    <path d="M560.8 205 A47.7 47.7 0 0 1 656.2 205"/>
+  </g>
+</svg>
