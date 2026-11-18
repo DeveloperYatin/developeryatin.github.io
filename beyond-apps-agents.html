@@ -329,8 +329,14 @@ section[data-deck-active] .toolcall.on .gear { display: inline-block; animation:
 .ty-mascot::before { content: ""; position: absolute; inset: 70px 80px 50px; border-radius: 50%;
   background: radial-gradient(circle, rgba(61,220,132,.28), rgba(61,220,132,0) 70%); }
 .ty-mascot img { position: relative; width: 100%; height: 100%; display: block; }
-/* Footer sits lower than the theme default (44px) so it never crowds slide content */
-.foot { bottom: 20px; font-size: 20px; }
+/* Live demo slide: tall phone frame around the 576x1280 screen recording */
+.demo-phone { position: absolute; right: 120px; top: 56px; width: 444px; height: 952px; padding: 14px; border-radius: 64px;
+  background: #0d0f12; border: 4px solid #2d3139; z-index: 2;
+  box-shadow: 0 40px 100px rgba(0,0,0,.7), inset 0 0 0 2px rgba(255,255,255,.06), 0 0 0 10px rgba(129,201,149,.08); }
+.demo-btn { position: absolute; right: -9px; top: 200px; width: 5px; height: 110px; border-radius: 3px; background: #2d3139; }
+.demo-screen { position: relative; width: 100%; height: 100%; border-radius: 50px; overflow: hidden; background: #000; }
+.demo-screen video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.demo-screen .asset-needed { position: absolute; inset: 0; }
 /* Meme slide: audience cam frame */
 .meme-frame { width: 1000px; flex-shrink: 0; border-radius: var(--r-lg, 36px); overflow: hidden; background: var(--surface);
   border: 2px solid rgba(255,255,255,.08); box-shadow: 0 30px 80px rgba(0,0,0,.55); transform: rotate(-1.5deg); }
@@ -341,15 +347,16 @@ section[data-deck-active] .toolcall.on .gear { display: inline-block; animation:
 section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out infinite; }
 @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
 @media print, (prefers-reduced-motion: reduce) { section .live-chip i { animation: none !important; } }
+/* Footer sits lower than the theme default (44px) so it never crowds slide content */
+.foot { bottom: 20px; font-size: 20px; }
 </style>
 
 <script type="application/json" id="speaker-notes">
 [
  "Title slide. Beyond Apps: Building Autonomous AI Agents for Android. Introduce both speakers: Anand Gaur and Yatin Batra. Set the theme: an app does what you tap; an agent does what you mean.",
- "Audience reaction. (Let the GIF play a beat and let them laugh.) Right now half of you are thinking: ab ye kaun hai be? Fair question. Let us fix that.",
+ "The shift. 'Apps wait. Agents act.' The mental model shift from building reactive screens to designing tools an agent can orchestrate. (Point at the pair: the app is fuming, stuck waiting for a tap, while the agent is laughing because it's already doing the work.)",
  "Speaker bios. Introduce Anand Gaur (Mobile Tech Lead at TCS, author of 8 programming books, founder of AI Mobile Coders) and Yatin Batra (SDE 2 @ Valeo Health ME, hackathon mentor and speaker). Scan QR codes to connect.",
  "Agenda. Five core milestones: what an agent actually is, tools via KSP annotations, ADK for Kotlin 1.5.0, production shipping tradeoffs, and app ideas followed by live KharchaAI demo.",
- "The shift. 'Apps wait. Agents act.' The mental model shift from building reactive screens to designing tools an agent can orchestrate. (Point at the pair: the app is fuming, stuck waiting for a tap, while the agent is laughing because it's already doing the work.)",
  "Definition of an agent. Three moving parts: Brain, Tools, Loop. Remove any one and you have a chatbot with extra steps.",
  "The agent loop in 7 lines. Walk through Think, Act, Observe. Emphasize why repeat(MAX_STEPS) is used instead of while to prevent runaway token bills. In ADK you don't hand-write this: LlmAgent has maxSteps, RunConfig has maxLlmCalls, and a capped run ends with FinishReason.TOO_MANY_TOOL_CALLS. (Let the counter run: Think, Act, Observe light up six times, then MAX_STEPS stops it.)",
  "How tools work in Kotlin. @Tool and @Param annotations. Show how KSP turns your ordinary Kotlin method into a JSON schema for LLM function calling.",
@@ -362,7 +369,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
  "The model delivery dilemma. How to ship a 2.5 GB model without blowing up APK size: On-demand download, Google Play for On-device AI, or picking a specialized smaller model.",
  "Hybrid multi-agent architecture. Cloud orchestrator delegates tasks while local on-device agents touch private user data (SMS, Room DB) without it ever leaving the phone.",
  "Tool naming and descriptions. The biggest cause of agent failure is ambiguous naming. Write descriptions like documentation for a new teammate. (Watch the left side: the vague tools get picked at random. The right side routes the same way every time.)",
- "Six real-world agent use cases Android devs can build on Monday: expense tracking, e-commerce concierge, flight rebooking, fitness coach, field inspection, and support.",
+ "Six real-world agent use cases Android devs can build this weekend: expense tracking, e-commerce concierge, flight rebooking, fitness coach, field inspection, and support.",
  "KharchaAI showcase: The Old App Way (5 manual navigation steps) vs The Agent Way (one conversational prompt). (The old-way steps cross off one by one while the app fumes; then the agent answers in one go.)",
  "Under the hood of KharchaAI. Five tools: four read operations, one write with user confirmation. Zero database rows leave the phone.",
  "Live demonstration of KharchaAI running on a physical Android device. Observe the real-time tool calling execution log.",
@@ -409,149 +416,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 <div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
 </section>
 
-<!-- ============ 2 · Audience reaction (meme) ============ -->
-<section data-label="Who Are These Two">
-<div class="pad">
-  <p class="kicker r">Right now, at droidcon</p>
-  <h2 class="h1 r d1s">What the audience is <span class="c-yellow">thinking.</span></h2>
-
-  <div class="row" style="flex:1;gap:64px;align-items:center;margin-top:12px">
-    <!-- the meme, framed like a live audience cam -->
-    <div class="meme-frame p d2s">
-      <div class="meme-bar">
-        <span class="live-chip"><i></i>LIVE</span>
-        <span>Audience cam · droidcon Bengaluru</span>
-      </div>
-      <img src="assets/droidcon/images/ab-ye-kaun-hai-be.gif" alt="Meme: two men looking puzzled, caption 'ab ye kaun hai be?'">
-    </div>
-
-    <div class="h2 r d3s" style="flex:1;min-width:0;font-size:88px;line-height:1.05">Fair question.<br><span class="c-blue">Let us fix that.</span></div>
-  </div>
-</div>
-<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
-</section>
-
-<!-- ============ 2 · Your Speakers ============ -->
-<section data-label="Your Speakers">
-<div class="pad">
-  <p class="kicker r">About us</p>
-  <h2 class="h1 r d1s">Your <span class="c-blue">speakers today.</span></h2>
-  <div class="grid-2" style="margin-top:24px;gap:56px;flex:1;align-items:center">
-
-    <!-- Speaker 1: Anand Gaur -->
-    <div class="spk r d2s">
-      <div class="spk-text">
-        <div class="g4-bar"></div>
-        <div>
-          <div class="spk-name">Anand Gaur</div>
-          <div class="spk-role">Mobile Tech Lead · TCS</div>
-          <div class="spk-line">Author · 8 programming books</div>
-          <div class="spk-line">Founder · AI Mobile Coders</div>
-          <div class="spk-line">Ex Samsung · Tech Mahindra</div>
-        </div>
-      </div>
-      <div class="spk-photo">
-        <div class="field-shape spin"><svg viewBox="0 0 100 100" style="fill:var(--blue-lo)"><use href="#sh-clover8"/></svg></div>
-        <div class="shot"><img class="shape-photo" src="assets/droidcon/speakers/anand-gaur.png" alt="Anand Gaur" style="clip-path:url(#clip-cookie12)"></div>
-        <div class="field-shape" style="right:-8px;bottom:34px;width:84px;height:84px"><svg viewBox="0 0 100 100" style="fill:var(--yellow)"><use href="#sh-cookie9"/></svg></div>
-        <div class="field-shape" style="left:0;top:30px;width:46px;height:46px"><svg viewBox="0 0 100 100" style="fill:var(--green)"><use href="#sh-cookie4"/></svg></div>
-      </div>
-    </div>
-
-    <!-- Speaker 2: Yatin Batra -->
-    <div class="spk r d3s">
-      <div class="spk-text">
-        <div class="g4-bar"></div>
-        <div>
-          <div class="spk-name">Yatin Batra</div>
-          <div class="spk-role">SDE 2 · Valeo Health ME</div>
-          <div class="spk-line">10+ speaker sessions</div>
-          <div class="spk-line">Mentor &amp; judge · 6+ hackathons</div>
-          <div class="spk-line">Better engineering solutions</div>
-        </div>
-      </div>
-      <div class="spk-photo">
-        <div class="field-shape spin"><svg viewBox="0 0 100 100" style="fill:var(--green-lo)"><use href="#sh-clover8"/></svg></div>
-        <div class="shot"><img class="shape-photo" src="1776350205316.png" alt="Yatin Batra" style="clip-path:url(#clip-cookie12)"></div>
-        <div class="field-shape" style="right:-8px;bottom:34px;width:84px;height:84px"><svg viewBox="0 0 100 100" style="fill:var(--blue)"><use href="#sh-cookie9"/></svg></div>
-        <div class="field-shape" style="left:0;top:30px;width:46px;height:46px"><svg viewBox="0 0 100 100" style="fill:var(--red)"><use href="#sh-cookie4"/></svg></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
-</section>
-
-<!-- ============ 3 · The Plan ============ -->
-<section data-label="The Plan">
-<div class="pad">
-  <p class="kicker r">The Plan</p>
-  <h2 class="h1 r d1s">What we <span class="c-blue">will cover.</span></h2>
-  <div class="row" style="margin-top:40px;gap:36px;flex:1;align-items:stretch">
-    
-    <!-- Left: You will leave with -->
-    <div class="card stack r d2s" style="width:480px;background:var(--surface-2);justify-content:space-between;padding:44px">
-      <div>
-        <span class="chip tonal-blue" style="font-size:22px;height:46px"><span class="dot" style="background:var(--blue)"></span>YOU WILL LEAVE WITH</span>
-        <div class="stack" style="gap:28px;margin-top:40px">
-          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--blue);display:block"></span><div class="h3" style="font-size:32px">A working agent in Kotlin</div></div>
-          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--green);display:block"></span><div class="h3" style="font-size:32px">A clear cloud vs on-device call</div></div>
-          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--yellow);display:block"></span><div class="h3" style="font-size:32px">Six ideas to build next</div></div>
-        </div>
-      </div>
-      <div class="body dim" style="font-size:24px">Session roadmap · 5 core milestones</div>
-    </div>
-
-    <!-- Right: 5 Agenda Steps -->
-    <div class="stack grow r d3s" style="gap:16px;justify-content:space-between">
-      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
-        <div class="agenda-num" style="background:var(--blue)">1</div>
-        <div>
-          <div class="h3" style="font-size:30px">What an agent actually is</div>
-          <div class="small" style="font-size:22px;margin-top:4px">Past the buzzword. Brain, tools, loop—and the loop written out in seven lines.</div>
-        </div>
-      </div>
-
-      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
-        <div class="agenda-num" style="background:var(--green)">2</div>
-        <div>
-          <div class="h3" style="font-size:30px">Tools, in one annotation</div>
-          <div class="small" style="font-size:22px;margin-top:4px">@Tool, @Param, and the schema KSP generates for you.</div>
-        </div>
-      </div>
-
-      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
-        <div class="agenda-num" style="background:var(--yellow)">3</div>
-        <div>
-          <div class="h3" style="font-size:30px">ADK for Kotlin 1.5 on Android</div>
-          <div class="small" style="font-size:22px;margin-top:4px">Three backends, and what each one can and cannot do today.</div>
-        </div>
-      </div>
-
-      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
-        <div class="agenda-num" style="background:var(--red)">4</div>
-        <div>
-          <div class="h3" style="font-size:30px">Shipping it for real</div>
-          <div class="small" style="font-size:22px;margin-top:4px">Cloud or on device, routing between them, and getting the model onto a phone.</div>
-        </div>
-      </div>
-
-      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
-        <div class="agenda-num" style="background:var(--blue)">5</div>
-        <div>
-          <div class="h3" style="font-size:30px">Where to point it, then a live demo</div>
-          <div class="small" style="font-size:22px;margin-top:4px">Six app ideas you could build this month, then KharchaAI running on my phone.</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
-</section>
-
-<!-- ============ 4 · The Shift ============ -->
+<!-- ============ 2 · The Shift ============ -->
 <section data-label="The Shift">
 <div class="field-shape spin" style="right:-180px;bottom:-120px;width:940px;height:940px"><svg viewBox="0 0 100 100" style="fill:var(--surface-2)"><use href="#sh-cookie12"/></svg></div>
 <div class="pad center" style="align-items:flex-start">
@@ -615,6 +480,154 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 
   <span class="chip stage-chip chip-app"><span class="dot" style="background:var(--red)"></span>The app · waiting for a tap</span>
   <span class="chip stage-chip chip-agent"><span class="dot" style="background:var(--blue)"></span>The agent · already on it</span>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ HIDDEN · Who Are These Two (audience meme) ============
+     Hidden slide: deck-stage skips <template>, so this is not shown, numbered or counted.
+     To show it again, delete the <template data-hidden-slide> and </template> lines, and add its
+     speaker note back into #speaker-notes at the same position:
+     "Audience reaction. (Let the GIF play a beat and let them laugh.) Right now half of you are thinking: ab ye kaun hai be? Fair question. Let us fix that." -->
+<template data-hidden-slide>
+<section data-label="Who Are These Two">
+<div class="pad">
+  <p class="kicker r">Right now, at droidcon</p>
+  <h2 class="h1 r d1s">What the audience is <span class="c-yellow">thinking.</span></h2>
+
+  <div class="row" style="flex:1;gap:64px;align-items:center;margin-top:12px">
+    <!-- the meme, framed like a live audience cam -->
+    <div class="meme-frame p d2s">
+      <div class="meme-bar">
+        <span class="live-chip"><i></i>LIVE</span>
+        <span>Audience cam · droidcon Bengaluru</span>
+      </div>
+      <img src="assets/droidcon/images/ab-ye-kaun-hai-be.gif" alt="Meme: two men looking puzzled, caption 'ab ye kaun hai be?'">
+    </div>
+
+    <div class="h2 r d3s" style="flex:1;min-width:0;font-size:88px;line-height:1.05">Fair question.<br><span class="c-blue">Let us fix that.</span></div>
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+</template>
+
+<!-- ============ 3 · Your Speakers ============ -->
+<section data-label="Your Speakers">
+<div class="pad">
+  <p class="kicker r">About us</p>
+  <h2 class="h1 r d1s">Your <span class="c-blue">speakers today.</span></h2>
+  <div class="grid-2" style="margin-top:24px;gap:56px;flex:1;align-items:center">
+
+    <!-- Speaker 1: Anand Gaur -->
+    <div class="spk r d2s">
+      <div class="spk-text">
+        <div class="g4-bar"></div>
+        <div>
+          <div class="spk-name">Anand Gaur</div>
+          <div class="spk-role">Mobile Tech Lead · TCS</div>
+          <div class="spk-line">Author · 8 programming books</div>
+          <div class="spk-line">Founder · AI Mobile Coders</div>
+          <div class="spk-line">Ex Samsung · Tech Mahindra</div>
+        </div>
+      </div>
+      <div class="spk-photo">
+        <div class="field-shape spin"><svg viewBox="0 0 100 100" style="fill:var(--blue-lo)"><use href="#sh-clover8"/></svg></div>
+        <div class="shot"><img class="shape-photo" src="assets/droidcon/speakers/anand-gaur.png" alt="Anand Gaur" style="clip-path:url(#clip-cookie12)"></div>
+        <div class="field-shape" style="right:-8px;bottom:34px;width:84px;height:84px"><svg viewBox="0 0 100 100" style="fill:var(--yellow)"><use href="#sh-cookie9"/></svg></div>
+        <div class="field-shape" style="left:0;top:30px;width:46px;height:46px"><svg viewBox="0 0 100 100" style="fill:var(--green)"><use href="#sh-cookie4"/></svg></div>
+      </div>
+    </div>
+
+    <!-- Speaker 2: Yatin Batra -->
+    <div class="spk r d3s">
+      <div class="spk-text">
+        <div class="g4-bar"></div>
+        <div>
+          <div class="spk-name">Yatin Batra</div>
+          <div class="spk-role">SDE 2 · Valeo Health ME</div>
+          <div class="spk-line">10+ speaker sessions</div>
+          <div class="spk-line">Mentor &amp; judge · 6+ hackathons</div>
+          <div class="spk-line">Better engineering solutions</div>
+        </div>
+      </div>
+      <div class="spk-photo">
+        <div class="field-shape spin"><svg viewBox="0 0 100 100" style="fill:var(--green-lo)"><use href="#sh-clover8"/></svg></div>
+        <div class="shot"><img class="shape-photo" src="1776350205316.png" alt="Yatin Batra" style="clip-path:url(#clip-cookie12)"></div>
+        <div class="field-shape" style="right:-8px;bottom:34px;width:84px;height:84px"><svg viewBox="0 0 100 100" style="fill:var(--blue)"><use href="#sh-cookie9"/></svg></div>
+        <div class="field-shape" style="left:0;top:30px;width:46px;height:46px"><svg viewBox="0 0 100 100" style="fill:var(--red)"><use href="#sh-cookie4"/></svg></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
+</section>
+
+<!-- ============ 4 · The Plan ============ -->
+<section data-label="The Plan">
+<div class="pad">
+  <p class="kicker r">The Plan</p>
+  <h2 class="h1 r d1s">What we <span class="c-blue">will cover.</span></h2>
+  <div class="row" style="margin-top:40px;gap:36px;flex:1;align-items:stretch">
+    
+    <!-- Left: You will leave with -->
+    <div class="card stack r d2s" style="width:480px;background:var(--surface-2);justify-content:space-between;padding:44px">
+      <div>
+        <span class="chip tonal-blue" style="font-size:22px;height:46px"><span class="dot" style="background:var(--blue)"></span>YOU WILL LEAVE WITH</span>
+        <div class="stack" style="gap:28px;margin-top:40px">
+          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--blue);display:block"></span><div class="h3" style="font-size:32px">A working agent in Kotlin</div></div>
+          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--green);display:block"></span><div class="h3" style="font-size:32px">A clear cloud vs on-device call</div></div>
+          <div class="row" style="gap:18px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:var(--yellow);display:block"></span><div class="h3" style="font-size:32px">Six ideas to build next</div></div>
+        </div>
+      </div>
+      <div class="body dim" style="font-size:24px">Session roadmap · 5 core milestones</div>
+    </div>
+
+    <!-- Right: 5 Agenda Steps -->
+    <div class="stack grow r d3s" style="gap:16px;justify-content:space-between">
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--blue)">1</div>
+        <div>
+          <div class="h3" style="font-size:30px">What an agent actually is</div>
+          <div class="small" style="font-size:22px;margin-top:4px">Past the buzzword. Brain, tools, loop—and the loop written out in seven lines.</div>
+        </div>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--green)">2</div>
+        <div>
+          <div class="h3" style="font-size:30px">Tools, in one annotation</div>
+          <div class="small" style="font-size:22px;margin-top:4px">@Tool, @Param, and the schema KSP generates for you.</div>
+        </div>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--yellow)">3</div>
+        <div>
+          <div class="h3" style="font-size:30px">ADK for Kotlin 1.5 on Android</div>
+          <div class="small" style="font-size:22px;margin-top:4px">Three backends, and what each one can and cannot do today.</div>
+        </div>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--red)">4</div>
+        <div>
+          <div class="h3" style="font-size:30px">Shipping it for real</div>
+          <div class="small" style="font-size:22px;margin-top:4px">Cloud or on device, routing between them, and getting the model onto a phone.</div>
+        </div>
+      </div>
+
+      <div class="card tight" style="display:flex;align-items:center;gap:24px;padding:22px 32px">
+        <div class="agenda-num" style="background:var(--blue)">5</div>
+        <div>
+          <div class="h3" style="font-size:30px">Where to point it, then a live demo</div>
+          <div class="small" style="font-size:22px;margin-top:4px">Six app ideas you could build this month, then KharchaAI running on my phone.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 <div class="foot"><span class="mark"><span class="g4"><i></i><i></i><i></i><i></i></span>Beyond Apps: Building Autonomous AI Agents for Android</span><span class="pg"></span></div>
 </section>
@@ -1311,7 +1324,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 <section data-label="Your Turn">
 <div class="pad">
   <p class="kicker r">Your turn</p>
-  <h2 class="h1 r d1s">Six apps you could point this at <span class="c-green">on Monday.</span></h2>
+  <h2 class="h1 r d1s">Six apps you could build <span class="c-green">this weekend.</span></h2>
   
   <div class="grid-3 r d2s" style="margin-top:36px;gap:24px;flex:1">
     
@@ -1498,6 +1511,14 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
 
 <!-- ============ 20 · Live: KharchaAI, on my phone ============ -->
 <section data-label="Live Demo">
+<!-- Recorded KharchaAI demo in a phone frame, sized to the 9:20 screen recording. Loops muted. -->
+<div class="demo-phone p d3s">
+  <span class="demo-btn"></span>
+  <div class="demo-screen">
+    <video data-src="assets/droidcon/videos/kharcha-ai-demo.mp4" muted loop playsinline autoplay preload="auto"></video>
+    <div class="asset-needed"><b>Demo video missing</b><code>assets/droidcon/videos/kharcha-ai-demo.mp4</code></div>
+  </div>
+</div>
 <div class="pad">
   <p class="kicker r">Live</p>
   <h2 class="h1 r d1s">KharchaAI, <span class="c-green">on my phone.</span></h2>
@@ -1505,7 +1526,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
     Three questions, no menus, no filters—with the tool calls printed as they happen.
   </p>
   
-  <div class="row" style="margin-top:32px;gap:56px;flex:1;align-items:center">
+  <div class="row" style="margin-top:32px;gap:56px;flex:1;align-items:center;padding-right:520px">
     
     <!-- Left: Interaction flows -->
     <div class="stack grow r d3s" style="gap:24px">
@@ -1534,44 +1555,6 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
         <span class="chip tonal-red" style="font-size:22px">stops and asks first</span>
       </div>
 
-    </div>
-
-    <!-- Right: Android Phone Mockup -->
-    <div class="p d3s" style="flex-shrink:0">
-      <div class="phone-mockup">
-        <div class="phone-top-bar">
-          <span>08:50</span>
-          <div class="phone-camera"></div>
-          <span>41% 🔋</span>
-        </div>
-        <div class="phone-screen">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <span style="font-weight:700;font-size:24px;color:var(--ink)">KharchaAI</span>
-            <span style="font-size:16px;color:var(--green);background:rgba(52,168,83,0.15);padding:2px 10px;border-radius:12px">● On-Device</span>
-          </div>
-
-          <div class="phone-card" style="background:#1b2438;border-color:var(--blue)">
-            <div style="font-size:15px;color:var(--blue-hi);font-weight:600">QUERY</div>
-            <div style="font-size:20px;color:#fff;margin-top:4px">“How am I doing this month?”</div>
-          </div>
-
-          <div class="phone-card" style="background:rgba(255,255,255,0.03);font-family:var(--mono);font-size:15px;color:var(--yellow-hi)">
-            ⚙ calling getBudgetStatus("current")<br>
-            ⚙ calling getSpendByCategory("all")
-          </div>
-
-          <div class="phone-card" style="background:#17221d;border-color:var(--green)">
-            <div style="font-size:15px;color:var(--green-hi);font-weight:600">AGENT RESPONSE</div>
-            <div style="font-size:19px;color:#fff;margin-top:6px;line-height:1.4">
-              You've spent ₹18,400 of ₹25,000 budget (74%). Food is top category. Projected month end: ₹26,200.
-            </div>
-          </div>
-
-          <div class="phone-card" style="margin-top:auto;border-color:rgba(255,255,255,0.15)">
-            <div style="font-size:16px;color:var(--ink-3)">Type or speak a message...</div>
-          </div>
-        </div>
-      </div>
     </div>
 
   </div>
@@ -1657,7 +1640,7 @@ section[data-deck-active] .live-chip i { animation: livePulse 1.2s ease-in-out i
           <span style="width:16px;height:16px;border-radius:50%;background:var(--green);display:block"></span>
           <div>
             <div class="h3" style="font-size:28px">aimobilecoders.com</div>
-            <div class="small dim" style="font-size:20px">The community — 3,500+ mobile devs</div>
+            <div class="small dim" style="font-size:20px">The community — 4,000+ mobile devs</div>
           </div>
         </div>
 
